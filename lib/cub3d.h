@@ -8,9 +8,13 @@
 # include <string.h>
 # include <unistd.h>
 # include <curses.h>
-# include "mlx/mlx.h"
 # include "classes.h"
 # include <sys/time.h>
-# include "mlx/mlx_int.h"
+# include "minilibx-linux/mlx.h"
+# include "minilibx-linux/mlx_int.h"
+
+//========================== PARSING =====================
+
+void    parsing(int ac, char **av);
 
 #endif

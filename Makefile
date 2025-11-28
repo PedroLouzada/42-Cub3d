@@ -1,12 +1,12 @@
 
-NAME = cub3D
-SRCS = 
-OBJ_DIR = build
-OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
+NAME = cub3d
+SRCS = src/main.c src/parsing/parsing.c
+OBJ_DIR = obj
+OBJS = $(SRCS:src/%.c=$(OBJ_DIR)/%.o)
 CC = cc
 CFLAGS = -g -Wall -Wextra -Werror -Ofast
 LIBMLX = -Llib/mlx -lmlx -lXext -lX11 -lm
-INCLUDE = -Ilib/mlx -Ilib
+INCLUDE = -Ilib/minilibx-linux -Ilib -Ilib
 
 all: mlx $(NAME)
 
@@ -17,11 +17,9 @@ $(NAME): $(OBJS)
 	@$(CC) $(OBJS) -o $(NAME) $(LIBMLX)
 	@echo "Executable created!"
 
-$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: src/%.c
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
-
-$(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)/src
 
 clean:
 	@if [ -d "$(OBJ_DIR)" ]; then \
@@ -40,5 +38,11 @@ re: fclean
 	@echo "Recreating build directory..."
 	@echo "Remaking executables..."
 	@make --no-print-directory
+
+r:
+	make re && clear && ./cub3d
+
+v:
+	make re && clear && valgrind --leak-check-leak=full ./cub3d
 
 .PHONY: all mlx clean fclean re
