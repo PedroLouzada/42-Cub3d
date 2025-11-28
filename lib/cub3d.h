@@ -7,6 +7,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <curses.h>
 # include "mlx/mlx.h"
 # include "classes.h"
 # include <sys/time.h>
