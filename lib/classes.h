@@ -5,30 +5,47 @@
 
 typedef struct s_player
 {
+	int		pos_x;
+	int 	pos_y;
+	int 	lives;
+	bool	collision;
+	void	(*move)(t_player);
+	void	(*damage)(t_player);
+	void	(*render)(t_player);
 }	t_player;
 
 typedef struct s_enemy
 {
+	int		pos_x;
+	int		pos_y;
+	bool	collision;
+	void	(*move)(t_enemy);
+	void	(*render)(t_enemy);
+	void	(*respawn)(t_enemy);
 }	t_enemy;
 
 typedef struct s_wall
 {
+	bool	door;
+	bool 	collision;
+	char	orientation;
+	void	(*render)(t_wall);
 }	t_wall;
 
 typedef struct s_map
 {
+	int		width;
+	int		length;
+	void	(*render)(t_map);
 }	t_map;
-
-typedef struct s_render
-{
-}	t_render;
-
-typedef struct s_move
-{
-}	t_move;
 
 typedef struct s_game
 {
+	t_map		map;
+	t_enemy		enemy;
+	t_player	player;
+	t_wall		*walls;
+	t_map		minimap;
 }	t_game;
 
 #endif
