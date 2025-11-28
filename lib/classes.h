@@ -42,7 +42,7 @@ struct s_wall
 struct s_map
 {
 	int			width;
-	int			length;
+	int			height;
 	void		(*resize)(t_map);
 	void		(*render)(t_map);
 } ;
@@ -51,7 +51,7 @@ typedef struct s_game
 {
 	void 		*mlx;
 	void 		*window;
-	t_map		map;
+	t_map		*map;
 	t_enemy		enemy;
 	t_player	player;
 	t_wall		*walls;

@@ -15,10 +15,15 @@
 
 //========================== PARSING =====================
 
-void    parsing(int ac, char **av);
+void    parsing(int ac, char **av, t_game *game);
+void	parse_exit(char *s, void *arg);
 
 //=========================== UTILS ======================
 
 int     ft_strlen(char *s);
+char	*get_next_line(int fd);
+char	*ft_strrchr(char *str, int c);
+int		ft_isempty(char c);
+size_t	ft_strlcpy(char *dest, char *src, size_t size);
 
 #endif

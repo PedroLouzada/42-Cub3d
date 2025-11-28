@@ -2,5 +2,7 @@
 
 int main(int ac, char **av)
 {
-    parsing(ac, av);
+    t_game game;
+
+    parsing(ac, av, &game);
 }
