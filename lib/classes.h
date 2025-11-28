@@ -49,6 +49,8 @@ struct s_map
 
 typedef struct s_game
 {
+	void 		*mlx;
+	void 		*window;
 	t_map		map;
 	t_enemy		enemy;
 	t_player	player;

@@ -17,4 +17,8 @@
 
 void    parsing(int ac, char **av);
 
+//=========================== UTILS ======================
+
+int     ft_strlen(char *s);
+
 #endif

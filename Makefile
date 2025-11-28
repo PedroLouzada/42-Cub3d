@@ -1,11 +1,15 @@
 
 NAME = cub3d
-SRCS = src/main.c src/parsing/parsing.c
+SRCS =  src/main.c \
+		src/parsing/parsing.c \
+		src/utils/parsing_utils.c \
+		src/utils/string_utils.c 
+
 OBJ_DIR = obj
 OBJS = $(SRCS:src/%.c=$(OBJ_DIR)/%.o)
 CC = cc
 CFLAGS = -g -Wall -Wextra -Werror -Ofast
-LIBMLX = -Llib/mlx -lmlx -lXext -lX11 -lm
+LIBMLX = -Llib/minilibx-linux -lmlx -lXext -lX11 -lm
 INCLUDE = -Ilib/minilibx-linux -Ilib -Ilib
 
 all: mlx $(NAME)
