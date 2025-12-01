@@ -1,6 +1,7 @@
 #include "cub3d.h"
 
 char	*ft_strtrim(char *s1, char *set);
+int		is_valid_char(char c);
 
 int	get_width(char *str)
 {
@@ -50,60 +51,58 @@ void	get_map_dimention(char *str, t_map **map)
 	close(fd);
 }
 
-char	get_first_char(char *str)
+void	check_border(char *str, int fd, t_map *map)
 {
 	int	i;
 
-	i = 0;
-	while (str[i] && str[i] != '\n')
-	{
-		if (!ft_isempty(str[i]))
-			break ;
-		i++;
-	}
-	return (str[i]);
-}
-
-char	get_last_char(char *str)
-{
-	int		i;
-	char	*tail;
-
-	i = 0;
-	tail = ft_strrchr(str, '1');
-	while (tail[i++])
-	{
-		if (!ft_isempty(tail[i]))
-			return (tail[i]);
-	}
-	return (*tail);
-}
-
-void	check_line_border(char *str, int fd, t_map *map)
-{
-	int		i;
-	bool	fail;
-	char	first_chr;
-	char	last_chr;
-
 	i = -1;
-	fail = false;
 	while (str[++i])
 	{
-		if (str[i] != '1' && str[i] != '0' && str[i] != ' ')
+		if (str[i] != ' ' && str[i] != '1' && str[i] != '\n')
 		{
-			fail = true;
-			break ;
+			close(fd);
+			free(map);
+			parse_exit("Map must be surrounded by walls \'1\'\n", (void *)str);
 		}
 	}
-	first_chr = get_first_char(str);
-	last_chr = get_last_char(str);
-	if (first_chr != '1' || last_chr != '1')
-		fail = true;
-	if (fail)
+}
+
+int check_emptyspace(char *str)
+{
+	int i;
+
+	i = -1;
+	while (str[++i])
 	{
-		close(fd);
-		free(map);
-		parse_exit("Map must be surrounded by walls \'1\'\n", (void *)str);
+		if (!ft_isempty(str[i]))
+			return (1);
 	}
+	return (0);
+}
+
+void	check_characters(char *str, int fd, t_map *map)
+{
+	int			i;
+	static int	n1;
+	static int	n2;
+
+	i = -1;
+	if (!check_emptyspace(str))
+	{
+		n2++;
+		return;
+	}
+	if (!n1 || n1 + n2 == map->height - 1)
+		check_border(str, fd, map);
+	while (str[++i])
+	{
+		if (!is_valid_char(str[i]))
+		{
+			close(fd);
+			free(map);
+			parse_exit("Map must only contain the specified characters\n",
+				(void *)str);
+		}
+	}
+	n1++;
 }

@@ -20,6 +20,13 @@ int	ft_isempty(char c)
 	return (0);
 }
 
+int	is_valid_char(char c)
+{
+	if (c == '0' || c == '1' || c == ' ' || c == '\n' 
+		|| c == 'N' || c == 'S' || c == 'W' || c == 'E')
+		return (1);
+	return (0);
+}
 int	check_map_len(char *str)
 {
 	int	len;

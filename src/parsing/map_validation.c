@@ -1,7 +1,7 @@
 #include "cub3d.h"
 
 void	get_map_dimention(char *str, t_map **map);
-void	check_line_border(char *str, int fd, t_map *map);
+void	check_characters(char *str, int fd, t_map *map);
 
 void	check_map_content(int fd, t_map *map)
 {
@@ -12,7 +12,8 @@ void	check_map_content(int fd, t_map *map)
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		check_line_border(line, fd, map);
+		check_characters(line, fd, map);
+		free(line);
 	}
 }
 
