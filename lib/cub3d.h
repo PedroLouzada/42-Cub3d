@@ -16,7 +16,7 @@
 //========================== PARSING =====================
 
 void    parsing(int ac, char **av, t_game *game);
-void	parse_exit(char *s, void *arg);
+void	parse_exit(char *s, void *arg, int fd);
 
 //=========================== UTILS ======================
 
@@ -25,5 +25,7 @@ char	*get_next_line(int fd);
 char	*ft_strrchr(char *str, int c);
 int		ft_isempty(char c);
 size_t	ft_strlcpy(char *dest, char *src, size_t size);
+int		ft_strncmp(const char *str1, const char *str2, size_t n);
+
 
 #endif

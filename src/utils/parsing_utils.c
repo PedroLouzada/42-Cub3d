@@ -2,7 +2,7 @@
 
 int		ft_strncmp(const char *str1, const char *str2, size_t n);
 
-void	parse_exit(char *s, void *arg)
+void	parse_exit(char *s, void *arg, int fd)
 {
 	int	len;
 
@@ -10,6 +10,8 @@ void	parse_exit(char *s, void *arg)
 	write(2, "Error\n", 6);
 	write(2, s, len);
 	free(arg);
+	if (fd > 0)
+		close(fd);
 	exit(1);
 }
 
@@ -47,7 +49,7 @@ void	check_sintax(char *str)
 
 	tail = ft_strrchr(str, '.');
 	if (!tail || ft_strncmp(tail, ".cub", 5))
-		parse_exit("Map must end with .cub\n", NULL);
+		parse_exit("Map must end with .cub\n", NULL, -1);
 	if (!check_map_len(str))
-		parse_exit("Map must have more than .cub\n", NULL);
+		parse_exit("Map must have more than .cub\n", NULL, -1);
 }
