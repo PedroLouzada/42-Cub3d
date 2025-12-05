@@ -16,3 +16,9 @@ size_t	ft_strlcpy(char *dest, char *src, size_t size)
 	return (ft_strlen(src));
 }
 
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}

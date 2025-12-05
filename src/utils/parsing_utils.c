@@ -1,6 +1,7 @@
 #include "cub3d.h"
 
 int		ft_strncmp(const char *str1, const char *str2, size_t n);
+int		ft_isdigit(int c);
 
 void	parse_exit(char *s, void *arg, int fd)
 {
@@ -24,8 +25,8 @@ int	ft_isempty(char c)
 
 int	is_valid_char(char c)
 {
-	if (c == '0' || c == '1' || c == ' ' || c == '\n' 
-		|| c == 'N' || c == 'S' || c == 'W' || c == 'E')
+	if (c == '0' || c == '1' || c == ' ' || c == '\n' || c == 'N' || c == 'S'
+		|| c == 'W' || c == 'E')
 		return (1);
 	return (0);
 }
