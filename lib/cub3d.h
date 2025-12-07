@@ -16,7 +16,7 @@
 //========================== PARSING =====================
 
 void    parsing(int ac, char **av, t_game *game);
-void	parse_exit(char *s, void *arg, int fd);
+void	parse_exit(char *s, char *arg, int fd);
 
 //=========================== UTILS ======================
 

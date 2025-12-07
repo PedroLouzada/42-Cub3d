@@ -2,15 +2,31 @@
 
 int		ft_strncmp(const char *str1, const char *str2, size_t n);
 int		ft_isdigit(int c);
+t_game	*get_game_addr(t_game *src);
 
-void	parse_exit(char *s, void *arg, int fd)
+void	clear_image(t_game *game)
 {
-	int	len;
+	int	i;
 
+	i = 0;
+	while (i < 4)
+		mlx_destroy_image(game->mlx, game->map->wall_spr[i++]);
+}
+
+void	parse_exit(char *s, char *arg, int fd)
+{
+	int		len;
+	t_game	*game;
+
+	game = get_game_addr(NULL);
 	len = ft_strlen(s);
 	write(2, "Error\n", 6);
 	write(2, s, len);
 	free(arg);
+	clear_image(game);
+	free(game->map);
+	mlx_destroy_display(game->mlx);
+	free(game->mlx);
 	if (fd > 0)
 		close(fd);
 	exit(1);

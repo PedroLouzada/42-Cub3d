@@ -24,7 +24,7 @@ int	get_width(char *str)
 	return (old_len);
 }
 
-void	get_map_dimention(char *str, t_map **map)
+void	get_map_dimention(char *str, t_game *game)
 {
 	int		width;
 	int		height;
@@ -45,13 +45,14 @@ void	get_map_dimention(char *str, t_map **map)
 		height++;
 		free(line);
 	}
-	*map = calloc(1, sizeof(t_map));
-	(*map)->width = width;
-	(*map)->height = height;
+	game->map = calloc(1, sizeof(t_map));
+	game->map->width = width;
+	game->map->height = height;
+	game->map->game = game;
 	close(fd);
 }
 
-void	check_border(char *str, int fd, t_map *map)
+void	check_border(char *str, int fd)
 {
 	int	i;
 
@@ -59,11 +60,7 @@ void	check_border(char *str, int fd, t_map *map)
 	while (str[++i])
 	{
 		if (str[i] != ' ' && str[i] != '1' && str[i] != '\n')
-		{
-			free(map);
-			parse_exit("Map must be surrounded by walls \'1\'\n", (void *)str,
-				fd);
-		}
+			parse_exit("Map must be surrounded by walls \'1\'\n", str, fd);
 	}
 }
 
@@ -93,15 +90,11 @@ void	check_characters(char *str, int fd, t_map *map)
 		return ;
 	}
 	if (!n1 || n1 + n2 == map->height - 1)
-		check_border(str, fd, map);
+		check_border(str, fd);
 	while (str[++i])
 	{
 		if (!is_valid_char(str[i]))
-		{
-			free(map);
-			parse_exit("Map must only contain the specified characters\n",
-				(void *)str, fd);
-		}
+			parse_exit("Map must only contain the specified characters\n", str, fd);
 	}
 	n1++;
 }
