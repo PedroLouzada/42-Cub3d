@@ -1,0 +1,28 @@
+#ifndef FUNCTIONS_H
+# define FUNCTIONS_H
+
+# include "cub3d.h"
+
+//Time Utils
+void	set_time(long *time);
+
+//Map Utils
+void	where_to_next(int *direction);
+int		in_range(t_vtr range, int x, int y);
+
+//Rand Utils
+void	init_rand(void);
+t_vtr	rand_pos(t_vtr range);
+
+//Libft Utils
+void	*ft_calloc(size_t nm, size_t sz);
+
+//Map Methods
+void	print_map(t_map *map);
+void	destroy_map(t_map *map);
+void	generate_map(t_map *map);
+
+//Create Objects
+t_map	*create_map(void);
+
+#endif

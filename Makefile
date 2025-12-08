@@ -1,12 +1,14 @@
 
 NAME = cub3D
-SRCS = 
+# find all .c files under src
+SRCS := $(shell find src -type f -name '*.c')
 OBJ_DIR = build
-OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
+# convert src/whatever.c -> build/src/whatever.o
+OBJS := $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
 CC = cc
 CFLAGS = -g -Wall -Wextra -Werror -Ofast
-LIBMLX = -Llib/mlx -lmlx -lXext -lX11 -lm
-INCLUDE = -Ilib/mlx -Ilib
+LIBMLX = -Llib/minilibx-linux -lmlx -lXext -lX11 -lm
+INCLUDE = -Ilib/minilibx-linux -Ilib
 
 all: mlx $(NAME)
 
@@ -17,11 +19,12 @@ $(NAME): $(OBJS)
 	@$(CC) $(OBJS) -o $(NAME) $(LIBMLX)
 	@echo "Executable created!"
 
-$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+# compile: create the target directory for the object then compile
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
-$(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)/src
+# note: object directories are created on-demand by the pattern rule above
 
 clean:
 	@if [ -d "$(OBJ_DIR)" ]; then \
