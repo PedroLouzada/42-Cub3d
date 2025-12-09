@@ -1,2 +1,4 @@
 lib/mlx
 .vscode
+build/*.o
+*.cub

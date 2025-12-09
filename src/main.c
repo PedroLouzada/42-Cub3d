@@ -1,4 +1,17 @@
 #include "cub3d.h"
+
+int	main(void)
+{
+	t_map *map = create_map();
+
+	init_rand();
+	map->generate(map);
+	map->print(map);
+	map->destroy(map);
+	return (0);
+}
+
+#include "cub3d.h"
 void	clear_image(t_game *game);
 
 t_game *get_game_addr(t_game *src)
