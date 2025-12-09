@@ -45,6 +45,7 @@ void	get_map_dimention(char *str, t_game *game)
 		height++;
 		free(line);
 	}
+	game->map->map = ft_calloc(height, sizeof(char *));
 	game->map->size.x = width;
 	game->map->size.y = height;
 	close(fd);

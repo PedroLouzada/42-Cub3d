@@ -14,14 +14,17 @@ t_game *get_game_addr(t_game *src)
 int main(int ac, char **av)
 {
     static t_game game;
+    get_game_addr(&game);
     game.map = create_map();
 
 	init_rand();
-	game.map->generate(game.map);
-	game.map->print(game.map);
-	game.map->destroy(game.map);
-
-    get_game_addr(&game);
+    if (ac == 1)
+    {
+	    game.map->generate(game.map);
+	    game.map->print(game.map);
+        game.map->destroy(game.map);
+        return (0);
+    }
     game.mlx = calloc(1, sizeof(t_mlx));
     game.mlx->mlx = mlx_init();
     if (!game.mlx)
@@ -29,9 +32,10 @@ int main(int ac, char **av)
     parsing(ac, av, &game);
 
     // dar handle direito depois
-   // clear_image(&game);
+    clear_image(&game);
 	free_double(game.map->map);
 	free(game.map);
-	//mlx_destroy_display(game.mlx);
+	mlx_destroy_display(game.mlx->mlx);
+	free(game.mlx->mlx);
 	free(game.mlx);
 }

@@ -9,10 +9,10 @@ void	clear_image(t_game *game)
 	int	i;
 
 	i = -1;
-	while (i < 4)
+	while (++i < 4)
 	{
-		if (game->map->textures[++i])
-			mlx_destroy_image(game->mlx, game->map->textures[i]);
+		if (game->map->textures[i])
+			mlx_destroy_image(game->mlx->mlx, game->map->textures[i]);
 	}
 }
 

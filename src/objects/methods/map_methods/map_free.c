@@ -8,4 +8,5 @@ void	destroy_map(t_map *map)
 	while (++i < map->size.y)
 		free(map->map[i]);
 	free(map->map);
+	free(map);
 }
