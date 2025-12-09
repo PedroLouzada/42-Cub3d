@@ -8,9 +8,12 @@ void	clear_image(t_game *game)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	while (i < 4)
-		mlx_destroy_image(game->mlx, game->map->wall_spr[i++]);
+	{
+		if (game->map->wall_spr[++i])
+			mlx_destroy_image(game->mlx, game->map->wall_spr[i]);
+	}
 }
 
 void	parse_exit(char *s, char *arg, int fd)
@@ -24,6 +27,7 @@ void	parse_exit(char *s, char *arg, int fd)
 	write(2, s, len);
 	free(arg);
 	clear_image(game);
+	free_double(game->map->coordinate);
 	free(game->map);
 	mlx_destroy_display(game->mlx);
 	free(game->mlx);

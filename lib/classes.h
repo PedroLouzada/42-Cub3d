@@ -44,6 +44,7 @@ struct s_map
 {
 	int			width;
 	int			height;
+	char 		**coordinate;
 	void		*color[2];
 	void		*wall_spr[4];
 	void		(*resize)(t_map);

@@ -46,6 +46,7 @@ void	get_map_dimention(char *str, t_game *game)
 		free(line);
 	}
 	game->map = calloc(1, sizeof(t_map));
+	game->map->coordinate = calloc(height + 1, sizeof(char *));
 	game->map->width = width;
 	game->map->height = height;
 	game->map->game = game;

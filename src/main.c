@@ -1,4 +1,5 @@
 #include "cub3d.h"
+void	clear_image(t_game *game);
 
 t_game *get_game_addr(t_game *src)
 {
@@ -18,4 +19,12 @@ int main(int ac, char **av)
     if (!game.mlx)
         parse_exit("Error on mlx initialization\n", NULL, -1);
     parsing(ac, av, &game);
+
+
+    // dar handle direito depois
+    clear_image(&game);
+	free_double(game.map->coordinate);
+	free(game.map);
+	mlx_destroy_display(game.mlx);
+	free(game.mlx);
 }

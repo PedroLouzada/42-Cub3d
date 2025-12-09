@@ -22,3 +22,43 @@ int	ft_isdigit(int c)
 		return (1);
 	return (0);
 }
+
+static char	*ft_strcpy(char *dest,char *src)
+{
+	int	i;
+
+	i = 0;
+	while (src[i] && src[i] != '\n')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+char	*ft_strdup_newline(char *s)
+{
+	char	*copy;
+
+	copy = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
+	if (!copy)
+		return (NULL);
+	ft_strcpy(copy, s);
+	return (copy);
+}
+
+void	free_double(char **str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return ;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
+}

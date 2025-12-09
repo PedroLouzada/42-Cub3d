@@ -68,7 +68,10 @@ void	check_colors(char *root, char *str, int fd, t_map *map)
 int	all_done(t_map *map)
 {
 	int	i;
+	static bool done;
 
+	if (done)
+		return (1);
 	i = 0;
 	while (i < 4)
 	{
@@ -81,7 +84,7 @@ int	all_done(t_map *map)
 		if (!map->color[i++])
 			return (0);
 	}
-	fprintf(stderr, "Passa aqui\n");
+	done = 1;
 	return (1);
 }
 
@@ -93,9 +96,9 @@ int	check_header(char *line, int fd, t_map *map)
 	i = 0;
 	str = line;
 	if (all_done(map))
-		return (1);
+		return (0);
 	skip_spaces(&str);
 	check_textures(line, str, fd, map);
 	check_colors(line, str, fd, map);
-	return (0);
+	return (1);
 }

@@ -26,6 +26,7 @@ char	*ft_strrchr(char *str, int c);
 int		ft_isempty(char c);
 size_t	ft_strlcpy(char *dest, char *src, size_t size);
 int		ft_strncmp(const char *str1, const char *str2, size_t n);
+void	free_double(char **str);
 
 
 #endif
