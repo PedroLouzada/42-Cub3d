@@ -6,6 +6,7 @@
 typedef struct s_player t_player;
 typedef struct s_enemy t_enemy;
 typedef struct s_wall t_wall;
+typedef struct s_game t_game;
 typedef struct s_map t_map;
 
 
@@ -42,20 +43,24 @@ struct s_wall
 struct s_map
 {
 	int			width;
-	int			length;
+	int			height;
+	char 		**coordinate;
+	void		*color[2];
+	void		*wall_spr[4];
 	void		(*resize)(t_map);
 	void		(*render)(t_map);
+	t_game 		*game;
 } ;
 
-typedef struct s_game
+struct s_game
 {
 	void 		*mlx;
 	void 		*window;
-	t_map		map;
+	t_map		*map;
 	t_enemy		enemy;
 	t_player	player;
 	t_wall		*walls;
 	t_map		minimap;
-}				t_game;
+} ;
 
 #endif

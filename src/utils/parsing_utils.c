@@ -1,11 +1,76 @@
 #include "cub3d.h"
 
-void parse_exit(char *s)
-{
-    int len;
+int		ft_strncmp(const char *str1, const char *str2, size_t n);
+int		ft_isdigit(int c);
+t_game	*get_game_addr(t_game *src);
 
-    len = ft_strlen(s);
-    write(2, "Error\n", 6);
-    write (2, s, len);
-    exit (1);
+void	clear_image(t_game *game)
+{
+	int	i;
+
+	i = -1;
+	while (i < 4)
+	{
+		if (game->map->wall_spr[++i])
+			mlx_destroy_image(game->mlx, game->map->wall_spr[i]);
+	}
+}
+
+void	parse_exit(char *s, char *arg, int fd)
+{
+	int		len;
+	t_game	*game;
+
+	game = get_game_addr(NULL);
+	len = ft_strlen(s);
+	write(2, "Error\n", 6);
+	write(2, s, len);
+	free(arg);
+	clear_image(game);
+	free_double(game->map->coordinate);
+	free(game->map);
+	mlx_destroy_display(game->mlx);
+	free(game->mlx);
+	if (fd > 0)
+		close(fd);
+	exit(1);
+}
+
+int	ft_isempty(char c)
+{
+	if (c == 32 || c == '\0' || (c >= 7 && c <= 13))
+		return (1);
+	return (0);
+}
+
+int	is_valid_char(char c)
+{
+	if (c == '0' || c == '1' || c == ' ' || c == '\n' || c == 'N' || c == 'S'
+		|| c == 'W' || c == 'E')
+		return (1);
+	return (0);
+}
+int	check_map_len(char *str)
+{
+	int	len;
+	int	tail;
+
+	len = ft_strlen(str);
+	if (len < 5)
+		return (0);
+	tail = len - 5;
+	if (str[tail] == '/' || ft_isempty(str[tail]))
+		return (0);
+	return (1);
+}
+
+void	check_sintax(char *str)
+{
+	char *tail;
+
+	tail = ft_strrchr(str, '.');
+	if (!tail || ft_strncmp(tail, ".cub", 5))
+		parse_exit("Map must end with .cub\n", NULL, -1);
+	if (!check_map_len(str))
+		parse_exit("Map must have more than .cub\n", NULL, -1);
 }

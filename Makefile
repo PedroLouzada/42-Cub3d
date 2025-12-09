@@ -2,8 +2,13 @@
 NAME = cub3d
 SRCS =  src/main.c \
 		src/parsing/parsing.c \
+		src/parsing/map_validation.c \
+		src/utils/get_next_line/get_next_line.c \
 		src/utils/parsing_utils.c \
-		src/utils/string_utils.c 
+		src/utils/map_header_utils.c \
+		src/utils/string_utils.c \
+		src/utils/string_utils2.c \
+		src/utils/map_init_utils.c \
 
 OBJ_DIR = obj
 OBJS = $(SRCS:src/%.c=$(OBJ_DIR)/%.o)
