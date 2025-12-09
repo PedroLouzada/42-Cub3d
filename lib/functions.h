@@ -8,7 +8,9 @@ void	set_time(long *time);
 
 //Map Utils
 void	where_to_next(int *direction);
+int		which_direction(int right, int left);
 int		in_range(t_vtr range, int x, int y);
+void	check_path(t_vtr range, t_vtr pos, int *direction);
 
 //Rand Utils
 void	init_rand(void);

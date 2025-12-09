@@ -12,7 +12,7 @@ int		in_range(t_vtr range, int x, int y)
 	return (out);
 }
 
-int		avoid_wall(int right, int left)
+int		which_direction(int right, int left)
 {
 	int	which_direction;
 
@@ -21,4 +21,19 @@ int		avoid_wall(int right, int left)
 		return (right);
 	else if (which_direction == 1)
 		return (left);
+	return (-1);
+}
+
+void	check_path(t_vtr range, t_vtr pos, int *direction)
+{
+	if (*direction == NORTH || *direction == SOUTH)
+	{
+		if (!in_range(range, pos.x, pos.y + 1) || !in_range(range, pos.x, pos.y - 1))
+			*direction = which_direction(EAST, WEST);
+	}
+	if (*direction == EAST || *direction == WEST)
+	{
+		if (!in_range(range, pos.x - 1, pos.y) || !in_range(range, pos.x + 1, pos.y))
+			*direction = which_direction(SOUTH, NORTH);
+	}
 }

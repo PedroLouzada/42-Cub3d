@@ -28,12 +28,12 @@ void	where_to_next(int *direction)
 
 	where_to = NORTH + rand() % (SOUTH - NORTH + 1);
 	if (*direction == NORTH && where_to == SOUTH)
-		where_to--;
+		where_to = which_direction(EAST, WEST);
 	else if (*direction == EAST && where_to == WEST)
-		where_to++;
+		where_to = which_direction(SOUTH, NORTH);
 	else if (*direction == WEST && where_to == EAST)
-		where_to--;
+		where_to = which_direction(SOUTH, NORTH);
 	else if (*direction == SOUTH && where_to == NORTH)
-		where_to++;
+		where_to = which_direction(EAST, WEST);
 	*direction = where_to;
 }

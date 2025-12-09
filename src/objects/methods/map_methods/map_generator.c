@@ -18,25 +18,17 @@ void	print_map(t_map *map)
 	close(data[2]);
 }
 
-void	move_in_path(t_map *map, t_vtr *pos, int direction)
+void	move_in_path(t_vtr range, t_vtr *pos, int direction)
 {
-	int ret;
-
-	ret = 0;
-	if (direction == NORTH)
-	{
-		if (!in_range(map->size, pos->x, pos->y + 1))
-			direction += NORTH + rand() % (EAST - NORTH + 1);
-	}
-	if (direction == EAST)
+	if (direction == NORTH && in_range(range, pos->x, pos->y + 1))
+		pos->y++;
+	if (direction == EAST && in_range(range, pos->x + 1, pos->y))
 		pos->x++;
-	if (direction == WEST)
+	if (direction == WEST && in_range(range, pos->x - 1, pos->y))
 		pos->x--;
-	if (direction == SOUTH)
+	if (direction == SOUTH && in_range(range, pos->x, pos->y - 1))
 		pos->y--;
 }
-
-//implementar função que retorna valor a mover e função que move se bater em parede
 
 void	generate_path(t_map *map, int direction)
 {
@@ -48,10 +40,13 @@ void	generate_path(t_map *map, int direction)
 	range.x = 2;
 	range.y = 10;
 	pos = rand_pos(map->size);
+	if (!in_range(map->size, pos.x, pos.y))
+		return ;
 	while (map->map[pos.y][pos.x] != '0')
 	{
 		map->map[pos.y][pos.x] = '0';
-		
+		check_path(map->size, pos, &direction);
+		move_in_path(map->size, &pos, direction);
 		moves++;
 		if (moves % (range.x + rand() % (range.y - range.x + 1)) == 0)
 			where_to_next(&direction);
