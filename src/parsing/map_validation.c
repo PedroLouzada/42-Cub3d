@@ -2,7 +2,7 @@
 
 void	get_map_dimention(char *str, t_game *game);
 void	check_characters(char *str, int fd, t_map *map);
-int		check_header(char *line, int fd, t_map *map);
+int		check_header(char *line, int fd, t_game *game);
 char	*ft_strdup_newline(char *s);
 
 int	empty_line(char *line)
@@ -19,7 +19,7 @@ int	empty_line(char *line)
 	return (1);
 }
 
-void	check_map_content(int fd, t_map *map)
+void	check_map_content(int fd, t_game *game)
 {
 	int		i;
 	char	*line;
@@ -32,15 +32,15 @@ void	check_map_content(int fd, t_map *map)
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		if (check_header(line, fd, map) || empty_line(line))
+		if (check_header(line, fd, game) || empty_line(line))
 			continue ;
-		check_characters(line, fd, map);
-		map->coordinate[i++] = ft_strdup_newline(line);
+		check_characters(line, fd, game->map);
+		game->map->map[i++] = ft_strdup_newline(line);
 	}
-	map->coordinate[i] = NULL;
+	game->map->map[i] = NULL;
 	close(fd);
 }
-void	print_map(char **arr)
+void	print_map_copy(char **arr)
 {
 	for (int i = 0; arr[i] != NULL; i++)
 	{
@@ -54,11 +54,11 @@ char	**copy_map(t_map *src)
 	char	**copy;
 
 	i = -1;
-	copy = calloc(src->height + 1, sizeof(char *));
+	copy = ft_calloc(src->size.y + 1, sizeof(char *));
 	if (!copy)
 		parse_exit("Memory allocation\n", NULL, -1);
-	while (src->coordinate[++i])
-		copy[i] = ft_strdup_newline(src->coordinate[i]);
+	while (src->map[++i])
+		copy[i] = ft_strdup_newline(src->map[i]);
 	copy[i] = NULL;
 	return (copy);
 }
@@ -115,10 +115,10 @@ void	map_validation(char *str, t_game *game)
 	fd = open(str, O_RDONLY);
 	if (fd == -1)
 		parse_exit("Could not open the file\n", NULL, -1);
-	check_map_content(fd, game->map);
+	check_map_content(fd, game);
 	copy = copy_map(game->map);
 	get_pos(pos, copy);
 	flood_fill(copy, pos[0], pos[1], pos);
-	print_map(copy);
+	print_map_copy(copy);
 	free_double(copy);
 }

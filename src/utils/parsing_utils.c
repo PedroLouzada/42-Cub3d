@@ -11,8 +11,8 @@ void	clear_image(t_game *game)
 	i = -1;
 	while (i < 4)
 	{
-		if (game->map->wall_spr[++i])
-			mlx_destroy_image(game->mlx, game->map->wall_spr[i]);
+		if (game->map->textures[++i])
+			mlx_destroy_image(game->mlx, game->map->textures[i]);
 	}
 }
 
@@ -27,10 +27,10 @@ void	parse_exit(char *s, char *arg, int fd)
 	write(2, s, len);
 	free(arg);
 	clear_image(game);
-	free_double(game->map->coordinate);
+	free_double(game->map->map);
 	free(game->map);
-	mlx_destroy_display(game->mlx);
-	free(game->mlx);
+	mlx_destroy_display(game->mlx->mlx);
+	free(game->mlx->mlx);
 	if (fd > 0)
 		close(fd);
 	exit(1);

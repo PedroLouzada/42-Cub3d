@@ -3,12 +3,22 @@ NAME = cub3d
 SRCS =  src/main.c \
 		src/parsing/parsing.c \
 		src/parsing/map_validation.c \
+		src/objects/create/create_enemy.c \
+		src/objects/create/create_map.c \
+		src/objects/create/create_player.c \
+		src/objects/methods/map_methods/map_free.c \
+		src/objects/methods/map_methods/map_generator.c \
 		src/utils/get_next_line/get_next_line.c \
 		src/utils/parsing_utils.c \
 		src/utils/map_header_utils.c \
 		src/utils/string_utils.c \
 		src/utils/string_utils2.c \
 		src/utils/map_init_utils.c \
+		src/utils/map_utils.c \
+		src/utils/rand_utils.c \
+		src/utils/libft_utils.c \
+		src/utils/time_utils.c \
+
 
 OBJ_DIR = obj
 OBJS = $(SRCS:src/%.c=$(OBJ_DIR)/%.o)

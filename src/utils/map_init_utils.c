@@ -45,11 +45,8 @@ void	get_map_dimention(char *str, t_game *game)
 		height++;
 		free(line);
 	}
-	game->map = calloc(1, sizeof(t_map));
-	game->map->coordinate = calloc(height + 1, sizeof(char *));
-	game->map->width = width;
-	game->map->height = height;
-	game->map->game = game;
+	game->map->size.x = width;
+	game->map->size.y = height;
 	close(fd);
 }
 
@@ -90,7 +87,7 @@ void	check_characters(char *str, int fd, t_map *map)
 		n2++;
 		return ;
 	}
-	if (!n1 || n1 + n2 == map->height - 1)
+	if (!n1 || n1 + n2 == map->size.y - 1)
 		check_border(str, fd);
 	while (str[++i])
 	{

@@ -52,9 +52,10 @@ struct s_wall
 
 struct s_map
 {
-	t_mlx		*mlx;
 	t_str		*map;
 	t_vtr		size;
+	void 		*textures[4];
+	void 		*colors[2];
 	void		(*print)(t_map*);
 	void		(*render)(t_map*);
 	void		(*destroy)(t_map*);
@@ -64,7 +65,8 @@ struct s_map
 
 struct s_game
 {
-	t_map		map;
+	t_mlx		*mlx;
+	t_map		*map;
 	t_enemy		enemy;
 	t_player	player;
 	t_wall		*walls;
