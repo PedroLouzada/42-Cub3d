@@ -6,6 +6,7 @@ SRCS =  src/main.c \
 		src/objects/create/create_enemy.c \
 		src/objects/create/create_map.c \
 		src/objects/create/create_player.c \
+		src/objects/create/create_game.c \
 		src/objects/methods/map_methods/map_free.c \
 		src/objects/methods/map_methods/map_generator.c \
 		src/utils/get_next_line/get_next_line.c \
@@ -59,8 +60,7 @@ re: fclean
 	@make --no-print-directory
 
 r:
-	make re && clear && ./cub3d
-
+	make re && clear && ./cub3d a.cub
 v:
 	make re && clear && valgrind --leak-check-leak=full ./cub3d
 

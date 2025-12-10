@@ -2,7 +2,6 @@
 
 int		ft_strncmp(const char *str1, const char *str2, size_t n);
 int		ft_isdigit(int c);
-t_game	*get_game_addr(t_game *src);
 
 void	clear_image(t_game *game)
 {

@@ -81,3 +81,9 @@ void	generate_map(t_map *map)
 	while (data[2]--)
 		generate_path(map, NORTH + rand() % (SOUTH - NORTH + 1));
 }
+
+void render_map(t_map *map)
+{
+	(void)map;
+	return;
+}

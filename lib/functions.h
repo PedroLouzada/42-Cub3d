@@ -23,6 +23,7 @@ void	*ft_calloc(size_t nm, size_t sz);
 void	print_map(t_map *map);
 void	destroy_map(t_map *map);
 void	generate_map(t_map *map);
+void    render_map(t_map *map);
 
 //Create Objects
 t_map	*create_map(void);
