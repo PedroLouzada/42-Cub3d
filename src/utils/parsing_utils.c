@@ -26,7 +26,7 @@ void	parse_exit(char *s, char *arg, int fd)
 	write(2, s, len);
 	free(arg);
 	clear_image(game);
-	free_double(game->map->map);
+	free_double(game->map->demo);
 	free(game->map);
 	mlx_destroy_display(game->mlx->mlx);
 	free(game->mlx->mlx);

@@ -90,10 +90,10 @@ int	all_done(t_map *map)
 
 int	check_header(char *line, int fd, t_game *game)
 {
-	int i;
+	// int i;
 	char *str;
 
-	i = 0;
+	// i = 0;
 	str = line;
 	if (all_done(game->map))
 		return (0);

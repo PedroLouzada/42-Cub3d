@@ -15,26 +15,29 @@ int	main(int ac, char **av)
 {
 	t_game *game;
 
+	(void)av;
     game = game_init();
-    get_game_addr(game);
+    // get_game_addr(game);
 	if (ac == 1)
 	{
 		game->map = create_map();
 		init_rand();
-		game->map->generate(game->map);
-		game->map->print(game->map);
-		game->map->destroy(game->map);
+		for (int i = 0; i  < 5; ++i) {
+			game->map->generate(game->map, i);
+			game->map->print(game->map, i);
+			game->map->destroy(game->map, i);
+		}
 		return (0);
 	}
-    game->map = calloc(1, sizeof(t_map));
-	game->parsing(game, ac, av);
-    game->run(game);
+    // game->map = calloc(1, sizeof(t_map));
+	// game->parsing(game, ac, av);
+    // game->run(game);
     
-	// dar handle direito depois
-	clear_image(game);
-	free_double(game->map->map);
-	free(game->map);
-	mlx_destroy_display(game->mlx->mlx);
-	free(game->mlx->mlx);
-	free(game->mlx);
+	// // dar handle direito depois
+	// clear_image(game);
+	// free_double(game->map->minimap);
+	// free(game->map);
+	// mlx_destroy_display(game->mlx->mlx);
+	// free(game->mlx->mlx);
+	// free(game->mlx);
 }
