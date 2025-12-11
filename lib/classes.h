@@ -8,46 +8,49 @@ typedef struct s_wall	t_wall;
 typedef struct s_game	t_game;
 typedef struct s_enemy	t_enemy;
 typedef struct s_player	t_player;
+typedef struct s_obj	t_obj;
 
-typedef struct s_mlx
+struct s_obj
 {
-	int			bpp;
-	void		*mlx;
-	void		*win;
-	void		*img;
-	t_str		data;
-	int			endn;
-	int			sline;
-}	t_mlx;
+	t_vtr		pos;
+	int 		lives;
+	void		(*damage)(t_obj *this);
+	void		(*update)(t_obj *this);
+	bool		(*collision)(t_obj *this, t_obj *target);
+	void 		*(*get_texture)(t_obj *this, t_direct d);	
+	
+};
 
 struct s_player
 {
-	int			pos_x;
-	int 		pos_y;
+	t_vtr		pos;
 	int 		lives;
-	bool		collision;
-	char		orientation;
-	void		(*damage)(t_player*);
-	void		(*render)(t_player*);
-	void		(*move)(t_player*, int, int);
+	void		(*damage)(t_obj *this);
+	void		(*update)(t_obj *this);
+	bool		(*collision)(t_obj *this, t_obj *target);
+	void 		*(*get_texture)(t_obj *this, t_direct d);
+	t_direct	direct;
 };
 
 struct s_enemy
 {
-	int			pos_x;
-	int			pos_y;
-	bool		collision;
-	void		(*render)(t_enemy*);
-	void		(*respawn)(t_enemy*);
-	void		(*move)(t_enemy*, t_vtr);
+	t_vtr		pos;
+	int 		lives;
+	void		(*damage)(t_obj *this);
+	void		(*update)(t_obj *this);
+	bool		(*collision)(t_obj *this, t_obj *target);
+	void 		*(*get_texture)(t_obj *this, t_direct d);
 };
 
 struct s_wall
 {
+	t_vtr		pos;
+	int 		lives;
+	void		(*damage)(t_obj *this);
+	void		(*update)(t_obj *this);
+	bool		(*collision)(t_obj *this, t_obj *target);
+	void 		*(*get_texture)(t_obj *this, t_direct d);
 	bool		door;
-	bool 		collision;
-	char		orientation;
-	void		(*render)(t_wall*);
 };
 
 struct s_map
@@ -66,6 +69,17 @@ struct s_map
 	void		(*generate)(t_map*, int);
 	void		(*resize)(t_map*, t_vtr);
 };
+
+typedef struct s_mlx
+{
+	int			bpp;
+	void		*mlx;
+	void		*win;
+	void		*img;
+	t_str		data;
+	int			endn;
+	int			sline;
+}	t_mlx;
 
 struct s_game
 {
