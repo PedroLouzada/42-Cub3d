@@ -35,9 +35,9 @@ void	check_map_content(int fd, t_game *game)
 		if (check_header(line, fd, game) || empty_line(line))
 			continue ;
 		check_characters(line, fd, game->map);
-		game->map->map[i++] = ft_strdup_newline(line);
+		game->map->demo[i++] = ft_strdup_newline(line);
 	}
-	game->map->map[i] = NULL;
+	game->map->demo[i] = NULL;
 	close(fd);
 }
 void	print_map_copy(char **arr)
@@ -54,11 +54,11 @@ char	**copy_map(t_map *src)
 	char	**copy;
 
 	i = -1;
-	copy = ft_calloc(src->size.y + 1, sizeof(char *));
+	copy = ft_calloc(src->demo_size.y + 1, sizeof(char *));
 	if (!copy)
 		parse_exit("Memory allocation\n", NULL, -1);
-	while (src->map[++i])
-		copy[i] = ft_strdup_newline(src->map[i]);
+	while (src->demo[++i])
+		copy[i] = ft_strdup_newline(src->demo[i]);
 	copy[i] = NULL;
 	return (copy);
 }

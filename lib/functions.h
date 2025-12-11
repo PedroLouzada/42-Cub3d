@@ -17,13 +17,14 @@ void	init_rand(void);
 t_vtr	rand_pos(t_vtr range);
 
 //Libft Utils
+t_str	ft_joinstr(t_str s1, t_str s2);
 void	*ft_calloc(size_t nm, size_t sz);
 
 //Map Methods
-void	print_map(t_map *map);
-void	destroy_map(t_map *map);
-void	generate_map(t_map *map);
 void    render_map(t_map *map);
+void	print_map(t_map *map, int level);
+void	destroy_map(t_map *map, int level);
+void	generate_map(t_map *map, int level);
 
 //Create Objects
 t_map	*create_map(void);

@@ -7,12 +7,12 @@ t_map	*create_map(void)
 	map = ft_calloc(1, sizeof(t_map));
 	if (!map)
 		return (NULL);
-	map->size.x = WIDTH;
-	map->size.y = HEIGHT;
+	map->map_size.x = MAP_WIDTH;
+	map->map_size.y = MAP_HEIGHT;
 	map->destroy = destroy_map;	
 	map->generate = generate_map;
 	map->print = print_map;
 	map->render = render_map;
-	map->game = get_game_addr(NULL);
+	// map->game = get_game_addr(NULL);
 	return (map);
 }

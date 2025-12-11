@@ -1,5 +1,5 @@
 
-NAME = cub3d
+NAME = cub3D
 SRCS =  src/main.c \
 		src/parsing/parsing.c \
 		src/parsing/map_validation.c \

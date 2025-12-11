@@ -52,15 +52,17 @@ struct s_wall
 
 struct s_map
 {
-	t_str		*map;
-	t_vtr		size;
-	t_game 		*game;
-	void 		*textures[4];
+	t_str		*demo;
+	t_vtr		map_size;
+	t_vtr		demo_size;
 	void 		*colors[2];
-	void		(*print)(t_map*);
+	t_str		*minimap[5];
+	t_wall		**levels[5];
+	void 		*textures[4];
 	void		(*render)(t_map*);
-	void		(*destroy)(t_map*);
-	void		(*generate)(t_map*);
+	void		(*print)(t_map*, int);
+	void		(*destroy)(t_map*, int);
+	void		(*generate)(t_map*, int);
 	void		(*resize)(t_map*, t_vtr);
 };
 
@@ -68,12 +70,11 @@ struct s_game
 {
 	t_mlx		*mlx;
 	t_map		*map;
-	t_enemy		enemy;
-	t_player	player;
 	t_wall		*walls;
-	t_map		minimap;
-	void		(*parsing)(t_game*, int, char**);
+	t_enemy		*enemy;
+	t_player	*player;
 	void		(*run)(t_game*);
+	void		(*parsing)(t_game*, int, char**);
 };
 
 t_game *game_init();

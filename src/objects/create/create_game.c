@@ -11,11 +11,11 @@ t_game	*game_init(void)
 	t_game *game;
 
 	game = ft_calloc(1, sizeof(t_game));
-	game->mlx = calloc(1, sizeof(t_mlx));
-	game->mlx->mlx = mlx_init();
-	if (!game->mlx)
-		parse_exit("Error on mlx initialization\n", NULL, -1);
-	game->parsing = parsing;
-    game->run = run;
+	// game->mlx = calloc(1, sizeof(t_mlx));
+	// game->mlx->mlx = mlx_init();
+	// if (!game->mlx)
+	// 	parse_exit(MLX_ERR, NULL, -1);
+	// game->parsing = parsing;
+    // game->run = run;
     return (game);
 }
