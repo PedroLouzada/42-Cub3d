@@ -13,6 +13,6 @@ t_map	*create_map(void)
 	map->generate = generate_map;
 	map->print = print_map;
 	map->render = render_map;
-	// map->game = get_game_addr(NULL);
+	map->game = get_game_addr(NULL);
 	return (map);
 }

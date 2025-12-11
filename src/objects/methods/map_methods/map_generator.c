@@ -48,7 +48,7 @@ void	move_in_path(t_vtr range, t_vtr *pos, int direction)
 
 void	generate_path(t_map *map, int direction, int level)
 {
-	t_vtr 	pos;
+	t_vtr	pos;
 	int		moves;
 	t_vtr	range;
 
@@ -71,7 +71,7 @@ void	generate_path(t_map *map, int direction, int level)
 
 void	generate_map(t_map *map, int level)
 {
-	int 	data[3];
+	int		data[3];
 	t_vtr	range;
 
 	map->minimap[level] = ft_calloc(map->map_size.y + 1, sizeof(t_str));
@@ -80,7 +80,8 @@ void	generate_map(t_map *map, int level)
 	data[0] = -1;
 	while (++data[0] < map->map_size.y)
 	{
-		map->minimap[level][data[0]] = ft_calloc(map->map_size.x + 1, sizeof(char));
+		map->minimap[level][data[0]] = ft_calloc(map->map_size.x + 1,
+				sizeof(char));
 		if (!map->minimap[level][data[0]])
 		{
 			while (data[0]--)
@@ -98,10 +99,63 @@ void	generate_map(t_map *map, int level)
 		generate_path(map, NORTH + rand() % (SOUTH - NORTH + 1), level);
 }
 
- //adicionar conversor de chars para t_asset/t_wall
+// adicionar conversor de chars para t_asset/t_wall
 
-void render_map(t_map *map)
+void build_img(t_imgs *src, t_imgs dest, int x, int y)
 {
-	(void)map;
-	return;
+	int		i;
+	int		byt;
+	char	*s_addr;
+	char	*d_addr;
+
+	i = 0;
+	byt = src->bpp / 8;
+	while (i < src->height)
+	{
+		s_addr = src->addr + i * src->sline;
+		d_addr = dest.addr + (y + i) * dest.sline + x * byt;
+		ft_memcpy(d_addr, s_addr, src->width * byt);
+	}
+}
+
+void	fill_canva(t_game *game, t_map *map, t_imgs *canva)
+{
+	int x;
+	int y;
+
+	y = -1;
+	while(map->demo[++y])
+	{
+		x = -1;
+		while (map->demo[y][++x])
+		{
+			if (map->demo[y][x] == '1')
+				build_img(game)
+		}
+	}
+}
+
+t_imgs	*new_img(void *mlx, int width, int height)
+{
+	t_imgs	*img;
+
+	img = ft_calloc(1, sizeof(t_imgs));
+	img->img = mlx_new_image(mlx, width, height);
+	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->sline,
+			&img->endian);
+	img->width = width;
+	img->height = height;
+	return (img);
+}
+
+void	render_map(t_map *map)
+{
+	t_imgs *canva;
+	t_game *game;
+
+	game = map->game;
+	canva = new_img(game->mlx->mlx, 1920, 1080);
+	fill_canva(game, map, canva);
+
+	return ;
 }

@@ -2,7 +2,7 @@
 
 void	run(t_game *game)
 {
-	game->mlx->win = mlx_new_window(game->mlx->mlx, 1080, 900, "CUB3D");
+	game->mlx->win = mlx_new_window(game->mlx->mlx, 1920, 1080, "CUB3D");
 	mlx_hook(game->mlx->win, 17, 0, (void *)exit, 0);
 	mlx_loop(game->mlx->mlx);
 }

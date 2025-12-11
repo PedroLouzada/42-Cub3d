@@ -58,6 +58,7 @@ struct s_map
 	void 		*colors[2];
 	t_str		*minimap[5];
 	t_wall		**levels[5];
+	t_game 		*game;
 	void 		*textures[4];
 	void		(*render)(t_map*);
 	void		(*print)(t_map*, int);

@@ -17,7 +17,7 @@ int	main(int ac, char **av)
 
 	(void)av;
     game = game_init();
-    // get_game_addr(game);
+    get_game_addr(game);
 	if (ac == 1)
 	{
 		game->map = create_map();
@@ -29,15 +29,15 @@ int	main(int ac, char **av)
 		}
 		return (0);
 	}
-    // game->map = calloc(1, sizeof(t_map));
-	// game->parsing(game, ac, av);
-    // game->run(game);
+    game->map = calloc(1, sizeof(t_map));
+	game->parsing(game, ac, av);
+    game->run(game);
     
-	// // dar handle direito depois
-	// clear_image(game);
-	// free_double(game->map->minimap);
-	// free(game->map);
-	// mlx_destroy_display(game->mlx->mlx);
-	// free(game->mlx->mlx);
-	// free(game->mlx);
+	// dar handle direito depois
+	clear_image(game);
+	free_double(game->map->demo);
+	free(game->map);
+	mlx_destroy_display(game->mlx->mlx);
+	free(game->mlx->mlx);
+	free(game->mlx);
 }
