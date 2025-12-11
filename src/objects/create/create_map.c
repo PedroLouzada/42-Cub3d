@@ -9,8 +9,10 @@ t_map	*create_map(void)
 		return (NULL);
 	map->size.x = WIDTH;
 	map->size.y = HEIGHT;
-	map->destroy = destroy_map;
+	map->destroy = destroy_map;	
 	map->generate = generate_map;
 	map->print = print_map;
+	map->render = render_map;
+	map->game = get_game_addr(NULL);
 	return (map);
 }

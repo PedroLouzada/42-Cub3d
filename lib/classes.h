@@ -54,6 +54,7 @@ struct s_map
 {
 	t_str		*map;
 	t_vtr		size;
+	t_game 		*game;
 	void 		*textures[4];
 	void 		*colors[2];
 	void		(*print)(t_map*);
@@ -71,6 +72,10 @@ struct s_game
 	t_player	player;
 	t_wall		*walls;
 	t_map		minimap;
+	void		(*parsing)(t_game*, int, char**);
+	void		(*run)(t_game*);
 };
+
+t_game *game_init();
 
 #endif

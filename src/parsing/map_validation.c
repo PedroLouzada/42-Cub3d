@@ -119,6 +119,6 @@ void	map_validation(char *str, t_game *game)
 	copy = copy_map(game->map);
 	get_pos(pos, copy);
 	flood_fill(copy, pos[0], pos[1], pos);
-	print_map_copy(copy);
+	//print_map_copy(copy);
 	free_double(copy);
 }

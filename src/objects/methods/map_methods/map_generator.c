@@ -85,3 +85,8 @@ void	generate_map(t_map *map)
  //adicionar conversor de chars para t_asset/t_wall
  //adicionar *demo/*tutorial e adicionar *levels
  //transformar *map em *minimaps
+void render_map(t_map *map)
+{
+	(void)map;
+	return;
+}
