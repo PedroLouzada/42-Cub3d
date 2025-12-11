@@ -81,3 +81,7 @@ void	generate_map(t_map *map)
 	while (data[2]--)
 		generate_path(map, NORTH + rand() % (SOUTH - NORTH + 1));
 }
+
+ //adicionar conversor de chars para t_asset/t_wall
+ //adicionar *demo/*tutorial e adicionar *levels
+ //transformar *map em *minimaps
