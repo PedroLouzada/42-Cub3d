@@ -50,11 +50,8 @@ void	generate_path(t_map *map, int direction)
 {
 	t_vtr	pos;
 	int		moves;
-	t_vtr	range;
 
 	moves = 0;
-	range.x = 2;
-	range.y = 10;
 	pos = rand_pos(map->map_size);
 	if (!in_range(map->map_size, pos.x, pos.y))
 		return ;
@@ -64,15 +61,14 @@ void	generate_path(t_map *map, int direction)
 		check_path(map->map_size, pos, &direction);
 		move_in_path(map->map_size, &pos, direction);
 		moves++;
-		if (moves % (range.x + rand() % (range.y - range.x + 1)) == 0)
+		if (moves % (MIN_MOVES + rand() % (MAX_MOVES - MIN_MOVES + 1)) == 0)
 			where_to_next(&direction);
 	}
 }
 
 void	generate_map(t_map *map)
 {
-	int		data[3];
-	t_vtr	range;
+	int		data[4];
 
 	map->map = ft_calloc(map->map_size.y + 1, sizeof(t_str));
 	if (!map->map)
@@ -91,9 +87,7 @@ void	generate_map(t_map *map)
 		while (++data[1] < map->map_size.x)
 			map->map[data[0]][data[1]] = '1';
 	}
-	range.x = 200;
-	range.y = 500;
-	data[2] = range.x + rand() % (range.y - range.x + 1);
+	data[2] = MIN_PATHS + rand() % (MAX_PATHS - MIN_PATHS + 1);
 	while (data[2]--)
 		generate_path(map, NORTH + rand() % (SOUTH - NORTH + 1));
 }

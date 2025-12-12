@@ -7,7 +7,7 @@ void	run(t_game *game)
 	mlx_loop(game->mlx->mlx);
 }
 
-t_game	*game_init(void)
+t_game	*create_game(int ac, t_str *av)
 {
 	t_game *game;
 
@@ -15,8 +15,7 @@ t_game	*game_init(void)
 	game->mlx = calloc(1, sizeof(t_mlx));
 	game->mlx->mlx = mlx_init();
 	if (!game->mlx)
-		parse_exit("Error on mlx initialization\n", NULL, -1);
-	game->parsing = parsing;
-	game->run = run;
+		parse_exit(MLX_ERR, NULL, -1);
+	parsing(game, ac, av);
 	return (game);
 }
