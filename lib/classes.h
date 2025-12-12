@@ -59,6 +59,7 @@ struct s_map
 {
 	t_str		*map;
 	int			level;
+	t_obj		*objs;
 	t_vtr		map_size;
 	t_vtr		mini_size;
 	void 		*colors[2];
@@ -82,10 +83,7 @@ typedef struct s_mlx
 struct s_game
 {
 	t_mlx		*mlx;
-	t_obj		*objs;
 	t_map		*map[6];
-	void		(*run)(t_game*);
-	void		(*parsing)(t_game*, int, char**);
 };
 
 t_game *game_init();

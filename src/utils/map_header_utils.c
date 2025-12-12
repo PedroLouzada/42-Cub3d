@@ -30,10 +30,10 @@ void	open_path(char *root, char *str, int fd, int n, t_game *game)
 	if (spr_fd < 0)
 		parse_exit("Sprite path not valid\n", root, fd);
 	close(spr_fd);
-	if (game->map->textures[n])
+	if (game->map[0]->textures[n])
 		parse_exit("Double definition on wall texture\n", root, fd);
-	game->map->textures[n] = mlx_xpm_file_to_image(game->mlx->mlx, str, &x, &y);
-	if (!game->map->textures[n])
+	game->map[0]->textures[n] = mlx_xpm_file_to_image(game->mlx->mlx, str, &x, &y);
+	if (!game->map[0]->textures[n])
 		parse_exit("Xpm file not valid\n", root, fd);
 }
 
@@ -90,15 +90,13 @@ int	all_done(t_map *map)
 
 int	check_header(char *line, int fd, t_game *game)
 {
-	// int i;
 	char *str;
 
-	// i = 0;
 	str = line;
-	if (all_done(game->map))
+	if (all_done(game->map[0]))
 		return (0);
 	skip_spaces(&str);
 	check_textures(line, str, fd, game);
-	check_colors(line, str, fd, game->map);
+	check_colors(line, str, fd, game->map[0]);
 	return (1);
 }

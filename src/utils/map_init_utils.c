@@ -24,15 +24,14 @@ int	get_width(char *str)
 	return (old_len);
 }
 
-void	get_map_dimention(char *str, t_game *game)
+void	get_map_dimension(char *str, t_game *game)
 {
-	int		width;
-	int		height;
+	t_vtr	dim;
 	int		fd;
 	char	*line;
 
-	width = 0;
-	height = 0;
+	dim.x = 0;
+	dim.y = 0;
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
 		parse_exit("Could not open the file\n", NULL, -1);
@@ -41,13 +40,13 @@ void	get_map_dimention(char *str, t_game *game)
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		width = get_width(line);
-		height++;
+		dim.x = get_width(line);
+		dim.y++;
 		free(line);
 	}
-	game->map->demo = ft_calloc(height, sizeof(char *));
-	game->map->demo_size.x = width;
-	game->map->demo_size.y = height;
+	game->map[0] = create_map(0);
+	game->map[0]->map_size = dim;
+	game->map[0]->map = calloc(game->map[0]->map_size.y, sizeof(char *));
 	close(fd);
 }
 
@@ -76,7 +75,7 @@ int	check_emptyspace(char *str)
 	return (0);
 }
 
-void	check_characters(char *str, int fd, t_map *map)
+void	check_characters(char *str, int fd, int *d, t_map *map)
 {
 	int			i;
 	static int	n1;
@@ -88,12 +87,15 @@ void	check_characters(char *str, int fd, t_map *map)
 		n2++;
 		return ;
 	}
-	if (!n1 || n1 + n2 == map->demo_size.y - 1)
+	if (!n1 || n1 + n2 == map->map_size.y - 1)
 		check_border(str, fd);
 	while (str[++i])
 	{
+		if (str[i] == 'D')
+			d++;
 		if (!is_valid_char(str[i]))
-			parse_exit("Map must only contain the specified characters\n", str, fd);
+			parse_exit("Map must only contain the specified characters\n", str,
+				fd);
 	}
 	n1++;
 }

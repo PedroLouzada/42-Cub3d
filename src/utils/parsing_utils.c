@@ -10,8 +10,8 @@ void	clear_image(t_game *game)
 	i = -1;
 	while (++i < 4)
 	{
-		if (game->map->textures[i])
-			mlx_destroy_image(game->mlx->mlx, game->map->textures[i]);
+		if (game->map[0]->textures[i])
+			mlx_destroy_image(game->mlx->mlx, game->map[0]->textures[i]);
 	}
 }
 
@@ -26,7 +26,7 @@ void	parse_exit(char *s, char *arg, int fd)
 	write(2, s, len);
 	free(arg);
 	clear_image(game);
-	free_double(game->map->demo);
+	free_double(game->map[0]->map);
 	free(game->map);
 	mlx_destroy_display(game->mlx->mlx);
 	free(game->mlx->mlx);
@@ -45,7 +45,7 @@ int	ft_isempty(char c)
 int	is_valid_char(char c)
 {
 	if (c == '0' || c == '1' || c == ' ' || c == '\n' || c == 'N' || c == 'S'
-		|| c == 'W' || c == 'E')
+		|| c == 'W' || c == 'E' || c == 'D')
 		return (1);
 	return (0);
 }
