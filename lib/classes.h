@@ -58,14 +58,14 @@ struct s_door
 struct s_map
 {
 	t_str		*map;
-	t_map		*next;
+	int			level;
 	t_vtr		map_size;
 	t_vtr		mini_size;
 	void 		*colors[2];
 	void 		*textures[4];
-	void		(*print)(t_map*, int);
-	void		(*destroy)(t_map*, int);
-	void		(*generate)(t_map*, int);
+	void		(*print)(t_map*);
+	void		(*destroy)(t_map*);
+	void		(*generate)(t_map*);
 };
 
 typedef struct s_mlx
@@ -82,8 +82,8 @@ typedef struct s_mlx
 struct s_game
 {
 	t_mlx		*mlx;
-	t_map		*map;
 	t_obj		*objs;
+	t_map		*map[6];
 	void		(*run)(t_game*);
 	void		(*parsing)(t_game*, int, char**);
 };

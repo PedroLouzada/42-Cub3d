@@ -21,12 +21,11 @@ t_str	ft_joinstr(t_str s1, t_str s2);
 void	*ft_calloc(size_t nm, size_t sz);
 
 //Map Methods
-void    render_map(t_map *map);
-void	print_map(t_map *map, int level);
-void	destroy_map(t_map *map, int level);
-void	generate_map(t_map *map, int level);
+void	print_map(t_map *map);
+void	destroy_map(t_map *map);
+void	generate_map(t_map *map);
 
 //Create Objects
-t_map	*create_map(void);
+t_map	*create_map(int level);
 
 #endif
