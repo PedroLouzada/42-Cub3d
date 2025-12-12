@@ -3,12 +3,12 @@ NAME = cub3D
 SRCS =  src/main.c \
 		src/parsing/parsing.c \
 		src/parsing/map_validation.c \
-		src/objects/create/create_enemy.c \
-		src/objects/create/create_map.c \
-		src/objects/create/create_player.c \
-		src/objects/create/create_game.c \
-		src/objects/methods/map_methods/map_free.c \
-		src/objects/methods/map_methods/map_generator.c \
+		src/objects/enemy/enemy.c \
+		src/objects/player/player.c \
+		src/engine/create_map.c \
+		src/engine/create_game.c \
+		src/engine/map_free.c \
+		src/engine/map_generator.c \
 		src/utils/get_next_line/get_next_line.c \
 		src/utils/parsing_utils.c \
 		src/utils/map_header_utils.c \

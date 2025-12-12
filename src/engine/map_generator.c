@@ -20,7 +20,7 @@ void	print_map(t_map *map, int level)
 	file = get_file(level);
 	if (!file)
 		return ;
-	data[2] = open(file, O_CREAT | O_WRONLY | O_RDONLY | O_TRUNC);
+	data[2] = open(file, O_CREAT | O_RDWR | O_TRUNC);
 	if (data[2] < 0)
 		return ;
 	data[0] = -1;
@@ -48,7 +48,7 @@ void	move_in_path(t_vtr range, t_vtr *pos, int direction)
 
 void	generate_path(t_map *map, int direction, int level)
 {
-	t_vtr 	pos;
+	t_vtr	pos;
 	int		moves;
 	t_vtr	range;
 
@@ -71,7 +71,7 @@ void	generate_path(t_map *map, int direction, int level)
 
 void	generate_map(t_map *map, int level)
 {
-	int 	data[3];
+	int		data[3];
 	t_vtr	range;
 
 	map->minimap[level] = ft_calloc(map->map_size.y + 1, sizeof(t_str));
@@ -80,7 +80,8 @@ void	generate_map(t_map *map, int level)
 	data[0] = -1;
 	while (++data[0] < map->map_size.y)
 	{
-		map->minimap[level][data[0]] = ft_calloc(map->map_size.x + 1, sizeof(char));
+		map->minimap[level][data[0]] = ft_calloc(map->map_size.x + 1,
+				sizeof(char));
 		if (!map->minimap[level][data[0]])
 		{
 			while (data[0]--)
@@ -98,10 +99,4 @@ void	generate_map(t_map *map, int level)
 		generate_path(map, NORTH + rand() % (SOUTH - NORTH + 1), level);
 }
 
- //adicionar conversor de chars para t_asset/t_wall
-
-void render_map(t_map *map)
-{
-	(void)map;
-	return;
-}
+// adicionar conversor de chars para t_asset/t_wall
