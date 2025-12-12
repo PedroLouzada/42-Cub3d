@@ -4,11 +4,11 @@ t_str	get_file(int level)
 {
 	t_str	files[5];
 
-	files[0] = "level_1";
-	files[1] = "level_2";
-	files[2] = "level_3";
-	files[3] = "level_4";
-	files[4] = "level_5";
+	files[0] = "maps/level_1";
+	files[1] = "maps/level_2";
+	files[2] = "maps/level_3";
+	files[3] = "maps/level_4";
+	files[4] = "maps/level_5";
 	return (ft_joinstr(files[level], ".cub"));
 }
 
@@ -20,7 +20,7 @@ void	print_map(t_map *map, int level)
 	file = get_file(level);
 	if (!file)
 		return ;
-	data[2] = open(file, O_CREAT | O_RDWR | O_TRUNC);
+	data[2] = open(file, O_CREAT | O_RDWR | O_TRUNC, PERMISSIONS);
 	if (data[2] < 0)
 		return ;
 	data[0] = -1;
@@ -80,8 +80,7 @@ void	generate_map(t_map *map, int level)
 	data[0] = -1;
 	while (++data[0] < map->map_size.y)
 	{
-		map->minimap[level][data[0]] = ft_calloc(map->map_size.x + 1,
-				sizeof(char));
+		map->minimap[level][data[0]] = ft_calloc(map->map_size.x + 1, 1);
 		if (!map->minimap[level][data[0]])
 		{
 			while (data[0]--)
@@ -98,5 +97,3 @@ void	generate_map(t_map *map, int level)
 	while (data[2]--)
 		generate_path(map, NORTH + rand() % (SOUTH - NORTH + 1), level);
 }
-
-// adicionar conversor de chars para t_asset/t_wall

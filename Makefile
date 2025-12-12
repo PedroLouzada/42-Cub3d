@@ -64,4 +64,4 @@ r:
 v:
 	make re && clear && valgrind --leak-check-leak=full ./cub3d
 
-.PHONY: all mlx clean fclean re
+.PHONY: all mlx clean fclean re r v

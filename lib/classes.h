@@ -4,7 +4,7 @@
 # include "cub3d.h"
 
 typedef struct s_map	t_map;
-typedef struct s_wall	t_wall;
+typedef struct s_wall	t_door;
 typedef struct s_game	t_game;
 typedef struct s_enemy	t_enemy;
 typedef struct s_player	t_player;
@@ -14,7 +14,7 @@ struct s_obj
 {
 	t_vtr		pos;
 	int 		lives;
-	char 		type;
+	char 		direction;
 	void		(*damage)(t_obj *this);
 	void		(*update)(t_obj *this);
 	bool		(*collision)(t_obj *this, t_obj *target);
@@ -26,51 +26,46 @@ struct s_player
 {
 	t_vtr		pos;
 	int 		lives;
-	char 		type;
+	char 		direction;
 	void		(*damage)(t_obj *this);
 	void		(*update)(t_obj *this);
 	bool		(*collision)(t_obj *this, t_obj *target);
 	void 		*(*get_texture)(t_obj *this, char direction);
-	char 		direction;
 };
 
 struct s_enemy
 {
 	t_vtr		pos;
 	int 		lives;
-	char 		type;
+	char 		direction;
 	void		(*damage)(t_obj *this);
 	void		(*update)(t_obj *this);
 	bool		(*collision)(t_obj *this, t_obj *target);
 	void 		*(*get_texture)(t_obj *this, char direction);
 };
 
-struct s_wall
+struct s_door
 {
 	t_vtr		pos;
 	int 		lives;
-	char 		type;
+	char 		direction;
 	void		(*damage)(t_obj *this);
 	void		(*update)(t_obj *this);
 	bool		(*collision)(t_obj *this, t_obj *target);
 	void 		*(*get_texture)(t_obj *this, char direction);
-	bool		door;
 };
 
 struct s_map
 {
-	t_str		*demo;
+	t_str		*map;
+	t_map		*next;
 	t_vtr		map_size;
-	t_vtr		demo_size;
+	t_vtr		mini_size;
 	void 		*colors[2];
-	t_str		*minimap[5];
-	t_wall		**levels[5];
 	void 		*textures[4];
-	void		(*render)(t_map*);
 	void		(*print)(t_map*, int);
 	void		(*destroy)(t_map*, int);
 	void		(*generate)(t_map*, int);
-	void		(*resize)(t_map*, t_vtr);
 };
 
 typedef struct s_mlx
@@ -88,9 +83,7 @@ struct s_game
 {
 	t_mlx		*mlx;
 	t_map		*map;
-	t_wall		*walls;
-	t_enemy		*enemy;
-	t_player	*player;
+	t_obj		*objs;
 	void		(*run)(t_game*);
 	void		(*parsing)(t_game*, int, char**);
 };
