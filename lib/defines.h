@@ -11,6 +11,7 @@
 # define MAP_HEIGHT 40
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
+# define PERMISSIONS 0644
 # define TITLE "||BACKROOMS | CUB3D||"
 # define MLX_ERR "Error on mlx initialization\n"
 
