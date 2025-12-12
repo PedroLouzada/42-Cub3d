@@ -31,7 +31,7 @@ int	main(int ac, char **av)
 	}
     game->map = calloc(1, sizeof(t_map));
 	game->parsing(game, ac, av);
-    game->run(game);
+// game->run(game);
     
 	// dar handle direito depois
 	clear_image(game);

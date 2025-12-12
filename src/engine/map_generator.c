@@ -20,7 +20,7 @@ void	print_map(t_map *map, int level)
 	file = get_file(level);
 	if (!file)
 		return ;
-	data[2] = open(file, O_CREAT | O_WRONLY | O_RDONLY | O_TRUNC);
+	data[2] = open(file, O_CREAT | O_RDWR | O_TRUNC);
 	if (data[2] < 0)
 		return ;
 	data[0] = -1;
@@ -100,62 +100,3 @@ void	generate_map(t_map *map, int level)
 }
 
 // adicionar conversor de chars para t_asset/t_wall
-
-void build_img(t_imgs *src, t_imgs dest, int x, int y)
-{
-	int		i;
-	int		byt;
-	char	*s_addr;
-	char	*d_addr;
-
-	i = 0;
-	byt = src->bpp / 8;
-	while (i < src->height)
-	{
-		s_addr = src->addr + i * src->sline;
-		d_addr = dest.addr + (y + i) * dest.sline + x * byt;
-		ft_memcpy(d_addr, s_addr, src->width * byt);
-	}
-}
-
-void	fill_canva(t_game *game, t_map *map, t_imgs *canva)
-{
-	int x;
-	int y;
-
-	y = -1;
-	while(map->demo[++y])
-	{
-		x = -1;
-		while (map->demo[y][++x])
-		{
-			if (map->demo[y][x] == '1')
-				build_img(game)
-		}
-	}
-}
-
-t_imgs	*new_img(void *mlx, int width, int height)
-{
-	t_imgs	*img;
-
-	img = ft_calloc(1, sizeof(t_imgs));
-	img->img = mlx_new_image(mlx, width, height);
-	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->sline,
-			&img->endian);
-	img->width = width;
-	img->height = height;
-	return (img);
-}
-
-void	render_map(t_map *map)
-{
-	t_imgs *canva;
-	t_game *game;
-
-	game = map->game;
-	canva = new_img(game->mlx->mlx, 1920, 1080);
-	fill_canva(game, map, canva);
-
-	return ;
-}

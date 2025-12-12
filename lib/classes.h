@@ -14,10 +14,11 @@ struct s_obj
 {
 	t_vtr		pos;
 	int 		lives;
+	char 		type;
 	void		(*damage)(t_obj *this);
 	void		(*update)(t_obj *this);
 	bool		(*collision)(t_obj *this, t_obj *target);
-	void 		*(*get_texture)(t_obj *this, t_direct d);	
+	void 		*(*get_texture)(t_obj *this, char direction);	
 	
 };
 
@@ -25,31 +26,34 @@ struct s_player
 {
 	t_vtr		pos;
 	int 		lives;
+	char 		type;
 	void		(*damage)(t_obj *this);
 	void		(*update)(t_obj *this);
 	bool		(*collision)(t_obj *this, t_obj *target);
-	void 		*(*get_texture)(t_obj *this, t_direct d);
-	t_direct	direct;
+	void 		*(*get_texture)(t_obj *this, char direction);
+	char 		direction;
 };
 
 struct s_enemy
 {
 	t_vtr		pos;
 	int 		lives;
+	char 		type;
 	void		(*damage)(t_obj *this);
 	void		(*update)(t_obj *this);
 	bool		(*collision)(t_obj *this, t_obj *target);
-	void 		*(*get_texture)(t_obj *this, t_direct d);
+	void 		*(*get_texture)(t_obj *this, char direction);
 };
 
 struct s_wall
 {
 	t_vtr		pos;
 	int 		lives;
+	char 		type;
 	void		(*damage)(t_obj *this);
 	void		(*update)(t_obj *this);
 	bool		(*collision)(t_obj *this, t_obj *target);
-	void 		*(*get_texture)(t_obj *this, t_direct d);
+	void 		*(*get_texture)(t_obj *this, char direction);
 	bool		door;
 };
 
@@ -61,7 +65,6 @@ struct s_map
 	void 		*colors[2];
 	t_str		*minimap[5];
 	t_wall		**levels[5];
-	t_game 		*game;
 	void 		*textures[4];
 	void		(*render)(t_map*);
 	void		(*print)(t_map*, int);
