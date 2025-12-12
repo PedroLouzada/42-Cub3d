@@ -25,7 +25,9 @@ void	print_map(t_map *map);
 void	destroy_map(t_map *map);
 void	generate_map(t_map *map);
 
-//Create Objects
+//Initializors
 t_map	*create_map(int level);
+t_obj	*create_door(t_vtr pos);
+t_game	*create_game(int ac, t_str *av);
 
 #endif

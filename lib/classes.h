@@ -3,12 +3,12 @@
 
 # include "cub3d.h"
 
+typedef struct s_obj	t_obj;
 typedef struct s_map	t_map;
-typedef struct s_wall	t_door;
+typedef struct s_door	t_door;
 typedef struct s_game	t_game;
 typedef struct s_enemy	t_enemy;
 typedef struct s_player	t_player;
-typedef struct s_obj	t_obj;
 
 struct s_obj
 {
@@ -85,7 +85,5 @@ struct s_game
 	t_mlx		*mlx;
 	t_map		*map[6];
 };
-
-t_game *game_init();
 
 #endif
