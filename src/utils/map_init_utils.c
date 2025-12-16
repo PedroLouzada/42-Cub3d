@@ -50,17 +50,17 @@ void	get_map_dimension(char *str, t_game *game)
 	close(fd);
 }
 
-void	check_border(char *str, int fd)
-{
-	int	i;
+// void	check_border(char *str, int fd)
+// {
+// 	int	i;
 
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] != ' ' && str[i] != '1' && str[i] != '\n')
-			parse_exit("Map must be surrounded by walls \'1\'\n", str, fd);
-	}
-}
+// 	i = -1;
+// 	while (str[++i])
+// 	{
+// 		if (str[i] != ' ' && str[i] != '1' && str[i] != '\n')
+// 			parse_exit("Map must be surrounded by walls \'1\'\n", str, fd);
+// 	}
+// }
 
 int	check_emptyspace(char *str)
 {

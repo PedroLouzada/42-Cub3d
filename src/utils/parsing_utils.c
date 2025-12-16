@@ -15,12 +15,10 @@ void	clear_image(t_game *game)
 	}
 }
 
-void	parse_exit(char *s, char *arg, int fd)
+void	parse_exit(t_game *game, char *s, char *arg, int fd)
 {
 	int		len;
-	t_game	*game;
 
-	game = get_game_addr(NULL);
 	len = ft_strlen(s);
 	write(2, "Error\n", 6);
 	write(2, s, len);
@@ -63,13 +61,13 @@ int	check_map_len(char *str)
 	return (1);
 }
 
-void	check_sintax(char *str)
-{
-	char *tail;
+// void	check_sintax(char *str)
+// {
+// 	char *tail;
 
-	tail = ft_strrchr(str, '.');
-	if (!tail || ft_strncmp(tail, ".cub", 5))
-		parse_exit("Map must end with .cub\n", NULL, -1);
-	if (!check_map_len(str))
-		parse_exit("Map must have more than .cub\n", NULL, -1);
-}
+// 	tail = ft_strrchr(str, '.');
+// 	if (!tail || ft_strncmp(tail, ".cub", 5))
+// 		parse_exit("Map must end with .cub\n", NULL, -1);
+// 	if (!check_map_len(str))
+// 		parse_exit("Map must have more than .cub\n", NULL, -1);
+// }

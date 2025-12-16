@@ -2,19 +2,22 @@
 
 void	clear_image(t_game *game);
 
+t_game	*game(void)
+{
+	static t_game	game;
+
+	return (&game);
+}
+
 int	main(int ac, char **av)
 {
-	t_game 	*game;
-
-    game = game_init();
+    init_game(game(), ac, av);
 	if (ac == 1)
 	{
 		init_rand();
 		for (int i = 1; i < 6; ++i) {
-			game->map[i] = create_map(i);
-			game->map[i]->generate(game->map[i]);
-			game->map[i]->print(game->map[i]);
-			game->map[i]->destroy(game->map[i]);
+			game()->map[i] = create_map(i);
+			game()->map[i]->destroy(game()->map[i]);
 		}
 		return (0);
 	}

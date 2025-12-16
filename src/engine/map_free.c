@@ -6,7 +6,20 @@ void	destroy_map(t_map *map)
 
 	i = -1;
 	while (++i < map->map_size.y)
-		free(map->map[i]);
-	free(map->map);
-	// free(map);
+	{
+		if (map->map[i])
+			free(map->map[i]);
+	}
+	if (map->map)
+		free(map->map);
+	i = -1;
+	while (map->objs[++i])
+	{
+		if (map->objs[i])
+			free(map->objs[i]);
+	}
+	if (map->objs)
+		free(map->objs);
+	if (map)	
+		free(map);
 }
