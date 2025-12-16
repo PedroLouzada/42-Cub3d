@@ -5,6 +5,7 @@ SRCS =  src/main.c \
 		src/parsing/map_validation.c \
 		src/objects/enemy/enemy.c \
 		src/objects/player/player.c \
+		src/objects/door/door.c \
 		src/engine/create_map.c \
 		src/engine/create_game.c \
 		src/engine/map_free.c \

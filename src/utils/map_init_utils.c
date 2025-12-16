@@ -24,44 +24,44 @@ int	get_width(char *str)
 	return (old_len);
 }
 
-void	get_map_dimention(char *str, t_game *game)
-{
-	int		width;
-	int		height;
-	int		fd;
-	char	*line;
+// void	get_map_dimention(char *str, t_game *game)
+// {
+// 	int		width;
+// 	int		height;
+// 	int		fd;
+// 	char	*line;
 
-	width = 0;
-	height = 0;
-	fd = open(str, O_RDONLY);
-	if (fd < 0)
-		parse_exit("Could not open the file\n", NULL, -1);
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		width = get_width(line);
-		height++;
-		free(line);
-	}
-	game->map->demo = ft_calloc(height, sizeof(char *));
-	game->map->demo_size.x = width;
-	game->map->demo_size.y = height;
-	close(fd);
-}
+// 	width = 0;
+// 	height = 0;
+// 	fd = open(str, O_RDONLY);
+// 	if (fd < 0)
+// 		parse_exit("Could not open the file\n", NULL, -1);
+// 	while (1)
+// 	{
+// 		line = get_next_line(fd);
+// 		if (!line)
+// 			break ;
+// 		width = get_width(line);
+// 		height++;
+// 		free(line);
+// 	}
+// 	game->map[0]->map = ft_calloc(height, sizeof(char *));
+// 	game->map[0]->map_size.x = width;
+// 	game->map[0]->map_size.y = height;
+// 	close(fd);
+// }
 
-void	check_border(char *str, int fd)
-{
-	int	i;
+// void	check_border(char *str, int fd)
+// {
+// 	int	i;
 
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] != ' ' && str[i] != '1' && str[i] != '\n')
-			parse_exit("Map must be surrounded by walls \'1\'\n", str, fd);
-	}
-}
+// 	i = -1;
+// 	while (str[++i])
+// 	{
+// 		if (str[i] != ' ' && str[i] != '1' && str[i] != '\n')
+// 			parse_exit("Map must be surrounded by walls \'1\'\n", str, fd);
+// 	}
+// }
 
 int	check_emptyspace(char *str)
 {
@@ -76,24 +76,24 @@ int	check_emptyspace(char *str)
 	return (0);
 }
 
-void	check_characters(char *str, int fd, t_map *map)
-{
-	int			i;
-	static int	n1;
-	static int	n2;
+// void	check_characters(char *str, int fd, t_map *map)
+// {
+// 	int			i;
+// 	static int	n1;
+// 	static int	n2;
 
-	i = -1;
-	if (!check_emptyspace(str))
-	{
-		n2++;
-		return ;
-	}
-	if (!n1 || n1 + n2 == map->demo_size.y - 1)
-		check_border(str, fd);
-	while (str[++i])
-	{
-		if (!is_valid_char(str[i]))
-			parse_exit("Map must only contain the specified characters\n", str, fd);
-	}
-	n1++;
-}
+// 	i = -1;
+// 	if (!check_emptyspace(str))
+// 	{
+// 		n2++;
+// 		return ;
+// 	}
+// 	if (!n1 || n1 + n2 == map->map_size.y - 1)
+// 		check_border(str, fd);
+// 	while (str[++i])
+// 	{
+// 		if (!is_valid_char(str[i]))
+// 			parse_exit("Map must only contain the specified characters\n", str, fd);
+// 	}
+// 	n1++;
+// }

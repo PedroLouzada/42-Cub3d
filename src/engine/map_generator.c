@@ -19,31 +19,46 @@ void	print_map(t_map *map)
 
 	file = get_file(map->level);
 	if (!file)
-		return ;
+		return (map->destroy(map));
 	data[2] = open(file, O_CREAT | O_RDWR | O_TRUNC, PERMISSIONS);
 	if (data[2] < 0)
-		return ;
+		return (map->destroy(map));
 	data[0] = -1;
 	while (++data[0] < map->map_size.y)
 	{
 		data[1] = -1;
 		while (++data[1] < map->map_size.x)
-			dprintf(data[2], "%c", map->map[data[0]][data[1]]);
-		dprintf(data[2], "\n");
+			write(data[2], &map->map[data[0]][data[1]], 1);
+		write(data[2], "\n", 1);
 	}
 	close(data[2]);
 }
 
-void	move_in_path(t_vtr range, t_vtr *pos, int direction)
+void	generate_doors(t_map *map)
 {
-	if (direction == NORTH && in_range(range, pos->x, pos->y + 1))
-		pos->y++;
-	if (direction == EAST && in_range(range, pos->x + 1, pos->y))
-		pos->x++;
-	if (direction == WEST && in_range(range, pos->x - 1, pos->y))
-		pos->x--;
-	if (direction == SOUTH && in_range(range, pos->x, pos->y - 1))
-		pos->y--;
+	t_vtr	pos;
+	int		data[2];
+
+	data[0] = MIN_DOORS + rand() % (MAX_DOORS - MIN_DOORS + 1);
+	map->objs = ft_calloc(data[0] + 3, sizeof(t_obj));
+	if (!map->objs)
+		return (map->destroy(map));
+	data[1] = 1;
+	while (data[0])
+	{
+		pos = rand_pos(map->map_size);
+		if (valid_door(map->map, pos))
+		{
+			map->objs[++data[1]] = create_door(pos);
+			if (!map->objs[data[1]])
+			{
+				while (data[1]-- > 1)
+					free(map->objs[data[1]]);
+				return (map->destroy(map));
+			}
+			data[0]--;
+		}
+	}
 }
 
 void	generate_path(t_map *map, int direction)
@@ -68,11 +83,11 @@ void	generate_path(t_map *map, int direction)
 
 void	generate_map(t_map *map)
 {
-	int		data[4];
+	int		data[3];
 
 	map->map = ft_calloc(map->map_size.y + 1, sizeof(t_str));
 	if (!map->map)
-		return ;
+		return (map->destroy(map));
 	data[0] = -1;
 	while (++data[0] < map->map_size.y)
 	{
@@ -81,7 +96,7 @@ void	generate_map(t_map *map)
 		{
 			while (data[0]--)
 				free(map->map[data[0]]);
-			return ;
+			return (map->destroy(map));
 		}
 		data[1] = -1;
 		while (++data[1] < map->map_size.x)
@@ -90,4 +105,5 @@ void	generate_map(t_map *map)
 	data[2] = MIN_PATHS + rand() % (MAX_PATHS - MIN_PATHS + 1);
 	while (data[2]--)
 		generate_path(map, NORTH + rand() % (SOUTH - NORTH + 1));
+	generate_doors(map);
 }

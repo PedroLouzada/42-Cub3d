@@ -7,15 +7,18 @@ void	run(t_game *game)
 	mlx_loop(game->mlx->mlx);
 }
 
-t_game	*create_game(int ac, t_str *av)
+void	init_game(t_game *game, int ac, t_str *av)
 {
-	t_game *game;
+	t_mlx	*mlx;
 
-	game = ft_calloc(1, sizeof(t_game));
-	game->mlx = calloc(1, sizeof(t_mlx));
-	game->mlx->mlx = mlx_init();
-	if (!game->mlx)
-		parse_exit(MLX_ERR, NULL, -1);
-	parsing(game, ac, av);
-	return (game);
+	(void)ac;
+	(void)av;
+	mlx->mlx = mlx_init();
+	if (!mlx)
+		return (fprintf(stderr, MLX_ERR), free(game), NULL);
+	mlx->win = mlx_new_window(mlx->mlx, WIN_WIDTH, WIN_HEIGHT, TITLE);
+	game->mlx = mlx;
+	// parsing(game, ac, av);
 }
+
+//fazer função para dar handle aos erros do mlx
