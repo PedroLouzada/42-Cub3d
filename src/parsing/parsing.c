@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-void	map_validation(char *str, int *d, t_game *game);
+void	map_validation(char *str, int *d);
 void	check_sintax(char *str);
 
 void change_door(char **map, t_vtr size)
@@ -14,8 +14,8 @@ void change_door(char **map, t_vtr size)
 		x = 0;
 		while (x < size.x)
 		{
-			if (map[y][x] == 'D')
-				map[y][x] == '0';
+			if (map[y] && map[y][x] && map[y][x] == 'D')
+				map[y][x] = '0';
 			x++;
 		}
 		y++;
@@ -28,24 +28,23 @@ void init_doors(t_map *map, int d)
 	change_door(map->map, map->map_size);
 }
 
-void printDoublePointer(int **ptr, int rows, int cols) {
-    for(int i = 0; i < rows; i++) {
-        for(int j = 0; j < cols; j++) {
-            printf("%d ", ptr[i][j]);  // acessa o valor no ponteiro duplo
-        }
-        printf("\n");
+void imprimir_char_duplo(char **strings) {
+    if (strings == NULL) return;
+
+    for (int i = 0; strings[i] != NULL; i++) {
+        printf("%s\n", strings[i]);
     }
 }
 
-void	parsing(t_game *game, int ac, char **av)
+void	parsing(int ac, char **av)
 {
 	int d;
 	(void)ac;
 	// if (ac != 2)
 	// 	parse_exit("Expected <fileName> <map.cub>\n", NULL, -1);
 	check_sintax(av[1]);
-	map_validation(av[1], &d, game);
-	init_doors(game->map[0], d);
-	print_map(game->map[0]->map);
+	map_validation(av[1], &d);
+	init_doors(game()->map[0], d);
+	imprimir_char_duplo(game()->map[0]->map);
 	return ;
 }

@@ -38,6 +38,7 @@ t_map	*create_map(int level)
 	map->destroy = destroy_map;
 	map->minimap = draw_minimap;
 	generate_map(map);
-	print_map(map);
+	if (level)
+		print_map(map);
 	return (map);
 }

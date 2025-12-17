@@ -64,8 +64,8 @@ re: fclean
 	@make --no-print-directory
 
 r:
-	make re && clear && ./cub3D maps/a.cub
+	make re && clear && ./cub3d a.cub
 v:
-	make re && clear && valgrind --leak-check=full ./cub3D maps/a.cub
+	make re && clear && valgrind --leak-check-leak=full ./cub3d
 
 .PHONY: all mlx clean fclean re r v

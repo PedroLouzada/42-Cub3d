@@ -21,13 +21,6 @@ int	main(int ac, char **av)
 		mlx_put_image_to_window(game()->mlx->mlx, game()->mlx->win, game()->mlx->img, 0 , 0);
 		mlx_loop(game()->mlx->mlx);
 		return (0);
-	}
-    
-// 	// dar handle direito depois
-// 	clear_image(game);
-// 	free_double(game->map[0]->map);
-// 	free(game->map);
-// 	mlx_destroy_display(game->mlx->mlx);
-// 	free(game->mlx->mlx);
-// 	free(game->mlx);
+	}  
+	parsing(ac, av);
 }

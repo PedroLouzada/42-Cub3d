@@ -19,8 +19,8 @@
 
 //========================== PARSING =====================
 
-void    parsing(t_game *game, int ac, char **av);
-// void	parse_exit(t_game *game, char *s, char *arg, int fd);
+void    parsing(int ac, char **av);
+void	parse_exit(char *s, char *arg, int fd);
 
 //=========================== UTILS ======================
 
@@ -31,6 +31,5 @@ int		ft_isempty(char c);
 size_t	ft_strlcpy(char *dest, char *src, size_t size);
 int		ft_strncmp(const char *str1, const char *str2, size_t n);
 void	free_double(char **str);
-t_game  *get_game_addr(t_game *src);
 
 #endif

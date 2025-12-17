@@ -3,19 +3,19 @@
 int		ft_strncmp(const char *str1, const char *str2, size_t n);
 int		ft_isdigit(int c);
 
-void	clear_image(t_game *game)
+void	clear_image(void)
 {
 	int	i;
 
 	i = -1;
 	while (++i < 4)
 	{
-		if (game->map[0]->textures[i])
-			mlx_destroy_image(game->mlx->mlx, game->map[0]->textures[i]);
+		if (game()->map[0]->textures[i])
+			mlx_destroy_image(game()->mlx->mlx, game()->map[0]->textures[i]);
 	}
 }
 
-void	parse_exit(t_game *game, char *s, char *arg, int fd)
+void	parse_exit(char *s, char *arg, int fd)
 {
 	int		len;
 
@@ -23,11 +23,11 @@ void	parse_exit(t_game *game, char *s, char *arg, int fd)
 	write(2, "Error\n", 6);
 	write(2, s, len);
 	free(arg);
-	clear_image(game);
-	free_double(game->map[0]->map);
-	free(game->map);
-	mlx_destroy_display(game->mlx->mlx);
-	free(game->mlx->mlx);
+	clear_image();
+	free_double(game()->map[0]->map);
+	free(game()->map);
+	mlx_destroy_display(game()->mlx->mlx);
+	free(game()->mlx->mlx);
 	if (fd > 0)
 		close(fd);
 	exit(1);
@@ -61,13 +61,13 @@ int	check_map_len(char *str)
 	return (1);
 }
 
-// void	check_sintax(char *str)
-// {
-// 	char *tail;
+void	check_sintax(char *str)
+{
+	char *tail;
 
-// 	tail = ft_strrchr(str, '.');
-// 	if (!tail || ft_strncmp(tail, ".cub", 5))
-// 		parse_exit("Map must end with .cub\n", NULL, -1);
-// 	if (!check_map_len(str))
-// 		parse_exit("Map must have more than .cub\n", NULL, -1);
-// }
+	tail = ft_strrchr(str, '.');
+	if (!tail || ft_strncmp(tail, ".cub", 5))
+		parse_exit("Map must end with .cub\n", NULL, -1);
+	if (!check_map_len(str))
+		parse_exit("Map must have more than .cub\n", NULL, -1);
+}

@@ -24,7 +24,7 @@ int	get_width(char *str)
 	return (old_len);
 }
 
-void	get_map_dimension(char *str, t_game *game)
+void	get_map_dimension(char *str)
 {
 	t_vtr	dim;
 	int		fd;
@@ -44,23 +44,23 @@ void	get_map_dimension(char *str, t_game *game)
 		dim.y++;
 		free(line);
 	}
-	game->map[0] = create_map(0);
-	game->map[0]->map_size = dim;
-	game->map[0]->map = calloc(game->map[0]->map_size.y, sizeof(char *));
+	game()->map[0] = create_map(0);
+	game()->map[0]->map_size = dim;
+	game()->map[0]->map = calloc(game()->map[0]->map_size.y, sizeof(char *));
 	close(fd);
 }
 
-// void	check_border(char *str, int fd)
-// {
-// 	int	i;
+void	check_border(char *str, int fd)
+{
+	int	i;
 
-// 	i = -1;
-// 	while (str[++i])
-// 	{
-// 		if (str[i] != ' ' && str[i] != '1' && str[i] != '\n')
-// 			parse_exit("Map must be surrounded by walls \'1\'\n", str, fd);
-// 	}
-// }
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] != ' ' && str[i] != '1' && str[i] != '\n')
+			parse_exit("Map must be surrounded by walls \'1\'\n", str, fd);
+	}
+}
 
 int	check_emptyspace(char *str)
 {
