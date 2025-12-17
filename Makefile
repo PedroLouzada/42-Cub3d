@@ -17,6 +17,9 @@ SRCS =  src/main.c \
 		src/utils/string_utils2.c \
 		src/utils/map_init_utils.c \
 		src/utils/map_utils.c \
+		src/utils/map_utils2.c \
+		src/utils/draw_utils.c \
+		src/utils/math_utils.c \
 		src/utils/rand_utils.c \
 		src/utils/libft_utils.c \
 		src/utils/time_utils.c \
