@@ -47,7 +47,7 @@ void	generate_doors(t_map *map)
 	while (data[0])
 	{
 		pos = rand_pos(map->map_size);
-		if (valid_door(map->map, pos))
+		if (valid_door(map, pos))
 		{
 			map->objs[++data[1]] = create_door(pos);
 			if (!map->objs[data[1]])
