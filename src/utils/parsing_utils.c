@@ -10,24 +10,28 @@ void	clear_image(void)
 	i = -1;
 	while (++i < 4)
 	{
-		if (game()->map[0]->textures[i])
+		if (game()->map[0] && game()->map[0]->textures[i])
 			mlx_destroy_image(game()->mlx->mlx, game()->map[0]->textures[i]);
 	}
 }
 
-void	parse_exit(char *s, char *arg, int fd)
+void	parse_exit(char *s, char *arg, int fd, bool map)
 {
-	int		len;
+	int	len;
 
 	len = ft_strlen(s);
 	write(2, "Error\n", 6);
 	write(2, s, len);
 	free(arg);
-	clear_image();
-	free_double(game()->map[0]->map);
-	free(game()->map);
+	if (map)
+	{
+		clear_image();
+		free_double(game()->map[0]->map);
+		free(game()->map[0]);
+	}
 	mlx_destroy_display(game()->mlx->mlx);
 	free(game()->mlx->mlx);
+	free(game()->mlx);
 	if (fd > 0)
 		close(fd);
 	exit(1);
@@ -67,7 +71,7 @@ void	check_sintax(char *str)
 
 	tail = ft_strrchr(str, '.');
 	if (!tail || ft_strncmp(tail, ".cub", 5))
-		parse_exit("Map must end with .cub\n", NULL, -1);
+		parse_exit("Map must end with .cub\n", NULL, -1, 0);
 	if (!check_map_len(str))
-		parse_exit("Map must have more than .cub\n", NULL, -1);
+		parse_exit("Map must have more than .cub\n", NULL, -1, 0);
 }

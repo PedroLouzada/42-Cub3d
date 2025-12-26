@@ -49,7 +49,7 @@ char	**copy_map(t_map *src)
 	i = -1;
 	copy = ft_calloc(src->map_size.y + 1, sizeof(char *));
 	if (!copy)
-		parse_exit("Memory allocation\n", NULL, -1);
+		parse_exit("Memory allocation\n", NULL, -1, 1);
 	while (src->map[++i])
 		copy[i] = ft_strdup_newline(src->map[i]);
 	copy[i] = NULL;
@@ -83,13 +83,13 @@ int	get_pos(int *pos, char **map)
 
 void	flood_fill(char **map, int x, int y, int *pos)
 {
-	if (map[y][x] == '.' || map[y][x] == '1')
-		return ;
-	if (!map[y][x] || map[y][x] == ' ' || map[y][x] == '\n')
+	if (!map || !map[y] || !map[y][x] || map[y][x] == ' ' || map[y][x] == '\n')
 	{
 		free_double(map);
-		parse_exit("Map ust be closed by walls\'1\'\n", NULL, -1);
+		parse_exit("Map must be closed by walls \'1\'\n", NULL, -1, 1);
 	}
+	if (map[y][x] == '.' || map[y][x] == '1')
+		return ;
 	map[y][x] = '.';
 	flood_fill(map, x + 1, y, pos);
 	flood_fill(map, x - 1, y, pos);
@@ -108,7 +108,7 @@ void	map_validation(char *str, int *d)
 	get_map_dimension(str);
 	fd = open(str, O_RDONLY);
 	if (fd == -1)
-		parse_exit("Could not open the file\n", NULL, -1);
+		parse_exit("Could not open the file\n", NULL, -1, 1);
 	check_map_content(fd, d);
 	copy = copy_map(game()->map[0]);
 	get_pos(pos, copy);

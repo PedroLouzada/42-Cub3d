@@ -34,7 +34,7 @@ void	get_map_dimension(char *str)
 	dim.y = 0;
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
-		parse_exit("Could not open the file\n", NULL, -1);
+		parse_exit("Could not open the file\n", NULL, -1, 0);
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -58,7 +58,7 @@ void	check_border(char *str, int fd)
 	while (str[++i])
 	{
 		if (str[i] != ' ' && str[i] != '1' && str[i] != '\n')
-			parse_exit("Map must be surrounded by walls \'1\'\n", str, fd);
+			parse_exit("Map must be surrounded by walls \'1\'\n", str, fd, 0);
 	}
 }
 
@@ -95,7 +95,7 @@ void	check_characters(char *str, int fd, int *d, t_map *map)
 			d++;
 		if (!is_valid_char(str[i]))
 			parse_exit("Map must only contain the specified characters\n", str,
-				fd);
+				fd, 1);
 	}
 	n1++;
 }

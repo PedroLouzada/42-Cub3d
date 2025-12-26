@@ -19,8 +19,8 @@
 
 //========================== PARSING =====================
 
-void    parsing(int ac, char **av);
-void	parse_exit(char *s, char *arg, int fd);
+void    parsing(char **av);
+void	parse_exit(char *s, char *arg, int fd, bool map);
 
 //=========================== UTILS ======================
 

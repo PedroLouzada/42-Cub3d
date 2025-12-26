@@ -28,13 +28,13 @@ void	open_path(char *root, char *str, int fd, int n)
 	str = get_path(str);
 	spr_fd = open(str, O_RDONLY);
 	if (spr_fd < 0)
-		parse_exit("Texture path not valid\n", root, fd);
+		parse_exit("Texture path not valid\n", root, fd, 1);
 	close(spr_fd);
 	if (game()->map[0]->textures[n])
-		parse_exit("Double definition on wall texture\n", root, fd);
+		parse_exit("Double definition on wall texture\n", root, fd, 1);
 	game()->map[0]->textures[n] = mlx_xpm_file_to_image(game()->mlx->mlx, str, &x, &y);
 	if (!game()->map[0]->textures[n])
-		parse_exit("Xpm file not valid\n", root, fd);
+		parse_exit("Xpm file not valid\n", root, fd, 1);
 }
 
 void	check_textures(char *root, char *str, int fd)
@@ -54,13 +54,13 @@ void	check_colors(char *root, char *str, int fd, t_map *map)
 	if (str[0] == 'C')
 	{
 		if (map->colors[0])
-			parse_exit("Double ceiling \'C\' definition:\n", root, fd);
+			parse_exit("Double ceiling \'C\' definition:\n", root, fd, 1);
 		map->colors[0] = str;
 	}
 	else if (str[0] == 'F')
 	{
 		if (map->colors[1])
-			parse_exit("Double ceiling \'F\' definition:\n", root, fd);
+			parse_exit("Double ceiling \'F\' definition:\n", root, fd, 1);
 		map->colors[1] = str;
 	}
 }
