@@ -1,8 +1,6 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
-# include "cub3d.h"
-
 # define NORTH 1
 # define EAST 2
 # define WEST 3

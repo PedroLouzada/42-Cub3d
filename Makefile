@@ -9,6 +9,7 @@ SRCS =  src/main.c \
 		src/engine/create_map.c \
 		src/engine/create_game.c \
 		src/engine/map_free.c \
+		src/engine/mouse_hooks.c \
 		src/engine/map_generator.c \
 		src/utils/get_next_line/get_next_line.c \
 		src/utils/parsing_utils.c \
@@ -66,6 +67,6 @@ re: fclean
 r:
 	make re && clear && ./cub3D maps/a.cub
 v:
-	make re && clear && valgrind --leak-check-leak=full ./cub3D
+	make re && clear && valgrind --leak-check=full ./cub3D maps/a.cub
 
 .PHONY: all mlx clean fclean re r v

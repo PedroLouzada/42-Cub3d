@@ -2,6 +2,7 @@
 # define FUNCTIONS_H
 
 # include "cub3d.h"
+# include "types.h"
 
 //Data
 t_game	*game(void);
@@ -15,6 +16,7 @@ int		ft_min(int a, int b);
 //Draw Utils
 void	draw_tile(t_mlx *mlx, t_vtr tpos, int scale, int color);
 void	draw_circle(t_mlx *mlx, t_vtr cpos, int radius, int color);
+void	ft_pixel_put(t_mlx *mlx, int x, int y, int color);
 
 //Map Utils
 void	where_to_next(int *direction);
@@ -44,4 +46,7 @@ t_map	*create_map(int level);
 t_obj	*create_door(t_vtr pos);
 void	init_game(int ac, t_str *av);
 
+
+int mouse_press(int button, int x, int y, void *arg);
+int mouse_release(void);
 #endif

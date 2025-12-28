@@ -2,6 +2,7 @@
 # define CLASSES_H
 
 # include "cub3d.h"
+# include "types.h"
 
 typedef struct s_obj	t_obj;
 typedef struct s_map	t_map;
@@ -70,13 +71,9 @@ struct s_map
 
 typedef struct s_mlx
 {
-	int			bpp;
 	void		*mlx;
 	void		*win;
-	void		*img;
-	t_str		data;
-	int			endn;
-	int			sline;
+	t_imgs		*img;
 }	t_mlx;
 
 struct s_game
