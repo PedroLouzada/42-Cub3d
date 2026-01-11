@@ -76,10 +76,16 @@ typedef struct s_mlx
 	t_imgs		*img;
 }	t_mlx;
 
+typedef struct s_eng
+{
+	bool title;
+} t_eng;
+
 struct s_game
 {
 	t_mlx		*mlx;
 	t_map		*map[6];
+	t_eng		*eng;
 };
 
 #endif

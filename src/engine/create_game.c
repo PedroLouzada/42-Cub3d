@@ -63,6 +63,7 @@ void	titlescreen(t_mlx *mlx)
 {
 	t_imgs	*img;
 
+	game()->eng->title = true;
 	img = new_img("./assets/imgs/homescreen.xpm");
 	if (!img || !img->img)
 		parse_exit("Image Allocation\n", NULL, -1, 1);
@@ -78,7 +79,7 @@ void	titlescreen(t_mlx *mlx)
 
 void	run(void)
 {
-	mlx_hook(game()->mlx->win, 17, 0, (void *)exit, 0); // corrigir o exit();
+	mlx_hook(game()->mlx->win, 17, 0, exit_game, 0);
 	mlx_hook(game()->mlx->win, 4, 1L << 2, mouse_press, NULL);
 	titlescreen(game()->mlx);
 	mlx_loop(game()->mlx->mlx);
@@ -86,6 +87,8 @@ void	run(void)
 
 void	init_game(int ac, t_str *av)
 {
+	static t_eng eng;
+
 	if (ac != 2)
 	{
 		fprintf(stderr, "Error\nExpected <fileName> <map.cub>\n");
@@ -99,6 +102,7 @@ void	init_game(int ac, t_str *av)
 	game()->mlx->win = mlx_new_window(game()->mlx->mlx, WIN_WIDTH, WIN_HEIGHT,
 			TITLE);
 	game()->mlx->img = new_img(NULL);
+	game()->eng = &eng;
 	run();
 }
 

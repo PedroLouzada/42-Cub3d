@@ -1,7 +1,5 @@
 #include "cub3d.h"
 
-void	clear_image(void);
-
 t_game	*game(void)
 {
 	static t_game	game;
@@ -22,13 +20,4 @@ int	main(int ac, char **av)
 		mlx_loop(game()->mlx->mlx);
 		return (0);
 	}
-	clear_image();
-	int i = 0;
-	free_double(game()->map[0]->map);
-	free(game()->map[0]->objs);
-	while (game()->map[i])
-		free(game()->map[i++]);
-	mlx_destroy_display(game()->mlx->mlx);
-	free(game()->mlx->mlx);
-	free(game()->mlx);
 }

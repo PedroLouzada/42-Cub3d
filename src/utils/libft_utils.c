@@ -47,3 +47,21 @@ t_str	ft_joinstr(t_str s1, t_str s2)
 	ft_memcpy((str + ft_strlen(s1)), s2, ft_strlen(s2));
 	return (str);
 }
+
+int exit_game()
+{
+	int i;
+
+	i = 0;
+	clear_image();
+	mlx_destroy_window(game()->mlx->mlx, game()->mlx->win);
+	free_double(game()->map[0]->map);
+	free(game()->map[0]->objs);
+	while (game()->map[i])
+		free(game()->map[i++]);
+	mlx_destroy_display(game()->mlx->mlx);
+	free(game()->mlx->mlx);
+	free(game()->mlx);
+	exit(0);
+	return (0);
+}

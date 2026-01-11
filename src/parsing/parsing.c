@@ -40,10 +40,11 @@ void	imprimir_char_duplo(char **strings)
 
 void	parsing(char **av)
 {
-	int	d;
+	int	*d;
 
+	d = 0;
 	check_sintax(av[1]);
-	map_validation(av[1], &d);
-	init_doors(game()->map[0], d);
+	map_validation(av[1], d);
+	init_doors(game()->map[0], *d);
 	return ;
 }

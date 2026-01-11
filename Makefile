@@ -67,6 +67,6 @@ re: fclean
 r:
 	make re && clear && ./cub3D maps/a.cub
 v:
-	make re && clear && valgrind --leak-check=full ./cub3D maps/a.cub
+	make re && clear && valgrind --leak-check=full --show-leak-kinds=all ./cub3D maps/a.cub
 
 .PHONY: all mlx clean fclean re r v
