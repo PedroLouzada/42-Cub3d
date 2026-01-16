@@ -6,6 +6,8 @@ void	ft_pixel_put(t_mlx *mlx, int x, int y, int color)
 
 	if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
 		return ;
+	if (color == 16711935)
+		return ;
 	pixel = mlx->img->addr + (y * mlx->img->sline + x * (mlx->img->bpp / 8));
 	*(unsigned int *)pixel = color;
 }

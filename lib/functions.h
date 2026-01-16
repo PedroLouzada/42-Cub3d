@@ -50,5 +50,7 @@ void	init_game(int ac, t_str *av);
 int mouse_press(int button, int x, int y, void *arg);
 int exit_game(void);
 void	clear_image(void);
+int mouse_move(int x, int y, void *arg);
+void	draw_img(t_imgs *img, int px, int py);
 
 #endif
