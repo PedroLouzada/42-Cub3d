@@ -37,9 +37,15 @@ void	parse_exit(char *s, char *arg, int fd, bool map)
 		free_double(game()->map[0]->map);
 		free(game()->map[0]);
 	}
-	mlx_destroy_display(game()->mlx->mlx);
-	free(game()->mlx->mlx);
-	free(game()->mlx);
+	if (game()->mlx)
+	{
+		if (game()->mlx->mlx)
+		{
+			mlx_destroy_display(game()->mlx->mlx);
+			free(game()->mlx->mlx);
+		}
+		free(game()->mlx);
+	}
 	if (fd > 0)
 		close(fd);
 	exit(1);

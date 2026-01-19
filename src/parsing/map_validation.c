@@ -35,7 +35,9 @@ void	check_map_content(int fd, int *d)
 		if (check_header(line, fd) || empty_line(line))
 			continue ;
 		check_characters(line, fd, d, game()->map[0]);
-		game()->map[0]->map[i++] = ft_strdup_newline(line);
+		game()->map[0]->map[i] = ft_strdup_newline(line);
+		if (!game()->map[0]->map[i++])
+			parse_exit("Memory Allocation\n", line, fd, 1);
 	}
 	game()->map[0]->map[i] = NULL;
 	close(fd);
@@ -49,9 +51,16 @@ char	**copy_map(t_map *src)
 	i = -1;
 	copy = ft_calloc(src->map_size.y + 1, sizeof(char *));
 	if (!copy)
-		parse_exit("Memory allocation\n", NULL, -1, 1);
+		parse_exit("Memory Allocation\n", NULL, -1, 1);
 	while (src->map[++i])
+	{
 		copy[i] = ft_strdup_newline(src->map[i]);
+		if (!copy[i])
+		{
+			free_double(copy);
+			parse_exit("Memory Allocation\n", NULL, -1, 1);
+		}
+	}
 	copy[i] = NULL;
 	return (copy);
 }
@@ -106,8 +115,10 @@ void	map_validation(char *str, int *d)
 	char	**copy;
 
 	get_map_dimension(str);
+	if (!game()->map[0]->map)
+		parse_exit("Memory Allocation\n", NULL, -1, 1);
 	fd = open(str, O_RDONLY);
-	if (fd == -1)
+	if (fd < 0)
 		parse_exit("Could not open the file\n", NULL, -1, 1);
 	check_map_content(fd, d);
 	copy = copy_map(game()->map[0]);

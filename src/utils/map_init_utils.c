@@ -26,11 +26,10 @@ int	get_width(char *str)
 
 void	get_map_dimension(char *str)
 {
-	t_vtr	dim;
+	static t_vtr	dim; // testar melhor o vetor ser estatico
 	int		fd;
 	char	*line;
 
-	dim.x = 0;
 	dim.y = 0;
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
@@ -41,10 +40,14 @@ void	get_map_dimension(char *str)
 		if (!line)
 			break ;
 		dim.x = get_width(line);
+		if (dim.x == -1)
+			parse_exit("Memory Allocation\n", line, fd, 0);
 		dim.y++;
 		free(line);
 	}
-	game()->map[0] = create_map(0);
+	if (!dim.y)
+		parse_exit("Map should have more than 1 line\n", NULL, fd, 0);
+	game()->map[0] = create_map(0, fd);
 	game()->map[0]->map_size = dim;
 	game()->map[0]->map = calloc(game()->map[0]->map_size.y, sizeof(char *));
 	close(fd);
@@ -58,7 +61,7 @@ void	check_border(char *str, int fd)
 	while (str[++i])
 	{
 		if (str[i] != ' ' && str[i] != '1' && str[i] != '\n')
-			parse_exit("Map must be surrounded by walls \'1\'\n", str, fd, 0);
+			parse_exit("Map must be surrounded by walls \'1\'\n", str, fd, 1);
 	}
 }
 

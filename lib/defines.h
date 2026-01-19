@@ -1,6 +1,7 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
+# define ESC 65307
 # define NORTH 1
 # define EAST 2
 # define WEST 3

@@ -48,10 +48,12 @@ t_str	ft_joinstr(t_str s1, t_str s2)
 	return (str);
 }
 
-int exit_game()
+int exit_game(char *str)
 {
 	int i;
 
+	if (str)
+		write(2, str, ft_strlen(str));
 	i = 0;
 	clear_image();
 	mlx_destroy_window(game()->mlx->mlx, game()->mlx->win);

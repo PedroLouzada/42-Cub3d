@@ -1,5 +1,6 @@
 
 NAME = cub3D
+
 SRCS =  src/main.c \
 		src/parsing/parsing.c \
 		src/parsing/map_validation.c \
@@ -8,6 +9,9 @@ SRCS =  src/main.c \
 		src/objects/door/door.c \
 		src/engine/create_map.c \
 		src/engine/create_game.c \
+		src/engine/alloc_assets.c \
+		src/engine/movement.c \
+		src/engine/draw.c \
 		src/engine/map_free.c \
 		src/engine/mouse_hooks.c \
 		src/engine/map_generator.c \
@@ -67,6 +71,6 @@ re: fclean
 r:
 	make re && clear && ./cub3D maps/a.cub
 v:
-	make re && clear && valgrind --leak-check=full --show-leak-kinds=all ./cub3D maps/a.cub
+	make re && clear && valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all ./cub3D maps/a.cub
 
 .PHONY: all mlx clean fclean re r v

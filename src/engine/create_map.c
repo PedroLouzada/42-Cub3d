@@ -25,13 +25,13 @@ void	draw_minimap(t_map *map)
 	}
 }
 
-t_map	*create_map(int level)
+t_map	*create_map(int level, int fd)
 {
 	t_map	*map;
 
 	map = ft_calloc(1, sizeof(t_map));
 	if (!map)
-		return (NULL);
+		parse_exit("Memory Allocation\n", NULL, fd, 0);
 	map->level = level;
 	map->map_size.x = MAP_WIDTH;
 	map->map_size.y = MAP_HEIGHT;

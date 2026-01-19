@@ -25,6 +25,8 @@ void	change_door(char **map, t_vtr size)
 void	init_doors(t_map *map, int d)
 {
 	map->objs = ft_calloc(d + 3, sizeof(t_obj));
+	if (!map->objs)
+		parse_exit("Memory Allocation\n", NULL, -1, 1);
 	change_door(map->map, map->map_size);
 }
 

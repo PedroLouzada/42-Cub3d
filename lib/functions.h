@@ -42,15 +42,20 @@ void	generate_map(t_map *map);
 //Initializors
 t_obj	*create_enemy(void);
 t_obj	*create_player(void);
-t_map	*create_map(int level);
+t_map	*create_map(int level, int fd);
 t_obj	*create_door(t_vtr pos);
 void	init_game(int ac, t_str *av);
 
 
-int mouse_press(int button, int x, int y, void *arg);
-int exit_game(void);
+int     mouse_press(int button, int x, int y, void *arg);
+int     exit_game(char *str);
 void	clear_image(void);
-int mouse_move(int x, int y, void *arg);
-void	draw_img(t_imgs *img, int px, int py);
+int     mouse_move(int x, int y, void *arg);
+void    draw_screen(t_mlx *mlx);
+void    ft_sleep(unsigned long time);
+void	alloc_assets(void);
+t_imgs	*new_img(char *name);
+int key_press(int key);
+int key_unpress(int key);
 
 #endif

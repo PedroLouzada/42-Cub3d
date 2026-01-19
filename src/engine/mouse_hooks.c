@@ -7,7 +7,7 @@ int mouse_press(int button, int x, int y, void *arg)
         if (game()->eng->title)
         {
             if ((x >= 240 && x <= 640) && (y >= 320 && y <= 420))
-                exit_game();
+                exit_game(NULL);
         }
     }
     (void)arg;
@@ -16,16 +16,19 @@ int mouse_press(int button, int x, int y, void *arg)
 
 int mouse_move(int x, int y, void *arg)
 {
-    t_imgs *curr;
-
     if (!game()->eng->title)
-        return (0);
+        return (1);
     if ((x >= 240 && x <= 640) && (y >= 320 && y <= 420))
+        game()->eng->in_button[0] = true;
+    else if ((x >= 240 && x <= 640) && (y >= 440 && y <= 540))
+        game()->eng->in_button[1] = true;
+    else if ((x >= 240 && x <= 640) && (y >= 560 && y <= 660))
+        game()->eng->in_button[2] = true;
+    else
     {
-        curr = game()->mlx->img;
-        while (curr->index < 5)
-            curr = curr->next;
-        draw_img(curr, 240, 320);
+        game()->eng->in_button[0] = false;
+        game()->eng->in_button[1] = false;
+        game()->eng->in_button[2] = false;
     }
     (void)arg;
     return (0);
