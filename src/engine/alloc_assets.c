@@ -58,5 +58,14 @@ void	alloc_assets(void)
 	img = new_img("./assets/imgs/border_butt.xpm");
 	if (!img || !img->img)
 		exit_game("Error\nMemory Allocation\n");
-	game()->eng->title = true;
+	img = new_img("./assets/imgs/wasd_keys.xpm");
+	if (!img || !img->img)
+		exit_game("Error\nMemory Allocation\n");
+	img = new_img("./assets/imgs/arrow_keys.xpm");
+	if (!img || !img->img)
+		exit_game("Error\nMemory Allocation\n");
+	img = new_img("./assets/imgs/mouse.xpm");
+	if (!img || !img->img)
+		exit_game("Error\nMemory Allocation\n");
+	game()->eng->title[0] = true;
 }

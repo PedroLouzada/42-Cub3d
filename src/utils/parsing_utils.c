@@ -67,10 +67,9 @@ int	is_valid_char(char c)
 }
 int	check_map_len(char *str)
 {
-	int	len;
+	const int	len = ft_strlen(str);
 	int	tail;
 
-	len = ft_strlen(str);
 	if (len < 5)
 		return (0);
 	tail = len - 5;

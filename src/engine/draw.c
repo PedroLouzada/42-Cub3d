@@ -38,16 +38,32 @@ void	titlescreen(void)
 	draw_img(img, 240, 560);
 	img = img->next;
 	if (game()->eng->in_button[0])
-        draw_img(img, 240, 320);
+		draw_img(img, 240, 320);
 	if (game()->eng->in_button[1])
-        draw_img(img, 240, 440);
+		draw_img(img, 240, 440);
 	if (game()->eng->in_button[2])
-        draw_img(img, 240, 560);
+		draw_img(img, 240, 560);
 }
 
-void draw_screen(t_mlx *mlx)
+void	control_screen(void)
 {
-	if (game()->eng->title)
+	t_imgs	*img;
+
+	img = game()->mlx->img->next;
+	draw_img(img, 0, 0);
+	while (img->index < 6)
+		img = img->next;
+	draw_img(img, 320, 190);
+	img = img->next;
+	draw_img(img, 1070, 315);
+	img = img->next;
+	draw_img(img, 1270, 150);
+}
+void	draw_screen(t_mlx *mlx)
+{
+	if (game()->eng->title[0])
 		titlescreen();
+	else if (game()->eng->title[1])
+		control_screen();
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->img, 0, 0);
 }
