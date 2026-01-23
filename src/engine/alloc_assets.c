@@ -39,33 +39,21 @@ t_imgs	*new_img(char *name)
 
 void	alloc_assets(void)
 {
-	t_mlx	*mlx;
-	t_imgs	*img;
+	int				i;
+	t_imgs			*img;
+	char *const		paths[] = {"./assets/imgs/homescreen.xpm",
+		"./assets/imgs/play_butt.xpm", "./assets/imgs/tutorial_butt.xpm",
+		"./assets/imgs/controls_butt.xpm", "./assets/imgs/border_butt.xpm",
+		"./assets/imgs/wasd_keys.xpm", "./assets/imgs/arrow_keys.xpm",
+		"./assets/imgs/mouse.xpm", "./assets/imgs/back_button.xpm",
+		"./assets/imgs/back_border.xpm", NULL};
 
-	mlx = game()->mlx;
-	img = new_img("./assets/imgs/homescreen.xpm");
-	if (!img || !img->img)
-		exit_game("Error\nMemory Allocation\n");
-	img = new_img("./assets/imgs/play_butt.xpm");
-	if (!img || !img->img)
-		exit_game("Error\nMemory Allocation\n");
-	img = new_img("./assets/imgs/tutorial_butt.xpm");
-	if (!img || !img->img)
-		exit_game("Error\nMemory Allocation\n");
-	img = new_img("./assets/imgs/controls_butt.xpm");
-	if (!img || !img->img)
-		exit_game("Error\nMemory Allocation\n");
-	img = new_img("./assets/imgs/border_butt.xpm");
-	if (!img || !img->img)
-		exit_game("Error\nMemory Allocation\n");
-	img = new_img("./assets/imgs/wasd_keys.xpm");
-	if (!img || !img->img)
-		exit_game("Error\nMemory Allocation\n");
-	img = new_img("./assets/imgs/arrow_keys.xpm");
-	if (!img || !img->img)
-		exit_game("Error\nMemory Allocation\n");
-	img = new_img("./assets/imgs/mouse.xpm");
-	if (!img || !img->img)
-		exit_game("Error\nMemory Allocation\n");
+	i = 0;
+	while (paths[i])
+	{
+		img = new_img(paths[i++]);
+		if (!img || !img->img)
+			exit_game("Error\nMemory Allocation\n");
+	}
 	game()->eng->title[0] = true;
 }

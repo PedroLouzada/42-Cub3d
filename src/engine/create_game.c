@@ -3,7 +3,7 @@
 int	update(void)
 {
 	draw_screen(game()->mlx);
-	ft_sleep(33);
+	usleep(33);
 	return (0);
 }
 

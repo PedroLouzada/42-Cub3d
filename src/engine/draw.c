@@ -28,6 +28,7 @@ void	titlescreen(void)
 {
 	t_imgs	*img;
 
+	game()->eng->in_button[3] = false;
 	img = game()->mlx->img->next;
 	draw_img(img, 0, 0);
 	img = img->next;
@@ -47,17 +48,26 @@ void	titlescreen(void)
 
 void	control_screen(void)
 {
+	int		i;
 	t_imgs	*img;
 
+	i = 0;
+	while (i < 3)
+		game()->eng->in_button[i++] = false;
 	img = game()->mlx->img->next;
-	draw_img(img, 0, 0);
+	draw_img(img, 0, 0); // background
 	while (img->index < 6)
 		img = img->next;
-	draw_img(img, 320, 190);
+	draw_img(img, 320, 190); // WASD
 	img = img->next;
-	draw_img(img, 1070, 315);
+	draw_img(img, 1070, 315); // arrows
 	img = img->next;
-	draw_img(img, 1270, 150);
+	draw_img(img, 1270, 150); // mouse
+	img = img->next;
+	draw_img(img, 90, 850); // back_button
+	img = img->next;
+	if (game()->eng->in_button[3])
+		draw_img(img, 90, 850); // back_border
 }
 void	draw_screen(t_mlx *mlx)
 {

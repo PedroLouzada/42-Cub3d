@@ -52,7 +52,6 @@ int     exit_game(char *str);
 void	clear_image(void);
 int     mouse_move(int x, int y, void *arg);
 void    draw_screen(t_mlx *mlx);
-void    ft_sleep(unsigned long time);
 void	alloc_assets(void);
 t_imgs	*new_img(char *name);
 int key_press(int key);

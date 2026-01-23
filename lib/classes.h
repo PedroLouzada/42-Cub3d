@@ -80,7 +80,7 @@ typedef struct s_eng
 {
 	bool	title[2];
 	bool	key[80000];
-	int		in_button[3];
+	int		in_button[4];
 } t_eng;
 
 struct s_game
