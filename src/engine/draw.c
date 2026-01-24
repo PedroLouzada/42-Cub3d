@@ -69,11 +69,19 @@ void	control_screen(void)
 	if (game()->eng->in_button[3])
 		draw_img(img, 90, 850); // back_border
 }
+
+void game_scene(void)
+{
+	game()->map[0]->minimap(game()->map[0]);
+}
+
 void	draw_screen(t_mlx *mlx)
 {
-	if (game()->eng->title[0])
-		titlescreen();
-	else if (game()->eng->title[1])
-		control_screen();
+	// if (game()->eng->title[0])
+	// 	titlescreen();
+	// else if (game()->eng->title[1])
+	// 	control_screen();
+	// else
+		game_scene();
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->img, 0, 0);
 }

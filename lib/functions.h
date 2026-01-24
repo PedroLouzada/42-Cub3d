@@ -56,5 +56,6 @@ void	alloc_assets(void);
 t_imgs	*new_img(char *name);
 int key_press(int key);
 int key_unpress(int key);
+void	draw_minimap(t_map *map);
 
 #endif

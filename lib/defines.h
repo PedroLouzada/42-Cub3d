@@ -18,6 +18,7 @@
 # define MAP_HEIGHT 40
 # define BLACK 0x000000
 # define WHITE 0xFFFFFF
+# define RED 0xFF0000
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
 # define PERMISSIONS 0644

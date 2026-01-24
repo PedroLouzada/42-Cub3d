@@ -2,25 +2,42 @@
 
 void	draw_minimap(t_map *map)
 {	
-	t_vtr	data[3];
-	int		color;
-	int		scale;
+	// t_vtr	data[3];
+	// int		color;
+	// int		scale;
 
-	data[0].y = -1;
-	data[1].x = WIN_WIDTH / map->map_size.x;
-	data[1].y = WIN_HEIGHT / map->map_size.y;
-	scale = ft_min(data[1].x, data[1].y);
-	while (++data[0].y < map->map_size.y)
+	// data[0].y = -1;
+	// data[1].x = WIN_WIDTH / map->map_size.x;
+	// data[1].y = WIN_HEIGHT / map->map_size.y;
+	// scale = ft_min(data[1].x, data[1].y);
+	// while (++data[0].y < map->map_size.y)
+	// {
+	// 	data[0].x = -1;
+	// 	while (++data[0].x < map->map_size.x)
+	// 	{
+	// 		color = WHITE;
+	// 		if (map->map[data[0].y][data[0].x] == '1')
+	// 			color = BLACK;
+	// 		data[2].x = data[0].x * scale;
+	// 		data[2].y = data[0].y * scale;
+	// 		draw_tile(game()->mlx, data[2], scale, color);
+	// 	}
+	// }
+	int x;
+	int y = 0;
+	int color;
+
+	while (y < map->map_size.y)
 	{
-		data[0].x = -1;
-		while (++data[0].x < map->map_size.x)
+		x = 0;
+		while (x < map->map_size.x)
 		{
-			color = WHITE;
-			if (map->map[data[0].y][data[0].x] == '1')
-				color = BLACK;
-			data[2].x = data[0].x * scale;
-			data[2].y = data[0].y * scale;
-			draw_tile(game()->mlx, data[2], scale, color);
+			color = BLACK;
+			if (map->map[y][x] == '1')
+				color = WHITE;
+			else if (map->map[y][x] != '0')
+				color = RED;
+			ft_pixel_put(game()->mlx, x, y, color);
 		}
 	}
 }
