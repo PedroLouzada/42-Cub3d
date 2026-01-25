@@ -23,30 +23,41 @@ void	draw_minimap(t_map *map)
 	// 		draw_tile(game()->mlx, data[2], scale, color);
 	// 	}
 	// }
-	int x;
+	int x ,px, py;
 	int y = 0;
 	int color;
-
+	
 	while (y < map->map_size.y)
 	{
 		x = 0;
 		while (x < map->map_size.x)
 		{
 			color = BLACK;
-			if (map->map[y][x] == '1')
+			if (map->map[y] && map->map[y][x] && map->map[y][x] == '1')
 				color = WHITE;
-			else if (map->map[y][x] != '0')
-				color = RED;
-			ft_pixel_put(game()->mlx, x, y, color);
+			else if (map->map[y] && map->map[y][x] && map->map[y][x] != '0' && !ft_isempty(map->map[y][x]))
+				color = BLUE;
+			py = 0;
+			while (py < 64)
+			{
+				px = 0;
+				while (px < 64)
+				{
+					ft_pixel_put(game()->mlx, x * 64 + px, y * 64 + py, color);
+					px++;
+				}
+				py++;
+			}
+			x++;
 		}
+		y++;
 	}
 }
 
 t_map	*create_map(int level, int fd)
 {
-	t_map	*map;
+	t_map	*const map = ft_calloc(1, sizeof(t_map));
 
-	map = ft_calloc(1, sizeof(t_map));
 	if (!map)
 		parse_exit("Memory Allocation\n", NULL, fd, 0);
 	map->level = level;

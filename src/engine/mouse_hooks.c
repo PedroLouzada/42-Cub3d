@@ -7,7 +7,10 @@ int	mouse_press(int button, int x, int y, void *arg)
 		if (game()->eng->title[0])
 		{
 			if ((x >= 240 && x <= 640) && (y >= 320 && y <= 420))
-				exit_game(NULL);
+			{
+				game()->eng->title[0] = false;
+				game()->eng->title[1] = false;
+			}
 			else if ((x >= 240 && x <= 640) && (y >= 560 && y <= 660))
 			{
 				game()->eng->title[0] = false;

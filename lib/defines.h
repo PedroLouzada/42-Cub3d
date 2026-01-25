@@ -19,6 +19,7 @@
 # define BLACK 0x000000
 # define WHITE 0xFFFFFF
 # define RED 0xFF0000
+# define BLUE 0x0000FF
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
 # define PERMISSIONS 0644
