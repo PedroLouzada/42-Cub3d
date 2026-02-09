@@ -2,6 +2,9 @@
 
 int	update(void)
 {
+	t_player *player = (t_player *)game()->map[0]->objs[0];
+
+	player->update((t_obj *)player);
 	draw_screen(game()->mlx);
 	usleep(33);
 	return (0);
@@ -16,11 +19,6 @@ void	declare_hooks(t_mlx *mlx)
 	mlx_hook(mlx->win, 4, 1L << 2, mouse_press, NULL);
 	mlx_loop_hook(mlx->mlx, update, NULL);
 	mlx_loop(mlx->mlx);
-}
-
-void	run(void)
-{
-	
 }
 
 void	init_game(int ac, t_str *av)
@@ -49,7 +47,6 @@ void	init_game(int ac, t_str *av)
 	game()->eng = &eng;
 	alloc_assets();
 	declare_hooks(game()->mlx);
-	run();
 }
 
 // fazer função para dar handle aos erros do mlx

@@ -26,10 +26,10 @@ int	get_width(char *str)
 
 void	get_map_dimension(char *str)
 {
-	static t_vtr	dim; // testar melhor o vetor ser estatico
 	int		fd;
 	char	*line;
 
+	static t_vtr dim; // testar melhor o vetor ser estatico
 	dim.y = 0;
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
@@ -97,8 +97,12 @@ void	check_characters(char *str, int fd, int *d, t_map *map)
 		if (str[i] == 'D')
 			d++;
 		if (!is_valid_char(str[i]))
-			parse_exit("Map must only contain the specified characters\n", str,
-				fd, 1);
+			parse_exit("Map must contain the specified chars\n", str, fd, 1);
+		if (str[i] == 'N' || str[i] == 'E' || str[i] == 'W' || str[i] == 'S')
+		{
+			game()->map[0]->direction = str[i];
+			str[i] = 'P';
+		}
 	}
 	n1++;
 }

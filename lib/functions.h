@@ -41,7 +41,7 @@ void	generate_map(t_map *map);
 
 //Initializors
 t_obj	*create_enemy(void);
-t_obj	*create_player(void);
+t_obj	*create_player(int level);
 t_map	*create_map(int level, int fd);
 t_obj	*create_door(t_vtr pos);
 void	init_game(int ac, t_str *av);
@@ -57,5 +57,6 @@ t_imgs	*new_img(char *name);
 int key_press(int key);
 int key_unpress(int key);
 void	draw_minimap(t_map *map);
+int	get_pos(int *pos, char **map, int entity);
 
 #endif

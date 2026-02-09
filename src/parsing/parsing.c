@@ -22,22 +22,15 @@ void	change_door(char **map, t_vtr size)
 	}
 }
 
-void	init_doors(t_map *map, int d)
+void	init_objs(t_map *map, int d)
 {
 	map->objs = ft_calloc(d + 3, sizeof(t_obj));
 	if (!map->objs)
 		parse_exit("Memory Allocation\n", NULL, -1, 1);
 	change_door(map->map, map->map_size);
-}
-
-void	imprimir_char_duplo(char **strings)
-{
-	if (strings == NULL)
-		return ;
-	for (int i = 0; strings[i] != NULL; i++)
-	{
-		printf("%s\n", strings[i]);
-	}
+	map->objs[0] = create_player(0);
+	if (!map->objs)
+		parse_exit("Memory Allocation\n", NULL, -1, 1);
 }
 
 void	parsing(char **av)
@@ -47,6 +40,8 @@ void	parsing(char **av)
 	d = 0;
 	check_sintax(av[1]);
 	map_validation(av[1], d);
-	//init_doors(game()->map[0], *d);
+	init_objs(game()->map[0], *d);
 	return ;
 }
+
+//tratar dois players e info a baixo do mapa

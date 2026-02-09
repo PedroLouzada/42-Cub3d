@@ -66,18 +66,23 @@ char	**copy_map(t_map *src)
 }
 
 
-int	get_pos(int *pos, char **map)
+int	get_pos(int *pos, char **map, int entity)
 {
 	int	i;
 	int	j;
+	char c;
 
 	i = 0;
+	if (!entity)
+		c = '0';
+	else
+		c = 'P';
 	while (map[i])
 	{
 		j = 0;
 		while (map[i][j])
 		{
-			if (map[i][j] == '0')
+			if (map[i][j] == c)
 			{
 				pos[0] = j;
 				pos[1] = i;
@@ -104,7 +109,7 @@ void	flood_fill(char **map, int x, int y, int *pos)
 	flood_fill(map, x - 1, y, pos);
 	flood_fill(map, x, y + 1, pos);
 	flood_fill(map, x, y - 1, pos);
-	if (get_pos(pos, map))
+	if (get_pos(pos, map, 0))
 		flood_fill(map, pos[0], pos[1], pos);
 }
 
@@ -122,7 +127,7 @@ void	map_validation(char *str, int *d)
 		parse_exit("Could not open the file\n", NULL, -1, 1);
 	check_map_content(fd, d);
 	copy = copy_map(game()->map[0]);
-	get_pos(pos, copy);
+	get_pos(pos, copy, 0);
 	flood_fill(copy, pos[0], pos[1], pos);
 	free_double(copy);
 }

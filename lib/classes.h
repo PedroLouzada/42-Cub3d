@@ -28,11 +28,12 @@ struct s_player
 	t_vtr		pos;
 	int 		lives;
 	char 		direction; // necessario?
-	int			fov;
+	double		fov;
 	void		(*damage)(t_obj *this);
 	void		(*update)(t_obj *this);
 	bool		(*collision)(t_obj *this, t_obj *target);
 	void 		*(*get_texture)(t_obj *this, char direction);
+	void		(*rotate)(t_player *player, double angle);
 };
 
 struct s_enemy
@@ -64,6 +65,7 @@ struct s_map
 	t_obj		**objs;
 	t_vtr		map_size;
 	t_vtr		mini_size;
+	t_vtr		player_pos;
 	char		direction;
 	void 		*colors[2];
 	void 		*textures[4];

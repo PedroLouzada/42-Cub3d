@@ -2,7 +2,7 @@
 
 int	key_press(int key)
 {
-	if (key == ESC)
+	if (key == K_ESC)
 		exit_game(NULL);
     game()->eng->key[key] = true;
 	return (0);
