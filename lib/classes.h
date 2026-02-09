@@ -27,7 +27,8 @@ struct s_player
 {
 	t_vtr		pos;
 	int 		lives;
-	char 		direction;
+	char 		direction; // necessario?
+	int			fov;
 	void		(*damage)(t_obj *this);
 	void		(*update)(t_obj *this);
 	bool		(*collision)(t_obj *this, t_obj *target);
@@ -63,6 +64,7 @@ struct s_map
 	t_obj		**objs;
 	t_vtr		map_size;
 	t_vtr		mini_size;
+	char		direction;
 	void 		*colors[2];
 	void 		*textures[4];
 	void		(*minimap)(t_map*);
