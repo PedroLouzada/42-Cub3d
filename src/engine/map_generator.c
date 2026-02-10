@@ -34,76 +34,76 @@ void	print_map(t_map *map)
 	close(data[2]);
 }
 
-void	generate_doors(t_map *map)
+void	generate_objs(t_map *map)
 {
 	t_vtr	pos;
 	int		data[2];
 
-	data[0] = MIN_DOORS + rand() % (MAX_DOORS - MIN_DOORS + 1);
+	data[0] = (int)pick_range(MIN_DOORS, MAX_DOORS) + 1;
 	map->objs = ft_calloc(data[0] + 3, sizeof(t_obj));
 	if (!map->objs)
 		return (map->destroy(map));
 	data[1] = 1;
-	while (data[0])
+	while (--data[0])
 	{
 		pos = rand_pos(map->map_size);
 		if (valid_door(map, pos))
 		{
 			map->objs[++data[1]] = create_door(pos);
 			if (!map->objs[data[1]])
-			{
-				while (data[1]-- > 1)
-					free(map->objs[data[1]]);
 				return (map->destroy(map));
-			}
-			data[0]--;
 		}
 	}
+	map->objs[P] = create_player(spawn(map, '0'));
+	if (!map->objs[P])
+		return (map->destroy(map));
+	map->objs[E] = create_enemy(spawn(map, '0'));
+	if (!map->objs[E])
+		return (map->destroy(map));
 }
 
-void	generate_path(t_map *map, int direction)
+void	generate_paths(t_map *map, t_vtr pos, int paths)
 {
-	t_vtr	pos;
-	int		moves;
+	int	data[2];
 
-	moves = 0;
-	pos = rand_pos(map->map_size);
-	if (!in_range(map->map_size, pos.x, pos.y))
+	data[0] = 0;
+	data[1] = (int)pick_range(NORTH, SOUTH);
+	if (!paths)
 		return ;
-	while (map->map[pos.y][pos.x] != '0')
+	while (map->map[(int)pos.y][(int)pos.x] != '.' )
 	{
-		map->map[pos.y][pos.x] = '0';
-		check_path(map->map_size, pos, &direction);
-		move_in_path(map->map_size, &pos, direction);
-		moves++;
-		if (moves % (MIN_MOVES + rand() % (MAX_MOVES - MIN_MOVES + 1)) == 0)
-			where_to_next(&direction);
+		map->map[(int)pos.y][(int)pos.x] = '.';
+		check_path(map, pos, &data[1]);
+		move_in_path(map, &pos, data[1]);
+		data[0]++;
+		if (data[0] % (int)pick_range(MIN_MOVES, MAX_MOVES) == 0)
+			where_to_next(&data[1]);
 	}
+	generate_paths(map, rand_pos(map->map_size), --paths);
 }
 
 void	generate_map(t_map *map)
 {
-	int		data[3];
+	t_vtr	pos;
 
 	map->map = ft_calloc(map->map_size.y + 1, sizeof(t_str));
 	if (!map->map)
 		return (map->destroy(map));
-	data[0] = -1;
-	while (++data[0] < map->map_size.y)
+	pos.x = -1;
+	while (++pos.x < map->map_size.y)
 	{
-		map->map[data[0]] = ft_calloc(map->map_size.x + 1, 1);
-		if (!map->map[data[0]])
-		{
-			while (data[0]--)
-				free(map->map[data[0]]);
+		map->map[(int)pos.x] = ft_calloc(map->map_size.x + 1, 1);
+		if (!map->map[(int)pos.x])
 			return (map->destroy(map));
-		}
-		data[1] = -1;
-		while (++data[1] < map->map_size.x)
-			map->map[data[0]][data[1]] = '1';
+		pos.y = -1;
+		while (++pos.y < map->map_size.x)
+			map->map[(int)pos.x][(int)pos.y] = '1';
 	}
-	data[2] = MIN_PATHS + rand() % (MAX_PATHS - MIN_PATHS + 1);
-	while (data[2]--)
-		generate_path(map, NORTH + rand() % (SOUTH - NORTH + 1));
-	generate_doors(map);
+	generate_paths(map, rand_pos(map->map_size), pick_range(MIN_P, MAX_P));
+	pos = spawn(map, '.');
+	check_map(map, pos.x, pos.y);
+	if (!valid_map(map))
+		return (map->clean(map), generate_map(map));
+	generate_objs(map);
+	set_exit(map);
 }

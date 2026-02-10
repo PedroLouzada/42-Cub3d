@@ -1,70 +1,79 @@
 #include "cub3d.h"
 
-int		in_range(t_vtr range, int x, int y)
+int		in_range(t_map *map, int x, int y)
 {
 	int out;
 
 	out = 1;
-	if (x < 1 || x > range.x - 2)
+	if (x < 1 || x > map->map_size.x - 2)
 		out = 0;
-	if (y < 1 || y > range.y - 2)
+	if (y < 1 || y > map->map_size.y - 2)
+		out = 0;
+	if (map->map[y][x] == 'E')
 		out = 0;
 	return (out);
 }
 
-int		which_direction(int right, int left)
+int		which_direction(int right, int left, int back)
 {
 	int	which_direction;
 
-	which_direction = rand() % 2;
+	if (back)
+		which_direction = rand() % 3;
+	else
+		which_direction = rand() % 2;
 	if (which_direction == 0)
 		return (right);
 	else if (which_direction == 1)
 		return (left);
+	else if (which_direction == 2)
+		return (back);
 	return (-1);
 }
 
-void	check_path(t_vtr range, t_vtr pos, int *direction)
+void	check_path(t_map *map, t_vtr pos, int *direction)
 {
-	if (*direction == NORTH || *direction == SOUTH)
-	{
-		if (!in_range(range, pos.x, pos.y + 1) || !in_range(range, pos.x, pos.y - 1))
-			*direction = which_direction(EAST, WEST);
-	}
-	if (*direction == EAST || *direction == WEST)
-	{
-		if (!in_range(range, pos.x - 1, pos.y) || !in_range(range, pos.x + 1, pos.y))
-			*direction = which_direction(SOUTH, NORTH);
-	}
+	if (*direction == NORTH && !in_range(map, pos.x, pos.y + 1))
+			*direction = which_direction(EAST, WEST, SOUTH);
+	if (*direction == SOUTH && !in_range(map, pos.x, pos.y - 1))
+			*direction = which_direction(EAST, WEST, NORTH);
+	if (*direction == EAST && !in_range(map, pos.x + 1, pos.y))
+			*direction = which_direction(SOUTH, NORTH, WEST);
+	if (*direction == WEST && !in_range(map, pos.x - 1, pos.y))
+			*direction = which_direction(SOUTH, NORTH, EAST);
 }
 
-void	move_in_path(t_vtr range, t_vtr *pos, int direction)
+void	move_in_path(t_map *map, t_vtr *pos, int direction)
 {
-	if (direction == NORTH && in_range(range, pos->x, pos->y + 1))
+	if (direction == NORTH && in_range(map, pos->x, pos->y + 1))
 		pos->y++;
-	if (direction == EAST && in_range(range, pos->x + 1, pos->y))
+	if (direction == EAST && in_range(map, pos->x + 1, pos->y))
 		pos->x++;
-	if (direction == WEST && in_range(range, pos->x - 1, pos->y))
+	if (direction == WEST && in_range(map, pos->x - 1, pos->y))
 		pos->x--;
-	if (direction == SOUTH && in_range(range, pos->x, pos->y - 1))
+	if (direction == SOUTH && in_range(map, pos->x, pos->y - 1))
 		pos->y--;
 }
+
 bool	valid_door(t_map *map, t_vtr pos)
 {
 	int		i;
 	t_str	*cmap;
 	bool	valid;
+	int		psx[2];
 
 	i = -1;
 	valid = false;
 	cmap = map->map;
-	if (cmap[pos.y][pos.x] == '0')
+	psx[0] = (int)pos.x;
+	psx[1] = (int)pos.y;
+	if (cmap[psx[1]][psx[0]] == '0')
 	{
-		if (cmap[pos.y][pos.x + 1] == '0' && cmap[pos.y][pos.x - 1] == '0'
-		&& cmap[pos.y + 1][pos.x] == '1' && cmap[pos.y - 1][pos.x] == '1')
+		if (cmap[psx[1]][psx[0] + 1] == '0' && cmap[psx[1]][psx[0] - 1] == '0'
+		&& cmap[psx[1] + 1][psx[0]] == '1' && cmap[psx[1] - 1][psx[0]] == '1')
 			valid = true;
-		if (cmap[pos.y + 1][pos.x] == '0' && cmap[pos.y - 1][pos.x] == '0'
-		&& cmap[pos.y][pos.x + 1] == '1' && cmap[pos.y][pos.x - 1] == '1')
+		if (cmap[psx[1] + 1][psx[0]] == '0' && cmap[psx[1] - 1][psx[0]] == '0'
+		&& cmap[psx[1]][psx[0] + 1] == '1' && cmap[psx[1]][psx[0] - 1] == '1')
 			valid = true;
 		while (map->objs[++i])
 		{

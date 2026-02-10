@@ -14,12 +14,19 @@ void	destroy_map(t_map *map)
 		free(map->map);
 	i = -1;
 	while (map->objs[++i])
-	{
-		if (map->objs[i])
-			free(map->objs[i]);
-	}
+		free(map->objs[i]);
 	if (map->objs)
 		free(map->objs);
 	if (map)	
 		free(map);
+}
+
+void	clean_map(t_map *map)
+{
+	int	i;
+
+	i = -1;
+	while (map->map[++i])
+		free(map->map[i]);
+	free(map->map);
 }

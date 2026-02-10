@@ -7,8 +7,8 @@ typedef char	*t_str;
 
 typedef struct s_vtr
 {
-	int			x;
-	int			y;
+	double		x;
+	double		y;
 }				t_vtr;
 
 typedef struct s_imgs
@@ -21,5 +21,17 @@ typedef struct s_imgs
 	int 		width;
 	int 		height;
 }				t_imgs;
+
+typedef struct s_ray
+{
+	t_vtr		dir;
+	t_vtr		map;
+	t_vtr		step;
+	int			side;
+	double		perp;
+	t_vtr		sDist;
+	t_vtr		dltDist;
+}				t_ray;
+
 
 #endif

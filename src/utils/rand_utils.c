@@ -12,13 +12,13 @@ void	init_rand(void)
 t_vtr	rand_pos(t_vtr range)
 {
 	t_vtr	pos;
-	int		data[3];
+	double	data[3];
 
 	data[0] = 1;
 	data[1] = range.x - 2;
 	data[2] = range.y - 2;
-	pos.x = data[0] + rand() % (data[1] - data[0] + 1);
-	pos.y = data[0] + rand() % (data[2] - data[0] + 1);
+	pos.x = floor(pick_range(data[0], data[1]));
+	pos.y = floor(pick_range(data[0], data[2]));
 	return (pos);
 }
 
@@ -26,14 +26,29 @@ void	where_to_next(int *direction)
 {
 	int	where_to;
 
-	where_to = NORTH + rand() % (SOUTH - NORTH + 1);
+	where_to = pick_range(NORTH, SOUTH);
 	if (*direction == NORTH && where_to == SOUTH)
-		where_to = which_direction(EAST, WEST);
+		where_to = which_direction(EAST, WEST, 0);
 	else if (*direction == EAST && where_to == WEST)
-		where_to = which_direction(SOUTH, NORTH);
+		where_to = which_direction(SOUTH, NORTH, 0);
 	else if (*direction == WEST && where_to == EAST)
-		where_to = which_direction(SOUTH, NORTH);
+		where_to = which_direction(SOUTH, NORTH, 0);
 	else if (*direction == SOUTH && where_to == NORTH)
-		where_to = which_direction(EAST, WEST);
+		where_to = which_direction(EAST, WEST, 0);
 	*direction = where_to;
+}
+
+int	pick_rand(int a, int b)
+{
+	int pick;
+
+	pick = rand() % 2;
+	if (pick)
+		return (a);
+	return (b);
+}
+
+double	pick_range(double min, double max)
+{
+	return (min + ((double)rand() / RAND_MAX) * (max - min));
 }

@@ -1,11 +1,12 @@
 #include "cub3d.h"
 
-t_obj	*create_enemy(void)
+t_obj	*create_enemy(t_vtr pos)
 {
-	t_enemy	*new_enemy;
+	t_enemy	*enemy;
 
-	new_enemy = ft_calloc(1, sizeof(t_enemy));
-	if (!new_enemy)
+	enemy = ft_calloc(1, sizeof(t_enemy));
+	if (!enemy)
 		return (NULL);
-	return ((t_obj *)new_enemy);
+	enemy->pos = pos;
+	return ((t_obj *)enemy);
 }
