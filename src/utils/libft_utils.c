@@ -63,7 +63,7 @@ int exit_game(char *str)
 		free(game()->map[i++]);
 	mlx_destroy_display(game()->mlx->mlx);
 	free(game()->mlx->mlx);
-	free(game()->mlx);
+	// free(game()->mlx);
 	exit(0);
 	return (0);
 }

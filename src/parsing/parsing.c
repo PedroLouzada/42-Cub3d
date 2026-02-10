@@ -24,9 +24,9 @@ void	change_door(char **map, t_vtr size)
 
 void	init_objs(t_map *map, int d)
 {
-	map->objs = ft_calloc(d + 3, sizeof(t_obj));
+	map->objs = ft_calloc(d + 3, sizeof(t_obj *));
 	if (!map->objs)
-		parse_exit("Memory Allocation\n", NULL, -1, 1);
+		parse_exit("Memory Allocation11\n", NULL, -1, 1);
 	change_door(map->map, map->map_size);
 	map->objs[0] = create_player(0);
 	if (!map->objs)

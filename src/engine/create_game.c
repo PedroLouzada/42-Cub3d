@@ -1,10 +1,8 @@
 #include "cub3d.h"
 
-int	update(void)
+int	run(t_obj **objs)
 {
-	t_player *player = (t_player *)game()->map[0]->objs[0];
-
-	player->update((t_obj *)player);
+	objs[0]->update(objs[0]);
 	draw_screen(game()->mlx);
 	usleep(33);
 	return (0);
@@ -17,7 +15,7 @@ void	declare_hooks(t_mlx *mlx)
 	mlx_hook(mlx->win, 3, (1L << 1), key_unpress, game);
 	mlx_hook(mlx->win, 6, 1L << 6, mouse_move, NULL);
 	mlx_hook(mlx->win, 4, 1L << 2, mouse_press, NULL);
-	mlx_loop_hook(mlx->mlx, update, NULL);
+	mlx_loop_hook(mlx->mlx, run, game()->map[0]->objs);
 	mlx_loop(mlx->mlx);
 }
 

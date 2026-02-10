@@ -25,14 +25,29 @@ void	rotate(t_player *player, double angle)
 
 static void	walk(t_eng *eng, t_player *player)
 {
-	double		angle;
+	double		rad;
 	const int	speed = 1;
 
-	angle = player->fov * (M_PI / 180);
+	rad = player->fov * (M_PI / 180);
 	if (eng->key[K_W])
 	{
-		player->pos.x += cos(angle) * speed;
-		player->pos.y += sin(angle) * speed;
+		player->pos.x += cos(rad) * speed;
+		player->pos.y += sin(rad) * speed;
+	}
+	if (eng->key[K_S])
+	{
+		player->pos.x -= cos(rad) * speed;
+		player->pos.y -= sin(rad) * speed;
+	}
+	if (eng->key[K_A])
+	{
+		player->pos.x += cos(rad - M_PI_2) * speed;
+		player->pos.y += sin(rad - M_PI_2) * speed;
+	}
+	if (eng->key[K_D])
+	{
+		player->pos.x += cos(rad + M_PI_2) * speed;
+		player->pos.y += sin(rad + M_PI_2) * speed;
 	}
 }
 
@@ -53,11 +68,13 @@ void	p_update(t_obj *obj)
 
 	player = (t_player *)obj;
 	movement(player);
+	fprintf(stderr, "Player X: %d\nPlayer Y: %d\n", player->pos.x,
+		player->pos.y);
 }
 
 t_obj	*create_player(int level)
 {
-	int 		*pos;
+	int			pos[2];
 	t_player	*new_player;
 
 	new_player = ft_calloc(1, sizeof(t_player));
@@ -68,9 +85,6 @@ t_obj	*create_player(int level)
 	new_player->update = p_update;
 	get_pos(pos, game()->map[level]->map, 1);
 	new_player->pos.x = pos[0];
-	new_player->pos.x = pos[1];
-	fprintf(stderr, "X: %d", new_player->pos.x);
-	fprintf(stderr, "Y: %d", new_player->pos.y);
-	exit (0);
+	new_player->pos.y = pos[1];
 	return ((t_obj *)new_player);
 }

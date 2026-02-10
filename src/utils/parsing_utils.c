@@ -44,7 +44,7 @@ void	parse_exit(char *s, char *arg, int fd, bool map)
 			mlx_destroy_display(game()->mlx->mlx);
 			free(game()->mlx->mlx);
 		}
-		free(game()->mlx);
+		// free(game()->mlx);
 	}
 	if (fd > 0)
 		close(fd);

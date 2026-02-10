@@ -28,11 +28,11 @@ struct s_player
 	t_vtr		pos;
 	int 		lives;
 	char 		direction; // necessario?
-	double		fov;
 	void		(*damage)(t_obj *this);
 	void		(*update)(t_obj *this);
 	bool		(*collision)(t_obj *this, t_obj *target);
 	void 		*(*get_texture)(t_obj *this, char direction);
+	double		fov;
 	void		(*rotate)(t_player *player, double angle);
 };
 
