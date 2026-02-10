@@ -1,40 +1,23 @@
 #include "cub3d.h"
 
-void	clear_image(t_game *game);
-
-t_game	*get_game_addr(t_game *src)
+t_game	*game(void)
 {
-	static t_game	*game;
+	static t_game	game;
 
-	if (src)
-		game = src;
-	return (game);
+	return (&game);
 }
 
 int	main(int ac, char **av)
 {
-	t_game *game;
-
-    game = game_init();
-    get_game_addr(game);
+    init_game(ac, av);
 	if (ac == 1)
 	{
-		game->map = create_map();
 		init_rand();
-		game->map->generate(game->map);
-		game->map->print(game->map);
-		game->map->destroy(game->map);
+		for (int i = 1; i < 6; ++i)
+			game()->map[i] = create_map(i, -1);
+		game()->map[1]->minimap(game()->map[1]);
+		mlx_put_image_to_window(game()->mlx->mlx, game()->mlx->win, game()->mlx->img, 0 , 0);
+		mlx_loop(game()->mlx->mlx);
 		return (0);
 	}
-    game->map = calloc(1, sizeof(t_map));
-	game->parsing(game, ac, av);
-    game->run(game);
-    
-	// dar handle direito depois
-	clear_image(game);
-	free_double(game->map->map);
-	free(game->map);
-	mlx_destroy_display(game->mlx->mlx);
-	free(game->mlx->mlx);
-	free(game->mlx);
 }

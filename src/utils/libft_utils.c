@@ -19,3 +19,51 @@ void	*ft_calloc(size_t nm, size_t sz)
 		*data++ = '\0';
 	return (alloc);
 }
+
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{
+	char	*start;
+
+	start = dest;
+	if (!dest && !src)
+		return (NULL);
+	while (n--)
+		*(unsigned char *)dest++ = *(unsigned char *)src++;
+	return (start);
+}
+
+t_str	ft_joinstr(t_str s1, t_str s2)
+{
+	int		tln;
+	t_str	str;
+
+	if (!s1 || !s2)
+		return (NULL);
+	tln = ft_strlen(s1) + ft_strlen(s2) + 1;
+	str = ft_calloc(tln, sizeof(char));
+	if (!str)
+		return (NULL);
+	ft_memcpy(str, s1, ft_strlen(s1));
+	ft_memcpy((str + ft_strlen(s1)), s2, ft_strlen(s2));
+	return (str);
+}
+
+int exit_game(char *str)
+{
+	int i;
+
+	if (str)
+		write(2, str, ft_strlen(str));
+	i = 0;
+	clear_image();
+	mlx_destroy_window(game()->mlx->mlx, game()->mlx->win);
+	free_double(game()->map[0]->map);
+	free(game()->map[0]->objs);
+	while (game()->map[i])
+		free(game()->map[i++]);
+	mlx_destroy_display(game()->mlx->mlx);
+	free(game()->mlx->mlx);
+	// free(game()->mlx);
+	exit(0);
+	return (0);
+}

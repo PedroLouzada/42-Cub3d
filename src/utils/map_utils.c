@@ -37,3 +37,40 @@ void	check_path(t_vtr range, t_vtr pos, int *direction)
 			*direction = which_direction(SOUTH, NORTH);
 	}
 }
+
+void	move_in_path(t_vtr range, t_vtr *pos, int direction)
+{
+	if (direction == NORTH && in_range(range, pos->x, pos->y + 1))
+		pos->y++;
+	if (direction == EAST && in_range(range, pos->x + 1, pos->y))
+		pos->x++;
+	if (direction == WEST && in_range(range, pos->x - 1, pos->y))
+		pos->x--;
+	if (direction == SOUTH && in_range(range, pos->x, pos->y - 1))
+		pos->y--;
+}
+bool	valid_door(t_map *map, t_vtr pos)
+{
+	int		i;
+	t_str	*cmap;
+	bool	valid;
+
+	i = -1;
+	valid = false;
+	cmap = map->map;
+	if (cmap[pos.y][pos.x] == '0')
+	{
+		if (cmap[pos.y][pos.x + 1] == '0' && cmap[pos.y][pos.x - 1] == '0'
+		&& cmap[pos.y + 1][pos.x] == '1' && cmap[pos.y - 1][pos.x] == '1')
+			valid = true;
+		if (cmap[pos.y + 1][pos.x] == '0' && cmap[pos.y - 1][pos.x] == '0'
+		&& cmap[pos.y][pos.x + 1] == '1' && cmap[pos.y][pos.x - 1] == '1')
+			valid = true;
+		while (map->objs[++i])
+		{
+			if (map->objs[i]->pos.x == pos.x && map->objs[i]->pos.y == pos.y)
+				valid = false;
+		}
+	}
+	return (valid);
+}

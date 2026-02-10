@@ -24,30 +24,32 @@ int	get_width(char *str)
 	return (old_len);
 }
 
-void	get_map_dimention(char *str, t_game *game)
+void	get_map_dimension(char *str)
 {
-	int		width;
-	int		height;
 	int		fd;
 	char	*line;
 
-	width = 0;
-	height = 0;
+	static t_vtr dim; // testar melhor o vetor ser estatico
+	dim.y = 0;
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
-		parse_exit("Could not open the file\n", NULL, -1);
+		parse_exit("Could not open the file\n", NULL, -1, 0);
 	while (1)
 	{
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		width = get_width(line);
-		height++;
+		dim.x = get_width(line);
+		if (dim.x == -1)
+			parse_exit("Memory Allocation\n", line, fd, 0);
+		dim.y++;
 		free(line);
 	}
-	game->map->map = ft_calloc(height, sizeof(char *));
-	game->map->size.x = width;
-	game->map->size.y = height;
+	if (!dim.y)
+		parse_exit("Map should have more than 1 line\n", NULL, fd, 0);
+	game()->map[0] = create_map(0, fd);
+	game()->map[0]->map_size = dim;
+	game()->map[0]->map = calloc(game()->map[0]->map_size.y, sizeof(char *));
 	close(fd);
 }
 
@@ -59,7 +61,7 @@ void	check_border(char *str, int fd)
 	while (str[++i])
 	{
 		if (str[i] != ' ' && str[i] != '1' && str[i] != '\n')
-			parse_exit("Map must be surrounded by walls \'1\'\n", str, fd);
+			parse_exit("Map must be surrounded by walls \'1\'\n", str, fd, 1);
 	}
 }
 
@@ -76,7 +78,7 @@ int	check_emptyspace(char *str)
 	return (0);
 }
 
-void	check_characters(char *str, int fd, t_map *map)
+void	check_characters(char *str, int fd, int *d, t_map *map)
 {
 	int			i;
 	static int	n1;
@@ -88,12 +90,19 @@ void	check_characters(char *str, int fd, t_map *map)
 		n2++;
 		return ;
 	}
-	if (!n1 || n1 + n2 == map->size.y - 1)
+	if (!n1 || n1 + n2 == map->map_size.y - 1)
 		check_border(str, fd);
 	while (str[++i])
 	{
+		if (str[i] == 'D')
+			d++;
 		if (!is_valid_char(str[i]))
-			parse_exit("Map must only contain the specified characters\n", str, fd);
+			parse_exit("Map must contain the specified chars\n", str, fd, 1);
+		if (str[i] == 'N' || str[i] == 'E' || str[i] == 'W' || str[i] == 'S')
+		{
+			game()->map[0]->direction = str[i];
+			str[i] = 'P';
+		}
 	}
 	n1++;
 }

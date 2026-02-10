@@ -2,80 +2,96 @@
 # define CLASSES_H
 
 # include "cub3d.h"
+# include "types.h"
 
+typedef struct s_obj	t_obj;
 typedef struct s_map	t_map;
-typedef struct s_wall	t_wall;
+typedef struct s_door	t_door;
 typedef struct s_game	t_game;
 typedef struct s_enemy	t_enemy;
 typedef struct s_player	t_player;
 
-typedef struct s_mlx
+struct s_obj
 {
-	int			bpp;
-	void		*mlx;
-	void		*win;
-	void		*img;
-	t_str		data;
-	int			endn;
-	int			sline;
-}	t_mlx;
+	t_vtr		pos;
+	int 		lives;
+	char 		direction;
+	void		(*damage)(t_obj *this);
+	void		(*update)(t_obj *this);
+	bool		(*collision)(t_obj *this, t_obj *target);
+	void 		*(*get_texture)(t_obj *this, char direction);	
+	
+};
 
 struct s_player
 {
-	int			pos_x;
-	int 		pos_y;
+	t_vtr		pos;
 	int 		lives;
-	bool		collision;
-	char		orientation;
-	void		(*damage)(t_player*);
-	void		(*render)(t_player*);
-	void		(*move)(t_player*, int, int);
+	char 		direction; // necessario?
+	void		(*damage)(t_obj *this);
+	void		(*update)(t_obj *this);
+	bool		(*collision)(t_obj *this, t_obj *target);
+	void 		*(*get_texture)(t_obj *this, char direction);
+	double		fov;
+	void		(*rotate)(t_player *player, double angle);
 };
 
 struct s_enemy
 {
-	int			pos_x;
-	int			pos_y;
-	bool		collision;
-	void		(*render)(t_enemy*);
-	void		(*respawn)(t_enemy*);
-	void		(*move)(t_enemy*, t_vtr);
+	t_vtr		pos;
+	int 		lives;
+	char 		direction;
+	void		(*damage)(t_obj *this);
+	void		(*update)(t_obj *this);
+	bool		(*collision)(t_obj *this, t_obj *target);
+	void 		*(*get_texture)(t_obj *this, char direction);
 };
 
-struct s_wall
+struct s_door
 {
-	bool		door;
-	bool 		collision;
-	char		orientation;
-	void		(*render)(t_wall*);
+	t_vtr		pos;
+	int 		lives;
+	char 		direction;
+	void		(*damage)(t_obj *this);
+	void		(*update)(t_obj *this);
+	bool		(*collision)(t_obj *this, t_obj *target);
+	void 		*(*get_texture)(t_obj *this, char direction);
 };
 
 struct s_map
 {
 	t_str		*map;
-	t_vtr		size;
-	t_game 		*game;
-	void 		*textures[4];
+	int			level;
+	t_obj		**objs;
+	t_vtr		map_size;
+	t_vtr		mini_size;
+	t_vtr		player_pos;
+	char		direction;
 	void 		*colors[2];
-	void		(*print)(t_map*);
-	void		(*render)(t_map*);
+	void 		*textures[4];
+	void		(*minimap)(t_map*);
 	void		(*destroy)(t_map*);
-	void		(*generate)(t_map*);
-	void		(*resize)(t_map*, t_vtr);
 };
+
+typedef struct s_mlx
+{
+	void		*mlx;
+	void		*win;
+	t_imgs		*img;
+}	t_mlx;
+
+typedef struct s_eng
+{
+	bool	title[2];
+	bool	key[80000];
+	int		in_button[4];
+} t_eng;
 
 struct s_game
 {
 	t_mlx		*mlx;
-	t_map		*map;
-	t_enemy		enemy;
-	t_player	player;
-	t_wall		*walls;
-	t_map		minimap;
-	void		(*parsing)(t_game*, int, char**);
-	void		(*run)(t_game*);
+	t_map		*map[6];
+	t_eng		*eng;
 };
-
-t_game *game_init();
 
 #endif

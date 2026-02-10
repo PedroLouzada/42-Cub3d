@@ -17,7 +17,7 @@ char	*get_path(char *str)
 	return (str);
 }
 
-void	open_path(char *root, char *str, int fd, int n, t_game *game)
+void	open_path(char *root, char *str, int fd, int n)
 {
 	int	x;
 	int	y;
@@ -28,25 +28,25 @@ void	open_path(char *root, char *str, int fd, int n, t_game *game)
 	str = get_path(str);
 	spr_fd = open(str, O_RDONLY);
 	if (spr_fd < 0)
-		parse_exit("Sprite path not valid\n", root, fd);
+		parse_exit("Texture path not valid\n", root, fd, 1);
 	close(spr_fd);
-	if (game->map->textures[n])
-		parse_exit("Double definition on wall texture\n", root, fd);
-	game->map->textures[n] = mlx_xpm_file_to_image(game->mlx->mlx, str, &x, &y);
-	if (!game->map->textures[n])
-		parse_exit("Xpm file not valid\n", root, fd);
+	if (game()->map[0]->textures[n])
+		parse_exit("Double definition on wall texture\n", root, fd, 1);
+	game()->map[0]->textures[n] = mlx_xpm_file_to_image(game()->mlx->mlx, str, &x, &y);
+	if (!game()->map[0]->textures[n])
+		parse_exit("Xpm file not valid\n", root, fd, 1);
 }
 
-void	check_textures(char *root, char *str, int fd, t_game *game)
+void	check_textures(char *root, char *str, int fd)
 {
 	if (!ft_strncmp(str, "NO ", 3))
-		open_path(root, str, fd, 0, game);
+		open_path(root, str, fd, 0);
 	else if (!ft_strncmp(str, "EA ", 3))
-		open_path(root, str, fd, 1, game);
+		open_path(root, str, fd, 1);
 	else if (!ft_strncmp(str, "WE ", 3))
-		open_path(root, str, fd, 2, game);
+		open_path(root, str, fd, 2);
 	else if (!ft_strncmp(str, "SO ", 3))
-		open_path(root, str, fd, 3, game);
+		open_path(root, str, fd, 3);
 }
 
 void	check_colors(char *root, char *str, int fd, t_map *map)
@@ -54,13 +54,13 @@ void	check_colors(char *root, char *str, int fd, t_map *map)
 	if (str[0] == 'C')
 	{
 		if (map->colors[0])
-			parse_exit("Double ceiling \'C\' definition:\n", root, fd);
+			parse_exit("Double ceiling \'C\' definition:\n", root, fd, 1);
 		map->colors[0] = str;
 	}
 	else if (str[0] == 'F')
 	{
 		if (map->colors[1])
-			parse_exit("Double ceiling \'F\' definition:\n", root, fd);
+			parse_exit("Double ceiling \'F\' definition:\n", root, fd, 1);
 		map->colors[1] = str;
 	}
 }
@@ -88,17 +88,15 @@ int	all_done(t_map *map)
 	return (1);
 }
 
-int	check_header(char *line, int fd, t_game *game)
+int	check_header(char *line, int fd)
 {
-	int i;
 	char *str;
 
-	i = 0;
 	str = line;
-	if (all_done(game->map))
+	if (all_done(game()->map[0]))
 		return (0);
 	skip_spaces(&str);
-	check_textures(line, str, fd, game);
-	check_colors(line, str, fd, game->map);
+	check_textures(line, str, fd);
+	check_colors(line, str, fd, game()->map[0]);
 	return (1);
 }

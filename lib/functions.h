@@ -2,30 +2,61 @@
 # define FUNCTIONS_H
 
 # include "cub3d.h"
+# include "types.h"
+
+//Data
+t_game	*game(void);
 
 //Time Utils
 void	set_time(long *time);
 
+//Math Utils
+int		ft_min(int a, int b);
+
+//Draw Utils
+void	draw_tile(t_mlx *mlx, t_vtr tpos, int scale, int color);
+void	draw_circle(t_mlx *mlx, t_vtr cpos, int radius, int color);
+void	ft_pixel_put(t_mlx *mlx, int x, int y, int color);
+
 //Map Utils
 void	where_to_next(int *direction);
-int		which_direction(int right, int left);
+bool	valid_door(t_map *map, t_vtr pos);
 int		in_range(t_vtr range, int x, int y);
+int		which_direction(int right, int left);
 void	check_path(t_vtr range, t_vtr pos, int *direction);
+void	move_in_path(t_vtr range, t_vtr *pos, int direction);
 
 //Rand Utils
 void	init_rand(void);
 t_vtr	rand_pos(t_vtr range);
 
 //Libft Utils
+t_str	ft_joinstr(t_str s1, t_str s2);
 void	*ft_calloc(size_t nm, size_t sz);
 
 //Map Methods
 void	print_map(t_map *map);
 void	destroy_map(t_map *map);
 void	generate_map(t_map *map);
-void    render_map(t_map *map);
 
-//Create Objects
-t_map	*create_map(void);
+//Initializors
+t_obj	*create_enemy(void);
+t_obj	*create_player(int level);
+t_map	*create_map(int level, int fd);
+t_obj	*create_door(t_vtr pos);
+void	init_game(int ac, t_str *av);
+
+
+int     mouse_press(int button, int x, int y, void *arg);
+int     exit_game(char *str);
+void	clear_image(void);
+int     mouse_move(int x, int y, void *arg);
+void    draw_screen(t_mlx *mlx);
+void	alloc_assets(void);
+t_imgs	*new_img(char *name);
+int key_press(int key);
+int key_unpress(int key);
+void	draw_minimap(t_map *map);
+int	get_pos(int *pos, char **map, int entity);
 
 #endif

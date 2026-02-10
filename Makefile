@@ -1,14 +1,20 @@
 
-NAME = cub3d
+NAME = cub3D
+
 SRCS =  src/main.c \
 		src/parsing/parsing.c \
 		src/parsing/map_validation.c \
-		src/objects/create/create_enemy.c \
-		src/objects/create/create_map.c \
-		src/objects/create/create_player.c \
-		src/objects/create/create_game.c \
-		src/objects/methods/map_methods/map_free.c \
-		src/objects/methods/map_methods/map_generator.c \
+		src/objects/enemy/enemy.c \
+		src/objects/player/player.c \
+		src/objects/door/door.c \
+		src/engine/create_map.c \
+		src/engine/create_game.c \
+		src/engine/alloc_assets.c \
+		src/engine/movement.c \
+		src/engine/draw.c \
+		src/engine/map_free.c \
+		src/engine/mouse_hooks.c \
+		src/engine/map_generator.c \
 		src/utils/get_next_line/get_next_line.c \
 		src/utils/parsing_utils.c \
 		src/utils/map_header_utils.c \
@@ -16,6 +22,9 @@ SRCS =  src/main.c \
 		src/utils/string_utils2.c \
 		src/utils/map_init_utils.c \
 		src/utils/map_utils.c \
+		src/utils/map_utils2.c \
+		src/utils/draw_utils.c \
+		src/utils/math_utils.c \
 		src/utils/rand_utils.c \
 		src/utils/libft_utils.c \
 		src/utils/time_utils.c \
@@ -24,7 +33,7 @@ SRCS =  src/main.c \
 OBJ_DIR = obj
 OBJS = $(SRCS:src/%.c=$(OBJ_DIR)/%.o)
 CC = cc
-CFLAGS = -g -Wall -Wextra -Werror -Ofast
+CFLAGS = -g -Ofast #-Wall -Wextra -Werror
 LIBMLX = -Llib/minilibx-linux -lmlx -lXext -lX11 -lm
 INCLUDE = -Ilib/minilibx-linux -Ilib -Ilib
 
@@ -60,8 +69,8 @@ re: fclean
 	@make --no-print-directory
 
 r:
-	make re && clear && ./cub3d a.cub
+	make re && clear && ./cub3D maps/a.cub
 v:
-	make re && clear && valgrind --leak-check-leak=full ./cub3d
+	make re && clear && valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all ./cub3D maps/a.cub
 
-.PHONY: all mlx clean fclean re
+.PHONY: all mlx clean fclean re r v
