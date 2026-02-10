@@ -32,6 +32,8 @@ struct s_player
 	void		(*update)(t_obj *this);
 	bool		(*collision)(t_obj *this, t_obj *target);
 	void 		*(*get_texture)(t_obj *this, char direction);
+	t_vtr		dir;
+	t_vtr		plane;
 	double		fov;
 	void		(*rotate)(t_player *player, double angle);
 };
@@ -61,6 +63,7 @@ struct s_door
 struct s_map
 {
 	t_str		*map;
+	t_ray		*rays;
 	int			level;
 	t_obj		**objs;
 	t_vtr		map_size;
@@ -69,6 +72,7 @@ struct s_map
 	char		direction;
 	void 		*colors[2];
 	void 		*textures[4];
+	void		(*clean)(t_map*);
 	void		(*minimap)(t_map*);
 	void		(*destroy)(t_map*);
 };

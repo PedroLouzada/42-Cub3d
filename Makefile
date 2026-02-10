@@ -24,11 +24,12 @@ SRCS =  src/main.c \
 		src/utils/map_utils.c \
 		src/utils/map_utils2.c \
 		src/utils/draw_utils.c \
+		src/utils/draw_utils2.c \
 		src/utils/math_utils.c \
 		src/utils/rand_utils.c \
 		src/utils/libft_utils.c \
 		src/utils/time_utils.c \
-
+		src/engine/raycasting.c \
 
 OBJ_DIR = obj
 OBJS = $(SRCS:src/%.c=$(OBJ_DIR)/%.o)

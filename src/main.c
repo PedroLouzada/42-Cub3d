@@ -14,9 +14,11 @@ int	main(int ac, char **av)
 	{
 		init_rand();
 		for (int i = 1; i < 6; ++i)
-			game()->map[i] = create_map(i, -1);
-		game()->map[1]->minimap(game()->map[1]);
-		mlx_put_image_to_window(game()->mlx->mlx, game()->mlx->win, game()->mlx->img, 0 , 0);
+			game()->map[i] = create_map(i);
+		int level = pick_rand(1, 5);
+		cast_rays(game()->map[level], (t_player *)game()->map[level]->objs[P]);
+		game()->map[level]->minimap(game()->map[level]);
+		mlx_put_image_to_window(game()->mlx->mlx, game()->mlx->win, game()->mlx->img, 0, 0);
 		mlx_loop(game()->mlx->mlx);
 		return (0);
 	}

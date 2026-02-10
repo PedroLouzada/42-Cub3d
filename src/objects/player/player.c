@@ -1,7 +1,9 @@
 #include "cub3d.h"
 
+t_vtr	get_dir(int orientation)
 double	get_fov(char direction)
 {
+	t_vtr	dir;
 	if (direction == 'N')
 		return (0);
 	else if (direction == 'E')
@@ -77,9 +79,24 @@ t_obj	*create_player(int level)
 	int			pos[2];
 	t_player	*new_player;
 
-	new_player = ft_calloc(1, sizeof(t_player));
-	if (!new_player)
+	dir.x = (orientation == EAST) - (orientation == WEST);
+	dir.y = (orientation == SOUTH) - (orientation == NORTH);
+	return (dir);
+}
+
+t_obj	*create_player(t_vtr pos)
+{
+	t_player	*player;
+
+	player = ft_calloc(1, sizeof(t_player));
+	if (!player)
 		return (NULL);
+	player->lives = 3;
+	player->pos = pos;
+	player->dir = get_dir(pick_range(NORTH, SOUTH));
+	player->plane.x = -player->dir.y * FOV;
+	player->plane.y = player->dir.x * FOV;
+	return ((t_obj *)player);
 	new_player->fov = get_fov(game()->map[level]->direction);
 	new_player->rotate = rotate;
 	new_player->update = p_update;
