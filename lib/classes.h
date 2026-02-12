@@ -32,7 +32,7 @@ struct s_player
 	void		(*update)(t_obj *this);
 	bool		(*collision)(t_obj *this, t_obj *target);
 	void 		*(*get_texture)(t_obj *this, char direction);
-	t_vtr		dir;
+	t_vtr		dir; // oq e isso
 	t_vtr		plane;
 	double		fov;
 	void		(*rotate)(t_player *player, double angle);

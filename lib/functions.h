@@ -52,15 +52,13 @@ void	*ft_calloc(size_t nm, size_t sz);
 void	clean_map(t_map *map);
 void	print_map(t_map *map);
 void	destroy_map(t_map *map);
-void	generate_map(t_map *map);
+void	generate_map(t_map *map, int level);
 
 //Initializors
-t_obj	*create_enemy(void);
-t_obj	*create_player(int level);
 t_map	*create_map(int level, int fd);
 t_obj	*create_door(t_vtr pos);
 t_obj	*create_enemy(t_vtr pos);
-t_obj	*create_player(t_vtr pos);
+t_obj	*create_player(t_vtr pos, int level);
 void	init_game(int ac, t_str *av);
 
 

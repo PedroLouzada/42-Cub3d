@@ -56,9 +56,6 @@ void	cast_rays(t_map *map, t_player *p)
 {
 	int	i;
 
-	map->rays = ft_calloc(WIN_WIDTH + 1, sizeof(t_ray));
-	if (!map->rays)
-		return (map->destroy(map));
 	i = -1;
 	while (++i < WIN_WIDTH)
 	{

@@ -2,7 +2,7 @@
 
 int	run(t_obj **objs)
 {
-	objs[0]->update(objs[0]);
+	objs[1]->update(objs[1]);
 	draw_screen(game()->mlx);
 	usleep(33);
 	return (0);
@@ -15,7 +15,7 @@ void	declare_hooks(t_mlx *mlx)
 	mlx_hook(mlx->win, 3, (1L << 1), key_unpress, game);
 	mlx_hook(mlx->win, 6, 1L << 6, mouse_move, NULL);
 	mlx_hook(mlx->win, 4, 1L << 2, mouse_press, NULL);
-	mlx_loop_hook(mlx->mlx, run, game()->map[0]->objs);
+	mlx_loop_hook(mlx->mlx, run, game()->map[1]->objs);
 	mlx_loop(mlx->mlx);
 }
 
@@ -44,6 +44,9 @@ void	init_game(int ac, t_str *av)
 		exit_game("Error\nMemory Allocation\n");
 	game()->eng = &eng;
 	alloc_assets();
+	init_rand();
+	for (int i = 1; i < 6; ++i)
+		game()->map[i] = create_map(i, -1);
 	declare_hooks(game()->mlx);
 }
 

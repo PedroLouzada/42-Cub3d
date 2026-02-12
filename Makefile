@@ -34,7 +34,7 @@ SRCS =  src/main.c \
 OBJ_DIR = obj
 OBJS = $(SRCS:src/%.c=$(OBJ_DIR)/%.o)
 CC = cc
-CFLAGS = -g -Ofast #-Wall -Wextra -Werror
+CFLAGS = -g -Ofast -Wall -Wextra -Werror
 LIBMLX = -Llib/minilibx-linux -lmlx -lXext -lX11 -lm
 INCLUDE = -Ilib/minilibx-linux -Ilib -Ilib
 

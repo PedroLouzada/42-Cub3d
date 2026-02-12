@@ -14,7 +14,7 @@ void	*ft_calloc(size_t nm, size_t sz)
 	alloc = malloc(size);
 	if (!alloc)
 		return (NULL);
-	data = (t_str)alloc; 
+	data = (t_str)alloc;
 	while (size--)
 		*data++ = '\0';
 	return (alloc);
@@ -48,22 +48,25 @@ t_str	ft_joinstr(t_str s1, t_str s2)
 	return (str);
 }
 
-int exit_game(char *str)
+int	exit_game(char *str)
 {
-	int i;
+	int	i;
 
 	if (str)
 		write(2, str, ft_strlen(str));
-	i = 0;
+	i = -1;
 	clear_image();
 	mlx_destroy_window(game()->mlx->mlx, game()->mlx->win);
-	free_double(game()->map[0]->map);
-	free(game()->map[0]->objs);
-	while (game()->map[i])
-		free(game()->map[i++]);
+	while (game()->map[++i])
+	{
+		free_double(game()->map[i]->map);
+		free(game()->map[i]->objs);
+		free(game()->map[i]->rays);
+		free(game()->map[i]);
+	}
 	mlx_destroy_display(game()->mlx->mlx);
 	free(game()->mlx->mlx);
-	// free(game()->mlx);
+	free(game()->mlx);
 	exit(0);
 	return (0);
 }
