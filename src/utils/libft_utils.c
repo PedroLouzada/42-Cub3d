@@ -51,6 +51,7 @@ t_str	ft_joinstr(t_str s1, t_str s2)
 int	exit_game(char *str)
 {
 	int	i;
+	int	j;
 
 	if (str)
 		write(2, str, ft_strlen(str));
@@ -60,9 +61,16 @@ int	exit_game(char *str)
 	while (game()->map[++i])
 	{
 		free_double(game()->map[i]->map);
-		free(game()->map[i]->objs);
+		if (game()->map[i]->objs)
+		{
+			j = 0;
+			while (game()->map[i]->objs[j])
+				free(game()->map[i]->objs[j++]);
+			free(game()->map[i]->objs);
+		}
 		free(game()->map[i]->rays);
-		free(game()->map[i]);
+		if (game()->map[i + 1])
+			free(game()->map[i]);
 	}
 	mlx_destroy_display(game()->mlx->mlx);
 	free(game()->mlx->mlx);

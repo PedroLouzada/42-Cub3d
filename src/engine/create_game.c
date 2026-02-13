@@ -45,7 +45,8 @@ void	init_game(int ac, t_str *av)
 	game()->eng = &eng;
 	alloc_assets();
 	init_rand();
-	for (int i = 1; i < 6; ++i)
+	int i = 0;
+	while (++i < 6)
 		game()->map[i] = create_map(i, -1);
 	declare_hooks(game()->mlx);
 }

@@ -32,6 +32,7 @@ void	print_map(t_map *map)
 		write(data[2], "\n", 1);
 	}
 	close(data[2]);
+	free(file);
 }
 
 void	generate_objs(t_map *map, int level)

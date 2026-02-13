@@ -2,11 +2,8 @@
 
 t_vtr	get_dir(int orientation)
 {
-	t_player	*new_player;
 	t_vtr	dir;
 
-	new_player = ft_calloc(1, sizeof(t_player));
-	if (!new_player)
 	dir.x = (orientation == EAST) - (orientation == WEST);
 	dir.y = (orientation == SOUTH) - (orientation == NORTH);
 	return (dir);
