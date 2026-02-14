@@ -73,5 +73,7 @@ int key_press(int key);
 int key_unpress(int key);
 void	draw_minimap(t_map *map);
 int	get_pos(int *pos, char **map, int entity);
+unsigned long	get_time(void);
+t_vtr	get_dir(int orientation);
 
 #endif

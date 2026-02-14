@@ -9,51 +9,60 @@ t_vtr	get_dir(int orientation)
 	return (dir);
 }
 
-double	get_fov(char direction)
+double	get_angle(double x, double y)
 {
-	if (direction == 'N')
+	if (!x && !y)
 		return (0);
-	else if (direction == 'E')
+	if (x && !y)
 		return (90);
-	else if (direction == 'S')
+	if (x && y)
 		return (180);
-	else if (direction == 'W')
+	if (!x && y)
 		return (270);
-	else
-		return (-1);
+	return (-1);
 }
 
-void	rotate(t_player *player, double angle)
+void	rotate(t_player *player, double sense)
 {
-	player->fov += angle;
-	if (player->fov < 0)
-		player->fov += 360;
-	if (player->fov > 360)
-		player->fov -= 360;
+	double	rad;
+
+	player->angle += sense;
+	if (player->angle < 0)
+		player->angle += 360;
+	if (player->angle > 360)
+		player->angle -= 360;
+	rad = player->angle * M_PI / 180;
+	player->dir.x = cos(rad);
+	player->dir.y = sin(rad);
+	player->plane.x = -player->dir.y * FOV;
+	player->plane.y = player->dir.x * FOV;
 }
 
 static void	walk(t_eng *eng, t_player *player)
 {
-	double		rad;
-	const double	speed = 0.25;
+	double	rad;
+	double	speed;
 
-	rad = player->fov * (M_PI / 180);
-	if (eng->key[K_D])
+	speed = 0.026;
+	if (eng->key[SHIFT])
+		speed *= 1.5;
+	rad = player->angle * (M_PI / 180);
+	if (eng->key[K_W])
 	{
 		player->pos.x += cos(rad) * speed;
 		player->pos.y += sin(rad) * speed;
 	}
-	if (eng->key[K_A])
+	if (eng->key[K_S])
 	{
 		player->pos.x -= cos(rad) * speed;
 		player->pos.y -= sin(rad) * speed;
 	}
-	if (eng->key[K_W])
+	if (eng->key[K_A])
 	{
 		player->pos.x += cos(rad - M_PI_2) * speed;
 		player->pos.y += sin(rad - M_PI_2) * speed;
 	}
-	if (eng->key[K_S])
+	if (eng->key[K_D])
 	{
 		player->pos.x += cos(rad + M_PI_2) * speed;
 		player->pos.y += sin(rad + M_PI_2) * speed;
@@ -62,7 +71,7 @@ static void	walk(t_eng *eng, t_player *player)
 
 static void	movement(t_player *player)
 {
-	const double	sense = 5;
+	const double	sense = 2.5;
 
 	if (game()->eng->key[K_LEFT] && !game()->eng->key[K_RIGHT])
 		player->rotate(player, sense * -1);
@@ -71,10 +80,11 @@ static void	movement(t_player *player)
 	walk(game()->eng, player);
 }
 
-void	p_update(t_obj *obj)
+void	p_update(t_obj *obj, t_map *map)
 {
 	t_player	*player;
 
+	(void)map;
 	player = (t_player *)obj;
 	movement(player);
 }
@@ -82,6 +92,7 @@ void	p_update(t_obj *obj)
 t_obj	*create_player(t_vtr pos, int level)
 {
 	t_player	*player;
+
 	(void)level;
 	player = ft_calloc(1, sizeof(t_player));
 	if (!player)
@@ -91,7 +102,7 @@ t_obj	*create_player(t_vtr pos, int level)
 	player->dir = get_dir(pick_range(NORTH, SOUTH));
 	player->plane.x = -player->dir.y * FOV;
 	player->plane.y = player->dir.x * FOV;
-	//player->fov = get_fov(game()->map[level]->direction);
+	player->angle = get_angle(player->dir.x, player->dir.y);
 	player->rotate = rotate;
 	player->update = p_update;
 	return ((t_obj *)player);

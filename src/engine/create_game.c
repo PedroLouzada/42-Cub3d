@@ -2,7 +2,8 @@
 
 int	run(t_obj **objs)
 {
-	objs[1]->update(objs[1]);
+	objs[0]->update(objs[0], game()->map[1]);
+	objs[1]->update(objs[1], game()->map[1]);
 	draw_screen(game()->mlx);
 	usleep(33);
 	return (0);

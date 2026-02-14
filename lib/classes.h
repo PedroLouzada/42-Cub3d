@@ -17,7 +17,7 @@ struct s_obj
 	int 		lives;
 	char 		direction;
 	void		(*damage)(t_obj *this);
-	void		(*update)(t_obj *this);
+	void		(*update)(t_obj *this, t_map *map);
 	bool		(*collision)(t_obj *this, t_obj *target);
 	void 		*(*get_texture)(t_obj *this, char direction);	
 	
@@ -29,12 +29,12 @@ struct s_player
 	int 		lives;
 	char 		direction; // necessario?
 	void		(*damage)(t_obj *this);
-	void		(*update)(t_obj *this);
+	void		(*update)(t_obj *this, t_map *map);
 	bool		(*collision)(t_obj *this, t_obj *target);
 	void 		*(*get_texture)(t_obj *this, char direction);
-	t_vtr		dir; // oq e isso
+	t_vtr		dir;
 	t_vtr		plane;
-	double		fov;
+	double		angle;
 	void		(*rotate)(t_player *player, double angle);
 };
 
@@ -44,9 +44,10 @@ struct s_enemy
 	int 		lives;
 	char 		direction;
 	void		(*damage)(t_obj *this);
-	void		(*update)(t_obj *this);
+	void		(*update)(t_obj *this, t_map *map);
 	bool		(*collision)(t_obj *this, t_obj *target);
 	void 		*(*get_texture)(t_obj *this, char direction);
+	double 		angle;
 };
 
 struct s_door
@@ -55,7 +56,7 @@ struct s_door
 	int 		lives;
 	char 		direction;
 	void		(*damage)(t_obj *this);
-	void		(*update)(t_obj *this);
+	void		(*update)(t_obj *this, t_map *map);
 	bool		(*collision)(t_obj *this, t_obj *target);
 	void 		*(*get_texture)(t_obj *this, char direction);
 };

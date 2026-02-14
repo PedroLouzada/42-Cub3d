@@ -69,7 +69,7 @@ int	exit_game(char *str)
 			free(game()->map[i]->objs);
 		}
 		free(game()->map[i]->rays);
-		if (game()->map[i + 1])
+		if (game()->map[i])
 			free(game()->map[i]);
 	}
 	mlx_destroy_display(game()->mlx->mlx);
