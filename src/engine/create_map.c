@@ -5,11 +5,11 @@ void	draw_characters(t_map *map)
 	t_vtr	pos;
 
 	pos.x = (map->objs[E]->pos.x + 0.5) * TILE_SZ;
-    pos.y = (map->objs[E]->pos.y + 0.5) * TILE_SZ;
-    draw_circle(game()->mlx, pos, TILE_SZ / 2.5, RED);
-    pos.x = (map->objs[P]->pos.x + 0.5) * TILE_SZ;
-    pos.y = (map->objs[P]->pos.y + 0.5) * TILE_SZ;
-    draw_circle(game()->mlx, pos, TILE_SZ / 2.5, BLUE);
+	pos.y = (map->objs[E]->pos.y + 0.5) * TILE_SZ;
+	draw_circle(game()->mlx, pos, TILE_SZ / 2.5, RED);
+	pos.x = (map->objs[P]->pos.x + 0.5) * TILE_SZ;
+	pos.y = (map->objs[P]->pos.y + 0.5) * TILE_SZ;
+	draw_circle(game()->mlx, pos, TILE_SZ / 2.5, BLUE);
 }
 
 void	draw_minimap(t_map *map)
@@ -37,20 +37,26 @@ void	draw_minimap(t_map *map)
 	draw_fov(map, (t_player *)map->objs[P]);
 }
 
-t_map	*create_map(int level)
+t_map	*create_map(int level, int fd)
 {
-	t_map	*map;
-
-	map = ft_calloc(1, sizeof(t_map));
+	t_map *const map = ft_calloc(1, sizeof(t_map));
 	if (!map)
-		return (NULL);
+		parse_exit("Memory Allocation\n", NULL, fd, 0);
 	map->level = level;
 	map->clean = clean_map;
 	map->destroy = destroy_map;
 	map->minimap = draw_minimap;
 	map->map_size.x = MAP_WIDTH;
 	map->map_size.y = MAP_HEIGHT;
-	generate_map(map);
-	print_map(map);
+	map->destroy = destroy_map;
+	map->minimap = draw_minimap;
+	map->rays = ft_calloc(WIN_WIDTH + 1, sizeof(t_ray));
+	if (!map->rays)
+		parse_exit("Memory Allocation\n", NULL, fd, 1);
+	if (level)
+	{
+		generate_map(map, level);
+		print_map(map);
+	}
 	return (map);
 }

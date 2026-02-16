@@ -70,9 +70,10 @@ void	control_screen(void)
 		draw_img(img, 90, 850); // back_border
 }
 
-void game_scene(void)
+void	game_scene(void)
 {
-	game()->map[0]->minimap(game()->map[0]);
+	cast_rays(game()->map[1], (t_player *)game()->map[1]->objs[P]);
+	game()->map[1]->minimap(game()->map[1]);
 }
 
 void	draw_screen(t_mlx *mlx)

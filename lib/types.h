@@ -1,9 +1,7 @@
 #ifndef TYPES_H
 # define TYPES_H
 
-# include "cub3d.h"
-
-typedef char	*t_str;
+typedef char		*t_str;
 
 typedef struct s_vtr
 {
@@ -13,14 +11,16 @@ typedef struct s_vtr
 
 typedef struct s_imgs
 {
-	void		*img;
-	char		*addr;
-	int			bpp;
-	int			sline;
-	int			endian;
-	int 		width;
-	int 		height;
-}				t_imgs;
+	int				index;
+	void			*img;
+	char			*addr;
+	int				bpp;
+	int				sline;
+	int				endian;
+	int				width;
+	int				height;
+	struct s_imgs	*next;
+}					t_imgs;
 
 typedef struct s_ray
 {

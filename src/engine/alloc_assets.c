@@ -39,15 +39,21 @@ t_imgs	*new_img(char *name)
 
 void	alloc_assets(void)
 {
-	int				i;
-	t_imgs			*img;
-	char *const		paths[] = {"./assets/imgs/homescreen.xpm",
-		"./assets/imgs/play_butt.xpm", "./assets/imgs/tutorial_butt.xpm",
-		"./assets/imgs/controls_butt.xpm", "./assets/imgs/border_butt.xpm",
-		"./assets/imgs/wasd_keys.xpm", "./assets/imgs/arrow_keys.xpm",
-		"./assets/imgs/mouse.xpm", "./assets/imgs/back_button.xpm",
-		"./assets/imgs/back_border.xpm", NULL};
+	int		i;
+	t_imgs	*img;
 
+	char *const paths[] = {"./assets/imgs/home/homescreen.xpm",
+		"./assets/imgs/home/play_butt.xpm",
+		"./assets/imgs/home/tutorial_butt.xpm",
+		"./assets/imgs/home/controls_butt.xpm",
+		"./assets/imgs/home/border_butt.xpm",
+		"./assets/imgs/home/wasd_keys.xpm", "./assets/imgs/home/arrow_keys.xpm",
+		"./assets/imgs/home/mouse.xpm", "./assets/imgs/home/back_button.xpm",
+		"./assets/imgs/home/back_border.xpm", "./assets/imgs/enemy/enemy00.xpm",
+		"./assets/imgs/enemy/enemy01.xpm", "./assets/imgs/enemy/enemy02.xpm",
+		"./assets/imgs/enemy/enemy03.xpm", "./assets/imgs/enemy/enemy04.xpm",
+		"./assets/imgs/enemy/enemy05.xpm", "./assets/imgs/enemy/enemy_test.xpm",
+		NULL};
 	i = 0;
 	while (paths[i])
 	{

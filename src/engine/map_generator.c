@@ -32,15 +32,16 @@ void	print_map(t_map *map)
 		write(data[2], "\n", 1);
 	}
 	close(data[2]);
+	free(file);
 }
 
-void	generate_objs(t_map *map)
+void	generate_objs(t_map *map, int level)
 {
 	t_vtr	pos;
 	int		data[2];
 
 	data[0] = (int)pick_range(MIN_DOORS, MAX_DOORS) + 1;
-	map->objs = ft_calloc(data[0] + 3, sizeof(t_obj));
+	map->objs = ft_calloc(data[0] + 3, sizeof(t_obj *));
 	if (!map->objs)
 		return (map->destroy(map));
 	data[1] = 1;
@@ -54,7 +55,7 @@ void	generate_objs(t_map *map)
 				return (map->destroy(map));
 		}
 	}
-	map->objs[P] = create_player(spawn(map, '0'));
+	map->objs[P] = create_player(spawn(map, '0'), level);
 	if (!map->objs[P])
 		return (map->destroy(map));
 	map->objs[E] = create_enemy(spawn(map, '0'));
@@ -82,7 +83,7 @@ void	generate_paths(t_map *map, t_vtr pos, int paths)
 	generate_paths(map, rand_pos(map->map_size), --paths);
 }
 
-void	generate_map(t_map *map)
+void	generate_map(t_map *map, int level)
 {
 	t_vtr	pos;
 
@@ -103,7 +104,7 @@ void	generate_map(t_map *map)
 	pos = spawn(map, '.');
 	check_map(map, pos.x, pos.y);
 	if (!valid_map(map))
-		return (map->clean(map), generate_map(map));
-	generate_objs(map);
+		return (map->clean(map), generate_map(map, level));
+	generate_objs(map, level);
 	set_exit(map);
 }

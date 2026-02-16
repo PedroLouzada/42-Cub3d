@@ -2,6 +2,7 @@
 # define FUNCTIONS_H
 
 # include "cub3d.h"
+# include "types.h"
 
 //Raycasting
 void	cast_rays(t_map *map, t_player *p);
@@ -23,6 +24,7 @@ void	draw_column(t_ray *r, int column);
 void	ft_pixel_put(t_mlx *mlx, int x, int y, int color);
 void	draw_tile(t_mlx *mlx, t_vtr tpos, int scale, int color);
 void	draw_circle(t_mlx *mlx, t_vtr cpos, int radius, int color);
+void	ft_pixel_put(t_mlx *mlx, int x, int y, int color);
 
 //Map Utils
 void	set_exit(t_map *map);
@@ -50,13 +52,28 @@ void	*ft_calloc(size_t nm, size_t sz);
 void	clean_map(t_map *map);
 void	print_map(t_map *map);
 void	destroy_map(t_map *map);
-void	generate_map(t_map *map);
+void	generate_map(t_map *map, int level);
 
 //Initializors
-t_map	*create_map(int level);
+t_map	*create_map(int level, int fd);
 t_obj	*create_door(t_vtr pos);
 t_obj	*create_enemy(t_vtr pos);
-t_obj	*create_player(t_vtr pos);
+t_obj	*create_player(t_vtr pos, int level);
 void	init_game(int ac, t_str *av);
+
+
+int     mouse_press(int button, int x, int y, void *arg);
+int     exit_game(char *str);
+void	clear_image(void);
+int     mouse_move(int x, int y, void *arg);
+void    draw_screen(t_mlx *mlx);
+void	alloc_assets(void);
+t_imgs	*new_img(char *name);
+int key_press(int key);
+int key_unpress(int key);
+void	draw_minimap(t_map *map);
+int	get_pos(int *pos, char **map, int entity);
+unsigned long	get_time(void);
+t_vtr	get_dir(int orientation);
 
 #endif

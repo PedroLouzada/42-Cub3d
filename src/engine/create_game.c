@@ -1,28 +1,55 @@
 #include "cub3d.h"
 
-// void	run(t_game *game)
-// {
-// 	game->mlx->win = mlx_new_window(game->mlx->mlx, 1920, 1080, "CUB3D");
-// 	mlx_hook(game->mlx->win, 17, 0, (void *)exit, 0);
-// 	mlx_loop(game->mlx->mlx);
-// }
+int	run(t_obj **objs)
+{
+	objs[0]->update(objs[0], game()->map[1]);
+	objs[1]->update(objs[1], game()->map[1]);
+	draw_screen(game()->mlx);
+	usleep(33);
+	return (0);
+}
+
+void	declare_hooks(t_mlx *mlx)
+{
+	mlx_hook(mlx->win, 17, 0, exit_game, 0);
+	mlx_hook(mlx->win, 2, (1L << 0), key_press, game);
+	mlx_hook(mlx->win, 3, (1L << 1), key_unpress, game);
+	mlx_hook(mlx->win, 6, 1L << 6, mouse_move, NULL);
+	mlx_hook(mlx->win, 4, 1L << 2, mouse_press, NULL);
+	mlx_loop_hook(mlx->mlx, run, game()->map[1]->objs);
+	mlx_loop(mlx->mlx);
+}
 
 void	init_game(int ac, t_str *av)
 {
-	t_mlx	*mlx;
+	static t_eng	eng;
 
-	(void)ac;
-	(void)av;
-	mlx = ft_calloc(1, sizeof(t_mlx));
-	if (!mlx)
-		return ;
-	mlx->mlx = mlx_init();
-	mlx->win = mlx_new_window(mlx->mlx, WIN_WIDTH, WIN_HEIGHT, TITLE);
-	mlx->img = mlx_new_image(mlx->mlx, WIN_WIDTH, WIN_HEIGHT);
-	mlx->data = mlx_get_data_addr(mlx->img,
-			&mlx->bpp, &mlx->sline, &mlx->endn);
-	game()->mlx = mlx;
-	// parsing(game, ac, av);
+	if (ac != 2)
+	{
+		fprintf(stderr, "Error\nExpected <fileName> <map.cub>\n");
+		exit(0);
+	}
+	game()->mlx = ft_calloc(1, sizeof(t_mlx));
+	if (!game()->mlx)
+		parse_exit("Memory Allocation\n", NULL, -1, 0);
+	game()->mlx->mlx = mlx_init();
+	if (!game()->mlx->mlx)
+		parse_exit("Memory Allocation\n", NULL, -1, 0);
+	parsing(av);
+	game()->mlx->win = mlx_new_window(game()->mlx->mlx, WIN_WIDTH, WIN_HEIGHT,
+			TITLE);
+	if (!game()->mlx->win)
+		parse_exit("Memory Allocation\n", (void *)game()->map[0]->objs, -1, 1);
+	game()->mlx->img = new_img(NULL);
+	if (!game()->mlx->img)
+		exit_game("Error\nMemory Allocation\n");
+	game()->eng = &eng;
+	alloc_assets();
+	init_rand();
+	int i = 0;
+	while (++i < 6)
+		game()->map[i] = create_map(i, -1);
+	declare_hooks(game()->mlx);
 }
 
-//fazer função para dar handle aos erros do mlx
+// fazer função para dar handle aos erros do mlx
