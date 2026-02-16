@@ -65,7 +65,7 @@ void	parsing(char **av)
 	d = 0;
 	check_sintax(av[1]);
 	map_validation(av[1], d);
-	init_objs(game()->map[0], *d);
+	// init_objs(game()->map[0], *d);
 	return ;
 }
 
