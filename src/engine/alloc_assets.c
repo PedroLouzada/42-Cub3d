@@ -1,22 +1,9 @@
 #include "cub3d.h"
 
-void	put_onlist(t_imgs *img)
-{
-	t_imgs	*curr;
-
-	if (!game()->mlx->img)
-		return ;
-	curr = game()->mlx->img;
-	while (curr && curr->next)
-		curr = curr->next;
-	curr->next = img;
-}
-
 t_imgs	*new_img(char *name)
 {
-	t_mlx		*mlx;
-	t_imgs		*new_img;
-	static int	index;
+	t_mlx	*mlx;
+	t_imgs	*new_img;
 
 	new_img = ft_calloc(1, sizeof(t_imgs));
 	if (!new_img)
@@ -31,9 +18,6 @@ t_imgs	*new_img(char *name)
 		return (NULL);
 	new_img->addr = mlx_get_data_addr(new_img->img, &new_img->bpp,
 			&new_img->sline, &new_img->endian);
-	new_img->next = NULL;
-	new_img->index = index++;
-	put_onlist(new_img);
 	return (new_img);
 }
 
@@ -42,6 +26,10 @@ void	alloc_assets(void)
 	int		i;
 	t_imgs	*img;
 
+	game()->mlx->img = ft_calloc(12, sizeof(t_imgs *));
+	game()->mlx->img[0] = new_img(NULL);
+	if (!game()->mlx->img[0])
+		exit_game("Memory Allocation\n");
 	char *const paths[] = {"./assets/imgs/home/homescreen.xpm",
 		"./assets/imgs/home/play_butt.xpm",
 		"./assets/imgs/home/tutorial_butt.xpm",
@@ -49,17 +37,15 @@ void	alloc_assets(void)
 		"./assets/imgs/home/border_butt.xpm",
 		"./assets/imgs/home/wasd_keys.xpm", "./assets/imgs/home/arrow_keys.xpm",
 		"./assets/imgs/home/mouse.xpm", "./assets/imgs/home/back_button.xpm",
-		"./assets/imgs/home/back_border.xpm", "./assets/imgs/enemy/enemy00.xpm",
-		"./assets/imgs/enemy/enemy01.xpm", "./assets/imgs/enemy/enemy02.xpm",
-		"./assets/imgs/enemy/enemy03.xpm", "./assets/imgs/enemy/enemy04.xpm",
-		"./assets/imgs/enemy/enemy05.xpm", "./assets/imgs/enemy/enemy_test.xpm",
-		NULL};
+		"./assets/imgs/home/back_border.xpm", "./assets/imgs/player.xpm", NULL};
 	i = 0;
 	while (paths[i])
 	{
-		img = new_img(paths[i++]);
+		img = new_img(paths[i]);
 		if (!img || !img->img)
 			exit_game("Error\nMemory Allocation\n");
+		game()->mlx->img[i + 1] = img;
+		i++;
 	}
 	game()->eng->title[0] = true;
 }

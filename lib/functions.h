@@ -21,10 +21,9 @@ void	round_vtrs(t_vtr *a, t_vtr *b);
 void	draw_fov(t_map *map, t_player *p);
 void	draw_line(t_vtr start, t_vtr end);
 void	draw_column(t_ray *r, int column);
-void	ft_pixel_put(t_mlx *mlx, int x, int y, int color);
+void	ft_pixel_put(t_imgs *img, int x, int y, int color);
 void	draw_tile(t_mlx *mlx, t_vtr tpos, int scale, int color);
 void	draw_circle(t_mlx *mlx, t_vtr cpos, int radius, int color);
-void	ft_pixel_put(t_mlx *mlx, int x, int y, int color);
 
 //Map Utils
 void	set_exit(t_map *map);

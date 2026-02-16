@@ -20,60 +20,52 @@ void	draw_img(t_imgs *img, int px, int py)
 	{
 		x = -1;
 		while (++x < img->width)
-			ft_pixel_put(mlx, px + x, py + y, ft_get_pixel_color(img, x, y));
+			ft_pixel_put(game()->mlx->img[BUFFER], px + x, py + y,
+				ft_get_pixel_color(img, x, y));
 	}
 }
 
 void	titlescreen(void)
 {
-	t_imgs	*img;
+	t_imgs	**img;
 
+	img = game()->mlx->img;
 	game()->eng->in_button[3] = false;
-	img = game()->mlx->img->next;
-	draw_img(img, 0, 0);
-	img = img->next;
-	draw_img(img, 240, 320);
-	img = img->next;
-	draw_img(img, 240, 440);
-	img = img->next;
-	draw_img(img, 240, 560);
-	img = img->next;
+	draw_img(img[BACKGROUND], 0, 0);
+	draw_img(img[BUTTON1], 240, 320);
+	draw_img(img[BUTTON2], 240, 440);
+	draw_img(img[BUTTON3], 240, 560);
 	if (game()->eng->in_button[0])
-		draw_img(img, 240, 320);
+		draw_img(img[BUTTONBORDER], 240, 320);
 	if (game()->eng->in_button[1])
-		draw_img(img, 240, 440);
+		draw_img(img[BUTTONBORDER], 240, 440);
 	if (game()->eng->in_button[2])
-		draw_img(img, 240, 560);
+		draw_img(img[BUTTONBORDER], 240, 560);
 }
 
 void	control_screen(void)
 {
 	int		i;
-	t_imgs	*img;
+	t_imgs	**img;
 
 	i = 0;
+	img = game()->mlx->img;
 	while (i < 3)
 		game()->eng->in_button[i++] = false;
-	img = game()->mlx->img->next;
-	draw_img(img, 0, 0); // background
-	while (img->index < 6)
-		img = img->next;
-	draw_img(img, 320, 190); // WASD
-	img = img->next;
-	draw_img(img, 1070, 315); // arrows
-	img = img->next;
-	draw_img(img, 1270, 150); // mouse
-	img = img->next;
-	draw_img(img, 90, 850); // back_button
-	img = img->next;
+	draw_img(img[BACKGROUND], 0, 0);
+	draw_img(img[WASDIMG], 320, 190);
+	draw_img(img[ARROWS], 1070, 315);
+	draw_img(img[MOUSEIMG], 1270, 150);
+	draw_img(img[BACKBUTTON], 90, 850);
 	if (game()->eng->in_button[3])
-		draw_img(img, 90, 850); // back_border
+		draw_img(img[BACKBORDER], 90, 850);
 }
 
 void	game_scene(void)
 {
 	cast_rays(game()->map[1], (t_player *)game()->map[1]->objs[P]);
 	game()->map[1]->minimap(game()->map[1]);
+	draw_img(game()->mlx->img[PLAYERIMG], 1470, 711);
 }
 
 void	draw_screen(t_mlx *mlx)
@@ -84,5 +76,5 @@ void	draw_screen(t_mlx *mlx)
 		control_screen();
 	else
 		game_scene();
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img->img, 0, 0);
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img[0]->img, 0, 0);
 }

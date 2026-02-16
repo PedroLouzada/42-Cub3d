@@ -58,19 +58,15 @@ int	exit_game(char *str)
 	i = -1;
 	clear_image();
 	mlx_destroy_window(game()->mlx->mlx, game()->mlx->win);
-	while (game()->map[++i])
+	while (++i < 6)
 	{
 		free_double(game()->map[i]->map);
-		if (game()->map[i]->objs)
-		{
-			j = 0;
-			while (game()->map[i]->objs[j])
-				free(game()->map[i]->objs[j++]);
-			free(game()->map[i]->objs);
-		}
+		j = 0;
+		while (game()->map[i]->objs[j])
+			free(game()->map[i]->objs[j++]);
+		free(game()->map[i]->objs);
 		free(game()->map[i]->rays);
-		if (game()->map[i])
-			free(game()->map[i]);
+		free(game()->map[i]);
 	}
 	mlx_destroy_display(game()->mlx->mlx);
 	free(game()->mlx->mlx);

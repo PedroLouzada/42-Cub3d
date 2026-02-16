@@ -64,6 +64,7 @@ struct s_door
 struct s_map
 {
 	t_str		*map;
+	t_imgs *player; //temporario
 	t_ray		*rays;
 	int			level;
 	t_obj		**objs;
@@ -83,7 +84,7 @@ typedef struct s_mlx
 {
 	void		*mlx;
 	void		*win;
-	t_imgs		*img;
+	t_imgs		**img;
 }	t_mlx;
 
 typedef struct s_eng

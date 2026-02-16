@@ -11,7 +11,6 @@ typedef struct s_vtr
 
 typedef struct s_imgs
 {
-	int				index;
 	void			*img;
 	char			*addr;
 	int				bpp;
@@ -19,7 +18,6 @@ typedef struct s_imgs
 	int				endian;
 	int				width;
 	int				height;
-	struct s_imgs	*next;
 }					t_imgs;
 
 typedef struct s_ray

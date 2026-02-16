@@ -44,6 +44,12 @@ void	generate_objs(t_map *map, int level)
 	map->objs = ft_calloc(data[0] + 3, sizeof(t_obj *));
 	if (!map->objs)
 		return (map->destroy(map));
+	map->objs[P] = create_player(spawn(map, '0'), level);
+	if (!map->objs[P])
+		return (map->destroy(map));
+	map->objs[E] = create_enemy(spawn(map, '0'));
+	if (!map->objs[E])
+		return (map->destroy(map));
 	data[1] = 1;
 	while (--data[0])
 	{
@@ -55,12 +61,7 @@ void	generate_objs(t_map *map, int level)
 				return (map->destroy(map));
 		}
 	}
-	map->objs[P] = create_player(spawn(map, '0'), level);
-	if (!map->objs[P])
-		return (map->destroy(map));
-	map->objs[E] = create_enemy(spawn(map, '0'));
-	if (!map->objs[E])
-		return (map->destroy(map));
+	map->objs[data[1] + 1] = NULL;
 }
 
 void	generate_paths(t_map *map, t_vtr pos, int paths)
@@ -71,7 +72,7 @@ void	generate_paths(t_map *map, t_vtr pos, int paths)
 	data[1] = (int)pick_range(NORTH, SOUTH);
 	if (!paths)
 		return ;
-	while (map->map[(int)pos.y][(int)pos.x] != '.' )
+	while (map->map[(int)pos.y][(int)pos.x] != '.')
 	{
 		map->map[(int)pos.y][(int)pos.x] = '.';
 		check_path(map, pos, &data[1]);

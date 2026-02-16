@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-void	ft_pixel_put(t_mlx *mlx, int x, int y, int color)
+void	ft_pixel_put(t_imgs *img, int x, int y, int color)
 {
 	t_str	pixel;
 
@@ -8,7 +8,7 @@ void	ft_pixel_put(t_mlx *mlx, int x, int y, int color)
 		return ;
 	if (color == 16711935)
 		return ;
-	pixel = mlx->img->addr + (y * mlx->img->sline + x * (mlx->img->bpp / 8));
+	pixel = img->addr + (y * img->sline + x * (img->bpp / 8));
 	*(unsigned int *)pixel = color;
 }
 
@@ -23,7 +23,7 @@ void	draw_circle(t_mlx *mlx, t_vtr cpos, int radius, int color)
 		while (pos.x <= radius)
 		{
 			if (pos.x * pos.x + pos.y * pos.y <= radius * radius)
-				ft_pixel_put(mlx, cpos.x + pos.x, cpos.y + pos.y, color);
+				ft_pixel_put(mlx->img[0], cpos.x + pos.x, cpos.y + pos.y, color);
 			pos.x++;
 		}
 		pos.y++;
@@ -39,7 +39,7 @@ void	draw_tile(t_mlx *mlx, t_vtr tpos, int scale, int color)
 	{
 		pos.x = -1;
 		while (++pos.x < scale)
-			ft_pixel_put(mlx, tpos.x + pos.x, tpos.y + pos.y, color);
+			ft_pixel_put(mlx->img[0], tpos.x + pos.x, tpos.y + pos.y, color);
 	}
 }
 
@@ -55,7 +55,7 @@ void	draw_line(t_vtr start, t_vtr end)
 	data[2].x = data[0].x - data[0].y;
 	while (1)
 	{
-		ft_pixel_put(game()->mlx, (int)start.x, (int)start.y, BLUE);
+		ft_pixel_put(game()->mlx->img[0], (int)start.x, (int)start.y, BLUE);
 		if (start.x == end.x && start.y == end.y)
 			break ;
 		data[2].y = data[2].x * 2;
@@ -87,9 +87,9 @@ void	draw_column(t_ray *r, int column)
 		draw.y = WIN_HEIGHT;
 	i = -1;
 	while (++i < draw.x)
-		ft_pixel_put(game()->mlx, column, (int)i, CEILING);
+		ft_pixel_put(game()->mlx->img[0], column, (int)i, CEILING);
 	while (++i < draw.y)
-		ft_pixel_put(game()->mlx, column, (int)i, WALL);
+		ft_pixel_put(game()->mlx->img[0], column, (int)i, WALL);
 	while (++i < WIN_HEIGHT)
-		ft_pixel_put(game()->mlx, column, (int)i, FLOOR);
+		ft_pixel_put(game()->mlx->img[0], column, (int)i, FLOOR);
 }
