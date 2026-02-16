@@ -19,7 +19,7 @@ struct s_obj
 	void		(*damage)(t_obj *this);
 	void		(*update)(t_obj *this, t_map *map);
 	bool		(*collision)(t_obj *this, t_obj *target);
-	void 		*(*get_texture)(t_obj *this, char direction);	
+	void 		*(*get_texture)(t_obj *this, double dir);	
 	
 };
 
@@ -31,7 +31,7 @@ struct s_player
 	void		(*damage)(t_obj *this);
 	void		(*update)(t_obj *this, t_map *map);
 	bool		(*collision)(t_obj *this, t_obj *target);
-	void 		*(*get_texture)(t_obj *this, char direction);
+	void 		*(*get_texture)(t_obj *this, double dir);
 	t_vtr		dir;
 	t_vtr		plane;
 	double		angle;
@@ -46,7 +46,7 @@ struct s_enemy
 	void		(*damage)(t_obj *this);
 	void		(*update)(t_obj *this, t_map *map);
 	bool		(*collision)(t_obj *this, t_obj *target);
-	void 		*(*get_texture)(t_obj *this, char direction);
+	void 		*(*get_texture)(t_obj *this, double dir);
 	double 		angle;
 };
 
@@ -58,7 +58,7 @@ struct s_door
 	void		(*damage)(t_obj *this);
 	void		(*update)(t_obj *this, t_map *map);
 	bool		(*collision)(t_obj *this, t_obj *target);
-	void 		*(*get_texture)(t_obj *this, char direction);
+	void 		*(*get_texture)(t_obj *this, double dir);
 };
 
 struct s_map
@@ -73,6 +73,7 @@ struct s_map
 	char		direction;
 	void 		*colors[2];
 	void 		*textures[4];
+	double		zbuffer[WIN_WIDTH];
 	void		(*clean)(t_map*);
 	void		(*minimap)(t_map*);
 	void		(*destroy)(t_map*);
