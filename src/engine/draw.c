@@ -12,10 +12,8 @@ void	draw_img(t_imgs *img, int px, int py)
 {
 	int		y;
 	int		x;
-	t_mlx	*mlx;
 
 	y = -1;
-	mlx = game()->mlx;
 	while (++y < img->height)
 	{
 		x = -1;
