@@ -4,11 +4,11 @@ void	draw_characters(t_map *map)
 {
 	t_vtr	pos;
 
-	pos.x = (map->objs[E]->pos.x + 0.5) * TILE_SZ;
-	pos.y = (map->objs[E]->pos.y + 0.5) * TILE_SZ;
+	pos.x = map->objs[E]->pos.x * TILE_SZ;
+	pos.y = map->objs[E]->pos.y * TILE_SZ;
 	draw_circle(game()->mlx, pos, TILE_SZ / 2.5, RED);
-	pos.x = (map->objs[P]->pos.x + 0.5) * TILE_SZ;
-	pos.y = (map->objs[P]->pos.y + 0.5) * TILE_SZ;
+	pos.x = map->objs[P]->pos.x * TILE_SZ;
+	pos.y = map->objs[P]->pos.y * TILE_SZ;
 	draw_circle(game()->mlx, pos, TILE_SZ / 2.5, BLUE);
 }
 
@@ -33,8 +33,8 @@ void	draw_minimap(t_map *map)
 			draw_tile(game()->mlx, data[1], TILE_SZ, color);
 		}
 	}
-	draw_characters(map);
 	draw_fov(map, (t_player *)map->objs[P]);
+	draw_characters(map);
 }
 
 t_map	*create_map(int level, int fd)

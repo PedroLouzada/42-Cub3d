@@ -38,7 +38,7 @@ void	rotate(t_player *player, double sense)
 	player->plane.y = player->dir.x * FOV;
 }
 
-static void	walk(t_eng *eng, t_player *player)
+static void	walk(t_eng *eng, t_player *player, t_str *map)
 {
 	double	rad;
 	double	speed;
@@ -69,7 +69,7 @@ static void	walk(t_eng *eng, t_player *player)
 	}
 }
 
-static void	movement(t_player *player)
+static void	movement(t_player *player, t_str *map)
 {
 	const double	sense = 2.5;
 
@@ -77,16 +77,15 @@ static void	movement(t_player *player)
 		player->rotate(player, sense * -1);
 	else if (game()->eng->key[K_RIGHT] && !game()->eng->key[K_LEFT])
 		player->rotate(player, sense);
-	walk(game()->eng, player);
+	walk(game()->eng, player, map);
 }
 
 void	p_update(t_obj *obj, t_map *map)
 {
 	t_player	*player;
 
-	(void)map;
 	player = (t_player *)obj;
-	movement(player);
+	movement(player, map->map);
 }
 
 t_obj	*create_player(t_vtr pos, int level)

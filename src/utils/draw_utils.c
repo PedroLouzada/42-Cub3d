@@ -55,7 +55,7 @@ void	draw_line(t_vtr start, t_vtr end)
 	data[2].x = data[0].x - data[0].y;
 	while (1)
 	{
-		ft_pixel_put(game()->mlx, (int)start.x, (int)start.y, BLUE);
+		ft_pixel_put(game()->mlx, (int)start.x, (int)start.y, PINK);
 		if (start.x == end.x && start.y == end.y)
 			break ;
 		data[2].y = data[2].x * 2;

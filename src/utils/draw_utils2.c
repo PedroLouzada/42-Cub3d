@@ -6,8 +6,8 @@ void	draw_fov(t_map *m, t_player *p)
     t_vtr	s;
     t_vtr	e;
 
-    s.x = (p->pos.x + 0.5) * TILE_SZ;
-    s.y = (p->pos.y + 0.5) * TILE_SZ;
+    s.x = p->pos.x * TILE_SZ;
+    s.y = p->pos.y * TILE_SZ;
     i = -1;
     while (++i < WIN_WIDTH)
     {

@@ -73,10 +73,10 @@ struct s_map
 	char		direction;
 	void 		*colors[2];
 	void 		*textures[4];
-	double		zbuffer[WIN_WIDTH];
 	void		(*clean)(t_map*);
 	void		(*minimap)(t_map*);
 	void		(*destroy)(t_map*);
+	double		zbuffer[WIN_WIDTH];
 };
 
 typedef struct s_mlx
