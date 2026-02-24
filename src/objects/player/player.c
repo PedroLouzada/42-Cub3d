@@ -1,108 +1,92 @@
 #include "cub3d.h"
 
-t_vtr	get_dir(int orientation)
+static void	set_orientation(t_player *p)
 {
-	t_vtr	dir;
-
-	dir.x = (orientation == EAST) - (orientation == WEST);
-	dir.y = (orientation == SOUTH) - (orientation == NORTH);
-	return (dir);
+	p->dir.x = cos(p->angle);
+	p->dir.y = sin(p->angle);
+	p->plane.x = -p->dir.y * FOV;
+	p->plane.y = p->dir.x * FOV;
 }
 
-double	get_angle(double x, double y)
+static void	rotate(t_eng *eng, t_player *p)
 {
-	if (!x && !y)
-		return (0);
-	if (x && !y)
-		return (90);
-	if (x && y)
-		return (180);
-	if (!x && y)
-		return (270);
-	return (-1);
+	double	rotSpeed;
+
+	rotSpeed = 0.03;
+	if (eng->key[K_LEFT] && !eng->key[K_RIGHT])
+		p->angle -= rotSpeed;
+	else if (eng->key[K_RIGHT] && !eng->key[K_LEFT])
+		p->angle += rotSpeed;
+	if (p->angle < 0)
+		p->angle = 2 * M_PI;
+	if (p->angle > 2 * M_PI)
+		p->angle = 0;
+	set_orientation(p);
 }
 
-void	rotate(t_player *player, double sense)
+void	handle_angle(t_eng *eng, t_player *p, double *angle, double *speed)
 {
-	double	rad;
-
-	player->angle += sense;
-	if (player->angle < 0)
-		player->angle += 360;
-	if (player->angle > 360)
-		player->angle -= 360;
-	rad = player->angle * M_PI / 180;
-	player->dir.x = cos(rad);
-	player->dir.y = sin(rad);
-	player->plane.x = -player->dir.y * FOV;
-	player->plane.y = player->dir.x * FOV;
-}
-
-static void	walk(t_eng *eng, t_player *player, t_str *map)
-{
-	double	rad;
-	double	speed;
-
-	speed = 0.026;
-	if (eng->key[SHIFT])
-		speed *= 1.5;
-	rad = player->angle * (M_PI / 180);
-	if (eng->key[K_W])
-	{
-		player->pos.x += cos(rad) * speed;
-		player->pos.y += sin(rad) * speed;
-	}
-	if (eng->key[K_S])
-	{
-		player->pos.x -= cos(rad) * speed;
-		player->pos.y -= sin(rad) * speed;
-	}
-	if (eng->key[K_A])
-	{
-		player->pos.x += cos(rad - M_PI_2) * speed;
-		player->pos.y += sin(rad - M_PI_2) * speed;
-	}
 	if (eng->key[K_D])
-	{
-		player->pos.x += cos(rad + M_PI_2) * speed;
-		player->pos.y += sin(rad + M_PI_2) * speed;
-	}
+		*angle = p->angle + M_PI_2;
+	if (eng->key[K_S])
+		*angle = p->angle + M_PI;
+	if (eng->key[K_A])
+		*angle = p->angle - M_PI_2;
+	if (eng->key[K_W] && eng->key[K_D])
+		*angle = p->angle + M_PI_4;
+	if (eng->key[K_W] && eng->key[K_A])
+		*angle = p->angle - M_PI_4;
+	if (eng->key[K_S] && eng->key[K_D])
+		*angle = p->angle + 3 * M_PI_4;
+	if (eng->key[K_S] && eng->key[K_A])
+		*angle = p->angle - 3 * M_PI_4;
+	if ((eng->key[K_W] && eng->key[K_D]) || (eng->key[K_W] && eng->key[K_A])
+	|| (eng->key[K_S] && eng->key[K_D]) || (eng->key[K_S] && eng->key[K_A]))
+		*speed *= 1.2;
 }
 
-static void	movement(t_player *player, t_str *map)
+void	walk(t_eng *eng, t_player *p, t_map *map)
 {
-	const double	sense = 2.5;
+	t_vtr	walk;
+	double	speed;
+	double	walkAngle;
 
-	if (game()->eng->key[K_LEFT] && !game()->eng->key[K_RIGHT])
-		player->rotate(player, sense * -1);
-	else if (game()->eng->key[K_RIGHT] && !game()->eng->key[K_LEFT])
-		player->rotate(player, sense);
-	walk(game()->eng, player, map);
+	speed = 0.015;
+	if (eng->key[SHIFT])
+		speed *= 2.0;
+	walkAngle = p->angle;
+	handle_angle(eng, p, &walkAngle, &speed);
+	walk.x = p->pos.x + cos(walkAngle) * speed;
+	walk.y = p->pos.y + sin(walkAngle) * speed;
+	if (map->map[(int)p->pos.y][(int)walk.x] == '0')
+		p->pos.x = walk.x;
+	if (map->map[(int)walk.y][(int)p->pos.x] == '0')
+		p->pos.y = walk.y;
 }
 
 void	p_update(t_obj *obj, t_map *map)
 {
-	t_player	*player;
+	t_player	*p;
 
-	player = (t_player *)obj;
-	movement(player, map->map);
+	p = (t_player *)obj;
+	if (game()->eng->key[K_LEFT] || game()->eng->key[K_RIGHT])
+		rotate(game()->eng, p);
+	if (game()->eng->key[K_W] || game()->eng->key[K_S]
+	|| game()->eng->key[K_A] || game()->eng->key[K_D])
+		walk(game()->eng, p, map);
 }
 
-t_obj	*create_player(t_vtr pos, int level)
+t_obj	*create_player(t_vtr pos)
 {
-	t_player	*player;
+	t_player	*p;
 
-	(void)level;
-	player = ft_calloc(1, sizeof(t_player));
-	if (!player)
+	p = ft_calloc(1, sizeof(t_player));
+	if (!p)
 		return (NULL);
-	player->lives = 3;
-	player->pos = pos;
-	player->dir = get_dir(pick_range(NORTH, SOUTH));
-	player->plane.x = -player->dir.y * FOV;
-	player->plane.y = player->dir.x * FOV;
-	player->angle = get_angle(player->dir.x, player->dir.y);
-	player->rotate = rotate;
-	player->update = p_update;
-	return ((t_obj *)player);
+	p->lives = 3;
+	p->pos = pos;
+	p->update = p_update;
+	p->angle = pick_rand(pick_rand(M_PI_2, 0), pick_rand(M_PI, 3 * M_PI_2));
+	set_orientation(p);
+	return ((t_obj *)p);
 }

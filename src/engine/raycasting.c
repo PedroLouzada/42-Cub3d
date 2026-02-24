@@ -8,27 +8,27 @@ void	compute_perp(t_ray *r)
         r->perp = r->sDist.y - r->dltDist.y;
 }
 
-void	init_ray(t_ray *r, t_player *p, int column)
+void	init_ray(t_ray *r, t_obj *obj, int column)
 {
 	double	cameraX;
 
 	cameraX = 2.0 * column / (double)WIN_WIDTH - 1.0;
-	r->dir.x = p->dir.x + p->plane.x * cameraX;
-	r->dir.y = p->dir.y + p->plane.y * cameraX;
-	r->map.x = floor(p->pos.x);
-	r->map.y = floor(p->pos.y);
+	r->dir.x = obj->dir.x + obj->plane.x * cameraX;
+	r->dir.y = obj->dir.y + obj->plane.y * cameraX;
+	r->map.x = floor(obj->pos.x);
+	r->map.y = floor(obj->pos.y);
 	r->dltDist.x = fabs(1 / r->dir.x);
 	r->dltDist.y = fabs(1 / r->dir.y);
 	r->step.x = (r->dir.x > 0) - (r->dir.x < 0);
 	r->step.y = (r->dir.y > 0) - (r->dir.y < 0);
 	if (r->dir.x < 0)
-		r->sDist.x = (p->pos.x - r->map.x) * r->dltDist.x;
+		r->sDist.x = (obj->pos.x - r->map.x) * r->dltDist.x;
 	else
-		r->sDist.x = (r->map.x + 1.0 - p->pos.x) * r->dltDist.x;
+		r->sDist.x = (r->map.x + 1.0 - obj->pos.x) * r->dltDist.x;
 	if (r->dir.y < 0)
-		r->sDist.y = (p->pos.y - r->map.y) * r->dltDist.y;
+		r->sDist.y = (obj->pos.y - r->map.y) * r->dltDist.y;
 	else
-		r->sDist.y = (r->map.y + 1.0 - p->pos.y) * r->dltDist.y;
+		r->sDist.y = (r->map.y + 1.0 - obj->pos.y) * r->dltDist.y;
 }
 
 void	dda(t_ray *r, t_str *map)
@@ -52,16 +52,18 @@ void	dda(t_ray *r, t_str *map)
 	}
 }
 
-void	cast_rays(t_map *map, t_player *p)
+void	cast_rays(t_str *map, t_ray *r, t_obj *obj, int type)
 {
 	int	i;
 
 	i = -1;
 	while (++i < WIN_WIDTH)
 	{
-		init_ray(&map->rays[i], p, i);
-		dda(&map->rays[i], map->map);
-		compute_perp(&map->rays[i]);
-		draw_column(&map->rays[i], i);
+		init_ray(&r[i], obj, i);
+		dda(&r[i], map);
+		compute_perp(&r[i]);
+		if (type == E)
+			continue ;
+		draw_column(&r[i], i);
 	}
 }

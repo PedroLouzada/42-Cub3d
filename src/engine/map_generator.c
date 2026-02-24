@@ -35,7 +35,7 @@ void	print_map(t_map *map)
 	free(file);
 }
 
-void	generate_objs(t_map *map, int level)
+void	generate_objs(t_map *map)
 {
 	t_vtr	pos;
 	int		data[2];
@@ -55,7 +55,7 @@ void	generate_objs(t_map *map, int level)
 				return (map->destroy(map));
 		}
 	}
-	map->objs[P] = create_player(spawn(map, '0'), level);
+	map->objs[P] = create_player(spawn(map, '0'));
 	if (!map->objs[P])
 		return (map->destroy(map));
 	map->objs[E] = create_enemy(spawn(map, '0'));
@@ -83,7 +83,7 @@ void	generate_paths(t_map *map, t_vtr pos, int paths)
 	generate_paths(map, rand_pos(map->map_size), --paths);
 }
 
-void	generate_map(t_map *map, int level)
+void	generate_map(t_map *map)
 {
 	t_vtr	pos;
 
@@ -104,7 +104,7 @@ void	generate_map(t_map *map, int level)
 	pos = spawn(map, '.');
 	check_map(map, pos.x, pos.y);
 	if (!valid_map(map))
-		return (map->clean(map), generate_map(map, level));
-	generate_objs(map, level);
+		return (map->clean(map), generate_map(map));
+	generate_objs(map);
 	set_exit(map);
 }

@@ -5,7 +5,7 @@
 # include "types.h"
 
 //Raycasting
-void	cast_rays(t_map *map, t_player *p);
+void	cast_rays(t_str *map, t_ray *r, t_obj *obj, int type);
 
 //Data
 t_game	*game(void);
@@ -18,9 +18,9 @@ int		ft_min(int a, int b);
 void	round_vtrs(t_vtr *a, t_vtr *b);
 
 //Draw Utils
-void	draw_fov(t_map *map, t_player *p);
-void	draw_line(t_vtr start, t_vtr end);
 void	draw_column(t_ray *r, int column);
+void	draw_fov(t_ray *r, t_obj *obj, int type);
+void	draw_line(t_vtr start, t_vtr end, int color);
 void	ft_pixel_put(t_mlx *mlx, int x, int y, int color);
 void	draw_tile(t_mlx *mlx, t_vtr tpos, int scale, int color);
 void	draw_circle(t_mlx *mlx, t_vtr cpos, int radius, int color);
@@ -41,7 +41,7 @@ void	move_in_path(t_map *map, t_vtr *pos, int direction);
 //Rand Utils
 void	init_rand(void);
 t_vtr	rand_pos(t_vtr range);
-int		pick_rand(int a, int b);
+double	pick_rand(double a, double b);
 double	pick_range(double min, double max);
 
 //Libft Utils
@@ -52,15 +52,14 @@ void	*ft_calloc(size_t nm, size_t sz);
 void	clean_map(t_map *map);
 void	print_map(t_map *map);
 void	destroy_map(t_map *map);
-void	generate_map(t_map *map, int level);
+void	generate_map(t_map *map);
 
 //Initializors
 t_map	*create_map(int level, int fd);
 t_obj	*create_door(t_vtr pos);
 t_obj	*create_enemy(t_vtr pos);
-t_obj	*create_player(t_vtr pos, int level);
+t_obj	*create_player(t_vtr pos);
 void	init_game(int ac, t_str *av);
-
 
 int     mouse_press(int button, int x, int y, void *arg);
 int     exit_game(char *str);
@@ -74,6 +73,5 @@ int key_unpress(int key);
 void	draw_minimap(t_map *map);
 int	get_pos(int *pos, char **map, int entity);
 unsigned long	get_time(void);
-t_vtr	get_dir(int orientation);
 
 #endif

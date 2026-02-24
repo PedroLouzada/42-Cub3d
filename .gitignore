@@ -1,4 +1,4 @@
 lib/mlx
 lib/minilibx-linux
 .vscode
-build/*.o
+obj/*.o

@@ -33,7 +33,8 @@ void	draw_minimap(t_map *map)
 			draw_tile(game()->mlx, data[1], TILE_SZ, color);
 		}
 	}
-	draw_fov(map, (t_player *)map->objs[P]);
+	draw_fov(map->rays[E], map->objs[E], E);
+	draw_fov(map->rays[P], map->objs[P], P);
 	draw_characters(map);
 }
 
@@ -50,12 +51,15 @@ t_map	*create_map(int level, int fd)
 	map->map_size.y = MAP_HEIGHT;
 	map->destroy = destroy_map;
 	map->minimap = draw_minimap;
-	map->rays = ft_calloc(WIN_WIDTH + 1, sizeof(t_ray));
-	if (!map->rays)
+	map->rays[E] = ft_calloc(WIN_WIDTH + 1, sizeof(t_ray));
+	if (!map->rays[E])
+		parse_exit("Memory Allocation\n", NULL, fd, 1);
+	map->rays[P] = ft_calloc(WIN_WIDTH + 1, sizeof(t_ray));
+	if (!map->rays[P])
 		parse_exit("Memory Allocation\n", NULL, fd, 1);
 	if (level)
 	{
-		generate_map(map, level);
+		generate_map(map);
 		print_map(map);
 	}
 	return (map);

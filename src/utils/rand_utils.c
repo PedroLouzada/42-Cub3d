@@ -38,9 +38,9 @@ void	where_to_next(int *direction)
 	*direction = where_to;
 }
 
-int	pick_rand(int a, int b)
+double	pick_rand(double a, double b)
 {
-	int pick;
+	double pick;
 
 	pick = rand() % 2;
 	if (pick)

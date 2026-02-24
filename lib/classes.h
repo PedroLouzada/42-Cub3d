@@ -16,6 +16,9 @@ struct s_obj
 	t_vtr		pos;
 	int 		lives;
 	char 		direction;
+	t_vtr		dir;
+	t_vtr		plane;
+	double		angle;
 	void		(*damage)(t_obj *this);
 	void		(*update)(t_obj *this, t_map *map);
 	bool		(*collision)(t_obj *this, t_obj *target);
@@ -28,14 +31,13 @@ struct s_player
 	t_vtr		pos;
 	int 		lives;
 	char 		direction; // necessario?
+	t_vtr		dir;
+	t_vtr		plane;
+	double		angle;
 	void		(*damage)(t_obj *this);
 	void		(*update)(t_obj *this, t_map *map);
 	bool		(*collision)(t_obj *this, t_obj *target);
 	void 		*(*get_texture)(t_obj *this, double dir);
-	t_vtr		dir;
-	t_vtr		plane;
-	double		angle;
-	void		(*rotate)(t_player *player, double angle);
 };
 
 struct s_enemy
@@ -43,11 +45,13 @@ struct s_enemy
 	t_vtr		pos;
 	int 		lives;
 	char 		direction;
+	t_vtr		dir;
+	t_vtr		plane;
+	double		angle;
 	void		(*damage)(t_obj *this);
 	void		(*update)(t_obj *this, t_map *map);
 	bool		(*collision)(t_obj *this, t_obj *target);
 	void 		*(*get_texture)(t_obj *this, double dir);
-	double 		angle;
 };
 
 struct s_door
@@ -55,6 +59,9 @@ struct s_door
 	t_vtr		pos;
 	int 		lives;
 	char 		direction;
+	t_vtr		dir;
+	t_vtr		plane;
+	double		angle;
 	void		(*damage)(t_obj *this);
 	void		(*update)(t_obj *this, t_map *map);
 	bool		(*collision)(t_obj *this, t_obj *target);
@@ -64,13 +71,13 @@ struct s_door
 struct s_map
 {
 	t_str		*map;
-	t_ray		*rays;
 	int			level;
 	t_obj		**objs;
+	t_ray		*rays[2];
 	t_vtr		map_size;
 	t_vtr		mini_size;
-	t_vtr		player_pos;
 	char		direction;
+	t_vtr		player_pos;
 	void 		*colors[2];
 	void 		*textures[4];
 	void		(*clean)(t_map*);

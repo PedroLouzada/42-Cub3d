@@ -68,7 +68,8 @@ int	exit_game(char *str)
 				free(game()->map[i]->objs[j++]);
 			free(game()->map[i]->objs);
 		}
-		free(game()->map[i]->rays);
+		free(game()->map[i]->rays[E]);
+		free(game()->map[i]->rays[P]);
 		if (game()->map[i])
 			free(game()->map[i]);
 	}

@@ -53,7 +53,7 @@ void	init_objs(t_map *map, int d)
 	if (!map->objs)
 		parse_exit("Memory Allocation11\n", NULL, -1, 1);
 	change_door(map->map, map->map_size);
-	map->objs[0] = create_player(get_vtr(map->map), 0);
+	map->objs[P] = create_player(get_vtr(map->map));
 	if (!map->objs)
 		parse_exit("Memory Allocation\n", NULL, -1, 1);
 }
