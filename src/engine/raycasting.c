@@ -17,6 +17,7 @@ void	init_ray(t_ray *r, t_obj *obj, int column)
 	r->dir.y = obj->dir.y + obj->plane.y * cameraX;
 	r->map.x = floor(obj->pos.x);
 	r->map.y = floor(obj->pos.y);
+	r->pos = obj->pos;
 	r->dltDist.x = fabs(1 / r->dir.x);
 	r->dltDist.y = fabs(1 / r->dir.y);
 	r->step.x = (r->dir.x > 0) - (r->dir.x < 0);
@@ -52,10 +53,12 @@ void	dda(t_ray *r, t_str *map)
 	}
 }
 
-void	cast_rays(t_str *map, t_ray *r, t_obj *obj, int type)
+void	cast_rays(t_map *m, t_ray *r, t_obj *obj, int type)
 {
 	int	i;
+	char **map;
 
+	map = m->map;
 	i = -1;
 	while (++i < WIN_WIDTH)
 	{
@@ -64,6 +67,6 @@ void	cast_rays(t_str *map, t_ray *r, t_obj *obj, int type)
 		compute_perp(&r[i]);
 		if (type == E)
 			continue ;
-		draw_column(&r[i], i);
+		draw_column(&r[i], i, m->textures);
 	}
 }

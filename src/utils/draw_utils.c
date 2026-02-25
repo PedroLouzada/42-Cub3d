@@ -27,12 +27,12 @@ void	draw_circle(t_mlx *mlx, t_vtr cpos, int radius, int color)
 			pos.x++;
 		}
 		pos.y++;
-	}	
+	}
 }
 
 void	draw_tile(t_mlx *mlx, t_vtr tpos, int scale, int color)
 {
-	t_vtr pos;
+	t_vtr	pos;
 
 	pos.y = -1;
 	while (++pos.y < scale)
@@ -72,24 +72,94 @@ void	draw_line(t_vtr start, t_vtr end, int color)
 	}
 }
 
-void	draw_column(t_ray *r, int column)
+int	texture_dir(t_ray *r)
+{
+	if (r->side == 0)
+	{
+		if (r->dir.x > 0)
+			return (1);
+		else
+			return (3);
+	}
+	else
+	{
+		if (r->dir.y > 0)
+			return (0);
+		else
+			return (2);
+	}
+	return (0);
+}
+
+void	set_tx(t_ray *ray)
+{
+	int		tx;
+	double	wall_x;
+
+	if (ray->side == 0)
+		wall_x = ray->pos.y + ray->perp * ray->dir.y;
+	else
+		wall_x = ray->pos.x + ray->perp * ray->dir.x;
+	wall_x -= floor(wall_x);
+	tx = (int)(wall_x * (double)64);
+	if (tx < 0)
+		tx = 0;
+	if (tx >= 64)
+		tx = 64 - 1;
+	if (ray->side == 0 && ray->dir.x > 0)
+		tx = 64 - tx - 1;
+	if (ray->side == 1 && ray->dir.y < 0)
+		tx = 64 - tx - 1;
+	ray->tex.tex_x = tx;
+}
+
+void	set_ty(t_ray *ray)
+{
+	int	ty;
+
+	ty = (int)ray->tex.tex_pos;
+	ray->tex.tex_pos += ray->tex.tex_step;
+	if (ty < 0)
+		ty = 0;
+	if (ty >= 64)
+		ty = 64 - 1;
+	ray->tex.tex_y = ty;
+}
+
+void	set_tex(t_ray *ray, double start, double lheight)
+{
+	set_tx(ray);
+	ray->tex.txt_id = texture_dir(ray);
+	ray->tex.tex_step = (double)64 / lheight;
+	ray->tex.tex_pos = (start - (WIN_HEIGHT / 2) + (lheight / 2))
+		* ray->tex.tex_step;
+}
+
+void	draw_column(t_ray *r, int column, t_imgs **tex)
 {
 	double	i;
 	t_vtr	draw;
-	double	lHeight;
+	double	lheight;
+	t_imgs	*img;
 
-	lHeight = (double)WIN_HEIGHT / r->perp;
-	draw.x = -lHeight / 2 + (double)WIN_HEIGHT / 2;
-	draw.y = lHeight / 2 + (double)WIN_HEIGHT / 2;
+	lheight = (double)WIN_HEIGHT / r->perp;
+	draw.x = -lheight / 2 + (double)WIN_HEIGHT / 2;
+	draw.y = lheight / 2 + (double)WIN_HEIGHT / 2;
 	if (draw.x < 0)
 		draw.x = 0;
 	if (draw.y > WIN_HEIGHT)
 		draw.y = WIN_HEIGHT;
 	i = -1;
+	set_tex(r, draw.x, lheight);
+	img = tex[r->tex.txt_id];
 	while (++i < draw.x)
 		ft_pixel_put(game()->mlx, column, (int)i, CEILING);
 	while (++i < draw.y)
-		ft_pixel_put(game()->mlx, column, (int)i, WALL);
+	{
+		set_ty(r);
+		ft_pixel_put(game()->mlx, column, (int)i, ft_get_pixel_color(img,
+				r->tex.tex_x, r->tex.tex_y));
+	}
 	while (++i < WIN_HEIGHT)
 		ft_pixel_put(game()->mlx, column, (int)i, FLOOR);
 }

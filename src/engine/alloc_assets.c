@@ -49,10 +49,7 @@ void	alloc_assets(void)
 		"./assets/imgs/home/border_butt.xpm",
 		"./assets/imgs/home/wasd_keys.xpm", "./assets/imgs/home/arrow_keys.xpm",
 		"./assets/imgs/home/mouse.xpm", "./assets/imgs/home/back_button.xpm",
-		"./assets/imgs/home/back_border.xpm", "./assets/imgs/enemy/enemy00.xpm",
-		"./assets/imgs/enemy/enemy01.xpm", "./assets/imgs/enemy/enemy02.xpm",
-		"./assets/imgs/enemy/enemy03.xpm", "./assets/imgs/enemy/enemy04.xpm",
-		"./assets/imgs/enemy/enemy05.xpm", "./assets/imgs/enemy/enemy_test.xpm",
+		"./assets/imgs/home/back_border.xpm", 
 		NULL};
 	i = 0;
 	while (paths[i])

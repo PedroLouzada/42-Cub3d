@@ -72,8 +72,8 @@ void	control_screen(void)
 
 void	game_scene(void)
 {
-	cast_rays(game()->map[1]->map, game()->map[1]->rays[E], game()->map[1]->objs[E], E);
-	cast_rays(game()->map[1]->map, game()->map[1]->rays[P], game()->map[1]->objs[P], P);
+	cast_rays(game()->map[1], game()->map[1]->rays[E], game()->map[1]->objs[E], E);
+	cast_rays(game()->map[1], game()->map[1]->rays[P], game()->map[1]->objs[P], P);
 	game()->map[1]->minimap(game()->map[1]);
 }
 
