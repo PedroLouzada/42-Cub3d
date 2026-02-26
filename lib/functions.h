@@ -19,9 +19,9 @@ void	round_vtrs(t_vtr *a, t_vtr *b);
 
 //Draw Utils
 void	draw_column(t_ray *r, int column);
-void	draw_flashlight(t_vtr size, int radius);
 void	draw_fov(t_ray *r, t_vtr pos, int type);
 void	draw_line(t_vtr start, t_vtr end, int color);
+void	draw_flashlight(t_vtr size, int radius, int type);
 void	ft_pixel_put(t_mlx *mlx, int x, int y, int color);
 void	draw_tile(t_mlx *mlx, t_vtr tpos, int scale, int color);
 void	draw_circle(t_mlx *mlx, t_vtr cpos, int radius, int color);
