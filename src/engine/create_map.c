@@ -78,7 +78,7 @@ void	draw_minimap(t_map *map)
 	draw_characters(map);
 	data[4].x = (map->map_size.x / 2) * TILE_SZ;
     data[4].y = (map->map_size.y / 2) * TILE_SZ;
-	draw_flashlight(data[4], data[4].y / 36);
+	draw_flashlight(data[4], data[4].y / 36, MINIMAP);
 }
 
 void	alloc_textures(t_map *map, int level)
