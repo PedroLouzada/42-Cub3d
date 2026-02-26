@@ -45,7 +45,7 @@ void	dda(t_ray *r, t_map *map)
 	}
 }
 
-void	cast_rays(t_map *map, t_ray *r, t_obj *obj, int type)
+void	cast_rays(t_map *m, t_ray *r, t_obj *obj, int type)
 {
 	int	i;
 	char **map;
@@ -55,7 +55,7 @@ void	cast_rays(t_map *map, t_ray *r, t_obj *obj, int type)
 	while (++i < WIN_WIDTH)
 	{
 		init_ray(&r[i], obj, i);
-		dda(&r[i], map);
+		dda(&r[i], m);
 		if (r[i].side == 0)
 			r[i].perp = r[i].sDist.x - r[i].dltDist.x;
 		else
