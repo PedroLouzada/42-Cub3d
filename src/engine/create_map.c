@@ -18,8 +18,10 @@ int		tile_color(t_map *map, t_vtr pos)
 
 void	draw_characters(t_map *map)
 {
-	t_vtr	pos;
+	t_player	*p;
+	t_vtr		pos;
 
+	p = (t_player *)map->objs[P];
 	// draw_fov(map->rays[P], map->objs[P]->pos, P);
 	// draw_fov(map->rays[E], map->objs[E]->pos, E);
 	// pos.x = map->objs[P]->pos.x * TILE_SZ;
@@ -34,6 +36,12 @@ void	draw_characters(t_map *map)
 	pos.x *= TILE_SZ;
 	pos.y *= TILE_SZ;
 	draw_circle(game()->mlx, pos, TILE_SZ / 2.5, BLUE);
+	pos.x = (map->map_size.x / 2) * TILE_SZ;
+    pos.y = (map->map_size.y / 2) * TILE_SZ;
+	if (game()->eng->key[K_F] == TRUE && p->battery > 0)
+		draw_flashlight(pos, pos.y / 36, MINIMAP);
+	else
+		draw_flashlight(pos, 0, MINIMAP);
 }
 
 // void	draw_minimap(t_map *map)
@@ -56,7 +64,7 @@ void	draw_characters(t_map *map)
 
 void	draw_minimap(t_map *map)
 {
-	t_vtr	data[5];
+	t_vtr	data[4];
 
 	data[0].y = -1;
 	data[1].y = map->objs[P]->pos.y - (map->map_size.y / 4);
@@ -76,9 +84,6 @@ void	draw_minimap(t_map *map)
 		data[1].y++;
 	}
 	draw_characters(map);
-	data[4].x = (map->map_size.x / 2) * TILE_SZ;
-    data[4].y = (map->map_size.y / 2) * TILE_SZ;
-	draw_flashlight(data[4], data[4].y / 36, MINIMAP);
 }
 
 void	alloc_textures(t_map *map, int level)
