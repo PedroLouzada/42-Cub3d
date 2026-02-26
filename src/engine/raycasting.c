@@ -1,13 +1,5 @@
 #include "cub3d.h"
 
-void	compute_perp(t_ray *r)
-{
-    if (r->side == 0)
-        r->perp = r->sDist.x - r->dltDist.x;
-    else
-        r->perp = r->sDist.y - r->dltDist.y;
-}
-
 void	init_ray(t_ray *r, t_obj *obj, int column)
 {
 	double	cameraX;
@@ -31,7 +23,7 @@ void	init_ray(t_ray *r, t_obj *obj, int column)
 		r->sDist.y = (r->map.y + 1.0 - obj->pos.y) * r->dltDist.y;
 }
 
-void	dda(t_ray *r, t_str *map)
+void	dda(t_ray *r, t_map *map)
 {
 	while (1)
 	{
@@ -47,12 +39,12 @@ void	dda(t_ray *r, t_str *map)
 			r->map.y += r->step.y;
 			r->side = 1;
 		}
-		if (map[(int)r->map.y][(int)r->map.x] == '1')
+		if (map->map[(int)r->map.y][(int)r->map.x] == '1')
 			break ;
 	}
 }
 
-void	cast_rays(t_str *map, t_ray *r, t_obj *obj, int type)
+void	cast_rays(t_map *map, t_ray *r, t_obj *obj, int type)
 {
 	int	i;
 
@@ -61,7 +53,10 @@ void	cast_rays(t_str *map, t_ray *r, t_obj *obj, int type)
 	{
 		init_ray(&r[i], obj, i);
 		dda(&r[i], map);
-		compute_perp(&r[i]);
+		if (r[i].side == 0)
+			r[i].perp = r[i].sDist.x - r[i].dltDist.x;
+		else
+			r[i].perp = r[i].sDist.y - r[i].dltDist.y;
 		if (type == E)
 			continue ;
 		draw_column(&r[i], i);

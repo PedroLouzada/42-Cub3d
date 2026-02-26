@@ -5,7 +5,7 @@
 # include "types.h"
 
 //Raycasting
-void	cast_rays(t_str *map, t_ray *r, t_obj *obj, int type);
+void	cast_rays(t_map *map, t_ray *r, t_obj *obj, int type);
 
 //Data
 t_game	*game(void);
@@ -19,12 +19,12 @@ void	round_vtrs(t_vtr *a, t_vtr *b);
 
 //Draw Utils
 void	draw_column(t_ray *r, int column);
-void	draw_fov(t_ray *r, t_obj *obj, int type);
+void	draw_flashlight(t_vtr size, int radius);
+void	draw_fov(t_ray *r, t_vtr pos, int type);
 void	draw_line(t_vtr start, t_vtr end, int color);
 void	ft_pixel_put(t_mlx *mlx, int x, int y, int color);
 void	draw_tile(t_mlx *mlx, t_vtr tpos, int scale, int color);
 void	draw_circle(t_mlx *mlx, t_vtr cpos, int radius, int color);
-void	ft_pixel_put(t_mlx *mlx, int x, int y, int color);
 
 //Map Utils
 void	set_exit(t_map *map);

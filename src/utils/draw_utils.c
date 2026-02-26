@@ -27,7 +27,7 @@ void	draw_circle(t_mlx *mlx, t_vtr cpos, int radius, int color)
 			pos.x++;
 		}
 		pos.y++;
-	}	
+	}
 }
 
 void	draw_tile(t_mlx *mlx, t_vtr tpos, int scale, int color)

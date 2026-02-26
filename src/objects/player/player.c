@@ -51,7 +51,7 @@ void	walk(t_eng *eng, t_player *p, t_map *map)
 	double	speed;
 	double	walkAngle;
 
-	speed = 0.015;
+	speed = 0.045;
 	if (eng->key[SHIFT])
 		speed *= 2.0;
 	walkAngle = p->angle;
