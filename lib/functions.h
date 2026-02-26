@@ -55,11 +55,11 @@ void	destroy_map(t_map *map);
 void	generate_map(t_map *map);
 
 //Initializors
-t_map	*create_map(int level, int fd);
-t_obj	*create_door(t_vtr pos);
 t_obj	*create_enemy(t_vtr pos);
 t_obj	*create_player(t_vtr pos);
 void	init_game(int ac, t_str *av);
+t_map	*create_map(int level, int fd);
+t_obj	*create_door(t_map *map, t_vtr pos);
 
 int     mouse_press(int button, int x, int y, void *arg);
 int     exit_game(char *str);

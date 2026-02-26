@@ -38,6 +38,7 @@ struct s_player
 	void		(*update)(t_obj *this, t_map *map);
 	bool		(*collision)(t_obj *this, t_obj *target);
 	void 		*(*get_texture)(t_obj *this, double dir);
+	double		battery;
 };
 
 struct s_enemy

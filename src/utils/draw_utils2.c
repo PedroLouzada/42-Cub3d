@@ -13,6 +13,8 @@ void	draw_fov(t_ray *r, t_vtr pos, int type)
     {
 		if (r[i].perp < 0 || r[i].perp > WIN_WIDTH)
             continue;
+		if (r[i].perp > RANGE)
+			r[i].perp = RANGE;
         e.x = (pos.x + r[i].dir.x * r[i].perp) * TILE_SZ;
         e.y = (pos.y + r[i].dir.y * r[i].perp) * TILE_SZ;
 		if (type == E)
@@ -51,7 +53,7 @@ void 	darken_color(double distance, int radius, int *color, int type)
 	rgb[1] = (*color >> 8) & 0xFF;
 	rgb[2] = *color & 0xFF;
     brightness = 1.0 - intensity;
-	if (brightness < 0.175 && type == VIEW)
+	if (brightness < 0.175 && type != MINIMAP)
 		brightness = 0.175;
     rgb[0] = (int)(rgb[0] * brightness);
     rgb[1] = (int)(rgb[1] * brightness);

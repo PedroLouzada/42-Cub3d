@@ -74,6 +74,10 @@ void	p_update(t_obj *obj, t_map *map)
 	if (game()->eng->key[K_W] || game()->eng->key[K_S]
 	|| game()->eng->key[K_A] || game()->eng->key[K_D])
 		walk(game()->eng, p, map);
+	if (game()->eng->key[K_F] == true)
+		p->battery -= 0.1;
+	if (game()->eng->key[K_F] == false && p->battery < 100)
+		p->battery += 0.05;
 }
 
 t_obj	*create_player(t_vtr pos)
@@ -85,6 +89,7 @@ t_obj	*create_player(t_vtr pos)
 		return (NULL);
 	p->lives = 3;
 	p->pos = pos;
+	p->battery = 100;
 	p->update = p_update;
 	p->angle = pick_rand(pick_rand(M_PI_2, 0), pick_rand(M_PI, 3 * M_PI_2));
 	set_orientation(p);
