@@ -104,12 +104,12 @@ void	set_tx(t_ray *ray, int width)
 	tx = (int)(wall_x * width);
 	if (tx < 0)
 		tx = 0;
-	if (tx >= 64)
-		tx = 64 - 1;
+	if (tx >= width)
+		tx = width - 1;
 	if (ray->side == 0 && ray->dir.x > 0)
-		tx = 64 - tx - 1;
+		tx = width - tx - 1;
 	if (ray->side == 1 && ray->dir.y < 0)
-		tx = 64 - tx - 1;
+		tx = width - tx - 1;
 	ray->tex.tex_x = tx;
 }
 
