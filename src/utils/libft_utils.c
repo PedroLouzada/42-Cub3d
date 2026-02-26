@@ -52,7 +52,6 @@ int	exit_game(char *str)
 {
 	int	i;
 	int	j;
-
 	if (str)
 		write(2, str, ft_strlen(str));
 	i = -1;
@@ -70,7 +69,7 @@ int	exit_game(char *str)
 		}
 		free(game()->map[i]->rays[E]);
 		free(game()->map[i]->rays[P]);
-		if (game()->map[i])
+		if (i < 6)
 			free(game()->map[i]);
 	}
 	mlx_destroy_display(game()->mlx->mlx);

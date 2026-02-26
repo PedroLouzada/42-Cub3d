@@ -86,6 +86,33 @@ void	draw_minimap(t_map *map)
 	draw_characters(map);
 }
 
+void	alloc_textures(t_map *map, int level)
+{
+	int		i;
+	bool	index;
+
+	i = -1;
+	index = 0;
+	if (level % 2)
+	{
+		while (++i < 4)
+		{
+			if (!index)
+			{
+				map->textures[i] = new_img("./assets/textures/green_wall/green_wall_1.xpm");
+				index = !index;
+			}
+			else
+			{
+				map->textures[i] = new_img("./assets/textures/green_wall/green_wall_2.xpm");
+				index = !index;
+			}
+			if (!map->textures[i])
+				exit_game("Memory Allocation\n");
+		}
+	}
+}
+
 t_map	*create_map(int level, int fd)
 {
 	t_map *const map = ft_calloc(1, sizeof(t_map));
@@ -109,6 +136,7 @@ t_map	*create_map(int level, int fd)
 	{
 		generate_map(map);
 		print_map(map);
+		alloc_textures(map, level);
 	}
 	return (map);
 }

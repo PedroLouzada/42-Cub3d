@@ -80,7 +80,7 @@ struct s_map
 	char		direction;
 	t_vtr		player_pos;
 	void 		*colors[2];
-	void 		*textures[4];
+	t_imgs 		*textures[4];
 	void		(*clean)(t_map*);
 	void		(*minimap)(t_map*);
 	void		(*destroy)(t_map*);
