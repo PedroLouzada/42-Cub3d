@@ -13,6 +13,7 @@
 # include "classes.h"
 # include <sys/time.h>
 # include <curses.h>
+# include "thread.h"
 # include "functions.h"
 # include "minilibx-linux/mlx.h"
 # include "minilibx-linux/mlx_int.h"

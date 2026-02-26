@@ -30,11 +30,12 @@ SRCS =  src/main.c \
 		src/utils/libft_utils.c \
 		src/utils/time_utils.c \
 		src/engine/raycasting.c \
+		src/engine/threads.c \
 
 OBJ_DIR = obj
 OBJS = $(SRCS:src/%.c=$(OBJ_DIR)/%.o)
 CC = cc
-CFLAGS = -g -Ofast #-Wall -Wextra -Werror
+CFLAGS = -g -O2 #-Wall -Wextra -Werror
 LIBMLX = -Llib/minilibx-linux -lmlx -lXext -lX11 -lm
 INCLUDE = -Ilib/minilibx-linux -Ilib -Ilib
 
