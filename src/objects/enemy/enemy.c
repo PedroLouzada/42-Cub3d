@@ -23,7 +23,7 @@ static void	walk(t_enemy *e, t_map *map)
 	t_vtr	walk;
 	double	speed;
 
-	speed = 0.015;
+	speed = 0.03;
 	walk.x = e->pos.x + cos(e->angle) * speed;
 	walk.y = e->pos.y + sin(e->angle) * speed;
 	if (map->map[(int)e->pos.y][(int)walk.x] == '0')

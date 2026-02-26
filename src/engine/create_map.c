@@ -1,41 +1,84 @@
 #include "cub3d.h"
 
+int		tile_color(t_map *map, t_vtr pos)
+{
+	int		color;
+
+	color = BLACK;
+	if (pos.y >= 0 && pos.y < map->map_size.y
+	&& pos.x >= 0 && pos.x < map->map_size.x)
+	{
+		if (map->map[(int)pos.y][(int)pos.x] == '1')
+			color = WHITE;
+		if (map->map[(int)pos.y][(int)pos.x] == 'E')
+			color = GREEN;
+	}
+	return (color);
+}
+
 void	draw_characters(t_map *map)
 {
 	t_vtr	pos;
 
-	pos.x = map->objs[E]->pos.x * TILE_SZ;
-	pos.y = map->objs[E]->pos.y * TILE_SZ;
-	draw_circle(game()->mlx, pos, TILE_SZ / 2.5, RED);
-	pos.x = map->objs[P]->pos.x * TILE_SZ;
-	pos.y = map->objs[P]->pos.y * TILE_SZ;
+	// draw_fov(map->rays[P], map->objs[P]->pos, P);
+	// draw_fov(map->rays[E], map->objs[E]->pos, E);
+	// pos.x = map->objs[P]->pos.x * TILE_SZ;
+	// pos.y = map->objs[P]->pos.y * TILE_SZ;
+	// draw_circle(game()->mlx, pos, TILE_SZ / 2.5, BLUE);
+	// pos.x = map->objs[E]->pos.x * TILE_SZ;
+	// pos.y = map->objs[E]->pos.y * TILE_SZ;
+	// draw_circle(game()->mlx, pos, TILE_SZ / 2.5, RED);
+	pos.x = map->map_size.x / 4;
+	pos.y = map->map_size.y / 4;
+	draw_fov(map->rays[P], pos, P);
+	pos.x *= TILE_SZ;
+	pos.y *= TILE_SZ;
 	draw_circle(game()->mlx, pos, TILE_SZ / 2.5, BLUE);
 }
 
+// void	draw_minimap(t_map *map)
+// {
+// 	t_vtr	data[2];
+
+// 	data[0].y = -1;
+// 	while (++data[0].y < map->map_size.y)
+// 	{
+// 		data[0].x = -1;
+// 		while (++data[0].x < map->map_size.x)
+// 		{
+// 			data[1].x = data[0].x * TILE_SZ;
+// 			data[1].y = data[0].y * TILE_SZ;
+// 			draw_tile(game()->mlx, data[1], TILE_SZ, tile_color(map, data[0]));
+// 		}
+// 	}
+// 	draw_characters(map);
+// }
+
 void	draw_minimap(t_map *map)
 {
-	int		color;
-	t_vtr	data[2];
+	t_vtr	data[5];
 
 	data[0].y = -1;
-	while (++data[0].y < map->map_size.y)
+	data[1].y = map->objs[P]->pos.y - (map->map_size.y / 4);
+	data[2].x = (map->objs[P]->pos.x - (int)map->objs[P]->pos.x) * TILE_SZ;
+    data[2].y = (map->objs[P]->pos.y - (int)map->objs[P]->pos.y) * TILE_SZ;
+	while (++data[0].y < map->map_size.y / 2)
 	{
 		data[0].x = -1;
-		while (++data[0].x < map->map_size.x)
+		data[1].x = map->objs[P]->pos.x - (map->map_size.x / 4);
+		while (++data[0].x < map->map_size.x / 2)
 		{
-			data[1].x = data[0].x * TILE_SZ;
-			data[1].y = data[0].y * TILE_SZ;
-			color = BLACK;
-			if (map->map[(int)data[0].y][(int)data[0].x] == '1')
-				color = WHITE;
-			if (map->map[(int)data[0].y][(int)data[0].x] == 'E')
-				color = GREEN;
-			draw_tile(game()->mlx, data[1], TILE_SZ, color);
+			data[3].x = data[0].x * TILE_SZ - data[2].x;
+			data[3].y = data[0].y * TILE_SZ - data[2].y;
+			draw_tile(game()->mlx, data[3], TILE_SZ, tile_color(map, data[1]));
+			data[1].x++;
 		}
+		data[1].y++;
 	}
-	draw_fov(map->rays[E], map->objs[E], E);
-	draw_fov(map->rays[P], map->objs[P], P);
 	draw_characters(map);
+	data[4].x = (map->map_size.x / 2) * TILE_SZ;
+    data[4].y = (map->map_size.y / 2) * TILE_SZ;
+	draw_flashlight(data[4], data[4].y / 36);
 }
 
 void	alloc_textures(t_map *map, int level)

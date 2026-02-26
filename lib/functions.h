@@ -17,14 +17,14 @@ void			set_time(long *time);
 int				ft_min(int a, int b);
 void			round_vtrs(t_vtr *a, t_vtr *b);
 
-// Draw Utils
 void			draw_column(t_ray *r, int column, t_imgs **tex);
-void			draw_fov(t_ray *r, t_obj *obj, int type);
-void			draw_line(t_vtr start, t_vtr end, int color);
-void			ft_pixel_put(t_mlx *mlx, int x, int y, int color);
-void			draw_tile(t_mlx *mlx, t_vtr tpos, int scale, int color);
-void			draw_circle(t_mlx *mlx, t_vtr cpos, int radius, int color);
-void			ft_pixel_put(t_mlx *mlx, int x, int y, int color);
+// Draw Utils
+void	draw_flashlight(t_vtr size, int radius);
+void	draw_fov(t_ray *r, t_vtr pos, int type);
+void	draw_line(t_vtr start, t_vtr end, int color);
+void	ft_pixel_put(t_mlx *mlx, int x, int y, int color);
+void	draw_tile(t_mlx *mlx, t_vtr tpos, int scale, int color);
+void	draw_circle(t_mlx *mlx, t_vtr cpos, int radius, int color);
 
 // Map Utils
 void			set_exit(t_map *map);
