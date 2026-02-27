@@ -57,7 +57,7 @@ int	exit_game(char *str)
 	i = -1;
 	clear_image();
 	mlx_destroy_window(game()->mlx->mlx, game()->mlx->win);
-	while (game()->map[++i])
+	while (++i < 6)
 	{
 		free_double(game()->map[i]->map);
 		if (game()->map[i]->objs)

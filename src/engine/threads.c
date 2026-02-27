@@ -1,87 +1,77 @@
 #include "thread.h"
 
-void    _clean(t_thread_plus *this)
+void	swimming(void *p)
 {
-    this->function = NULL;
-    this->arg = NULL;
+	t_job			job;
+	t_thread_plus	*this;
+
+	this = p;
+	while (1)
+	{
+		pthread_mutex_lock(&this->mutex);
+		while (!this->to_do && !this->quit)
+			pthread_cond_wait(&this->working, &this->mutex);
+		if (this->quit)
+		{
+			pthread_mutex_unlock(&this->mutex);
+			break ;
+		}
+		job = this->queue[this->index];
+		this->index = (this->index + 1) % 10;
+		this->to_do--;
+		pthread_mutex_unlock(&this->mutex);
+		if (job.function)
+			job.function(job.arg);
+	}
+	return ;
 }
 
-void *swimming(t_thread_plus *this)
+static void	_deploy(t_thread *this, void (*f)(void *), void *arg)
 {
-    void *arg;
+	t_thread_plus	*new;
 
-    while (1)
-    {
-        arg = this->get(this, this->launch);
-        if ((int)arg > 0)
-        {
-            this->set(this, this->launch, this->launch - 1);
-            this->function(this->arg);
-            this->clean(this);
-            continue ;
-        }
-        usleep(100);
-    }
-    return (NULL);
+	new = (t_thread_plus *)this;
+	pthread_mutex_lock(&new->mutex);
+	if (new->size == 10)
+	{
+		pthread_mutex_unlock(&new->mutex);
+		return ;
+	}
+	new->queue[new->size].function = f;
+	new->queue[new->size].arg = f;
+	new->size = (new->size + 1) % 10;
+	new->to_do++;
+	pthread_cond_signal(&new->working);
+	pthread_mutex_unlock(&new->mutex);
 }
 
-static void _deploy(t_thread *this, void (*f)(void *), void *arg)
+void	_destroy(t_thread *this)
 {
-    t_thread_plus *new;
+	t_thread_plus	*new;
 
-    new = (t_thread_plus *)this;
-    new->set(this, new->launch, new->launch + 1);
-    new->function = f;
-    new->arg = arg;
+	new = (t_thread_plus *)this;
+	free(new->thread_id);
+	pthread_mutex_destroy(&new->mutex);
 }
 
-static void _set(t_thread *this, void *arg, void *value)
+t_thread	*init_tpool(int n)
 {
-    const t_thread_plus *new = (t_thread_plus *)this;
+	int						i;
+	static t_thread_plus	new;
 
-    pthread_mutex_lock(&new->mutex);
-    arg = value;
-    pthread_mutex_unlock(&new->mutex);
-}
-
-static void *_get(t_thread *this, void *arg)
-{
-    void *temp;
-    const t_thread_plus *new = (t_thread_plus *)this;
-
-    pthread_mutex_lock(&new->mutex);
-    temp = arg;
-    pthread_mutex_unlock(&new->mutex);
-    return (temp);
-}
-void    _destroy(t_thread *this)
-{
-    const t_thread_plus *new = (t_thread_plus *)this;
-
-    free(new->thread_id);
-    pthread_mutex_destroy(&new->mutex);
-}
-
-t_thread *init_tpool(int n)
-{
-    int i;
-    static t_thread_plus new;
-
-    i = -1;
-    new.number = n;
-    new.deploy = _deploy;
-    new.set = _set;
-    new.get = _get;
-    new.clean = _clean;
-    new.destroy = _destroy;
-    pthread_mutex_init(&new.mutex, NULL);
-    new.thread_id = ft_calloc(n, sizeof(pthread_t));
-    if (!new.thread_id)
-        exit_game("Memory Allocation\n");
-    while (++i < n)
-    {
-        new.thread_id[i] = pthread_create(&new.thread_id[i], NULL, swimming, &new);
-        pthread_detach(new.thread_id[i]);
-    }
-    return ((t_thread *)&new);
+	i = -1;
+	new.deploy = _deploy;
+	new.destroy = _destroy;
+	pthread_cond_init(&new.working, NULL);
+	pthread_mutex_init(&new.mutex, NULL);
+	new.queue = ft_calloc(10, sizeof(t_job));
+	new.thread_id = ft_calloc(n, sizeof(pthread_t));
+	if (!new.thread_id || !new.queue)
+		exit_game("Memory Allocation\n");
+	while (++i < n)
+	{
+		pthread_create(&new.thread_id[i], NULL, (void *)swimming, &new);
+		pthread_detach(new.thread_id[i]);
+	}
+	return ((t_thread *)&new);
 }
