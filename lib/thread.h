@@ -21,10 +21,12 @@ struct							s_thread_plus
 	void						(*set)(t_thread *this, void *arg, void *value);
 	void						*(*get)(t_thread *this, void *arg);
 	void						(*destroy)(t_thread *this);
+	int							number;
+	int							launch;
 	pthread_t					*thread_id;
 	pthread_mutex_t				mutex;
 };
 
-t_thread						*init_thread(int n);
+t_thread						*init_tpool(int n);
 
 #endif
