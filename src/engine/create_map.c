@@ -38,10 +38,7 @@ void	draw_characters(t_map *map)
 	draw_circle(game()->mlx, pos, TILE_SZ / 2.5, BLUE);
 	pos.x = (map->map_size.x / 2) * TILE_SZ;
     pos.y = (map->map_size.y / 2) * TILE_SZ;
-	if (game()->eng->key[K_F] == TRUE && p->battery > 0)
-		draw_flashlight(pos, pos.y / 36, MINIMAP);
-	else
-		draw_flashlight(pos, 0, MINIMAP);
+	draw_flashlight(pos, pos.y / 36, MINIMAP);
 }
 
 // void	draw_minimap(t_map *map)

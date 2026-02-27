@@ -33,15 +33,15 @@ typedef struct s_texture
 
 typedef struct s_ray
 {
+	t_texture		tex;
 	t_vtr			dir;
 	t_vtr			map;
-	t_vtr			step;
 	t_vtr			pos;
+	t_vtr			step;
 	int				side;
 	double			perp;
 	t_vtr			sDist;
 	t_vtr			dltDist;
-	t_texture		tex;
 }					t_ray;
 
 #endif

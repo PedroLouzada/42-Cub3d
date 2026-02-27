@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-int	ft_get_pixel_color(t_imgs *img, int x, int y)
+int	ft_get_color(t_imgs *img, int x, int y)
 {
 	int	offset;
 
@@ -20,7 +20,7 @@ void	draw_img(t_imgs *img, int px, int py)
 	{
 		x = -1;
 		while (++x < img->width)
-			ft_pixel_put(mlx, px + x, py + y, ft_get_pixel_color(img, x, y));
+			ft_pixel_put(mlx, px + x, py + y, ft_get_color(img, x, y));
 	}
 }
 
@@ -81,10 +81,13 @@ void	game_scene(void)
 	cast_rays(game()->map[1], game()->map[1]->rays[E], game()->map[1]->objs[E], E);
 	cast_rays(game()->map[1], game()->map[1]->rays[P], game()->map[1]->objs[P], P);
 	if (game()->eng->key[K_F] == true && p->battery > 0)
+	{
 		draw_flashlight(size, size.y / 20, LIGHT_ON);
+		game()->map[1]->minimap(game()->map[1]);
+	}
 	else
 		draw_flashlight(size, 0, LIGHT_OFF);
-	game()->map[1]->minimap(game()->map[1]);
+	
 }
 
 void	draw_screen(t_mlx *mlx)

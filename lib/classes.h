@@ -96,6 +96,7 @@ typedef struct s_mlx
 
 typedef struct s_eng
 {
+	double	dt;
 	bool	title[2];
 	bool	key[80000];
 	int		in_button[4];

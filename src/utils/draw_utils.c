@@ -160,7 +160,7 @@ void	draw_column(t_ray *r, int column, t_imgs **tex)
 	while (++i < draw.y)
 	{
 		set_ty(r, img->height);
-		ft_pixel_put(game()->mlx, column, (int)i, ft_get_pixel_color(img,
+		ft_pixel_put(game()->mlx, column, (int)i, ft_get_color(img,
 				r->tex.tex_x, r->tex.tex_y));
 	}
 	while (++i < WIN_HEIGHT)

@@ -8,9 +8,9 @@ static void	set_orientation(t_enemy *e)
 	e->plane.y = e->dir.x * FOV;
 }
 
-static void	rotate(t_enemy *e, double rotSpeed)
+static void	rotate(t_enemy *e, double speed)
 {
-	e->angle += rotSpeed;
+	e->angle += speed * game()->eng->dt;
 	if (e->angle < 0)
 		e->angle = 2 * M_PI;
 	if (e->angle > 2 * M_PI)
@@ -23,9 +23,9 @@ static void	walk(t_enemy *e, t_map *map)
 	t_vtr	walk;
 	double	speed;
 
-	speed = 0.03;
-	walk.x = e->pos.x + cos(e->angle) * speed;
-	walk.y = e->pos.y + sin(e->angle) * speed;
+	speed = 2.0;
+	walk.x = e->pos.x + cos(e->angle) * speed * game()->eng->dt;
+	walk.y = e->pos.y + sin(e->angle) * speed * game()->eng->dt;
 	if (map->map[(int)e->pos.y][(int)walk.x] == '0')
 		e->pos.x = walk.x;
 	if (map->map[(int)walk.y][(int)e->pos.x] == '0')

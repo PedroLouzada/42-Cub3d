@@ -24,20 +24,6 @@ void	draw_fov(t_ray *r, t_vtr pos, int type)
     }
 }
 
-int		get_color(t_mlx *mlx, t_vtr pos)
-{
-	int		x;
-	int		y;
-	t_str	pixel;
-
-	x = (int)pos.x;
-	y = (int)pos.y;
-	if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
-		return (-1);
-	pixel = mlx->img->addr + (y * mlx->img->sline + x * (mlx->img->bpp / 8));
-	return (*(unsigned int *)pixel);
-}
-
 void 	darken_color(double distance, int radius, int *color, int type)
 {
 	int		rgb[3];
@@ -53,8 +39,8 @@ void 	darken_color(double distance, int radius, int *color, int type)
 	rgb[1] = (*color >> 8) & 0xFF;
 	rgb[2] = *color & 0xFF;
     brightness = 1.0 - intensity;
-	if (brightness < 0.175 && type != MINIMAP)
-		brightness = 0.175;
+	if (brightness < 0.125 && type != MINIMAP)
+		brightness = 0.125;
     rgb[0] = (int)(rgb[0] * brightness);
     rgb[1] = (int)(rgb[1] * brightness);
     rgb[2] = (int)(rgb[2] * brightness);
@@ -79,7 +65,7 @@ void	draw_flashlight(t_vtr size, int radius, int type)
 			distance = sqrt(draw.x * draw.x + draw.y * draw.y);
             if (distance < radius)
 				continue ;
-            color = get_color(game()->mlx, pos);
+            color = ft_get_color(game()->mlx->img, (int)pos.x, (int)pos.y);
 			darken_color(distance, radius, &color, type);
 			if (color < 0)
 				continue ;

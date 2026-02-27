@@ -2,10 +2,17 @@
 
 int	run(t_obj **objs)
 {
+	static double	prev;
+	static double	curr;
+
+	curr = get_time();
+	game()->eng->dt = curr - prev;
+	if (game()->eng->dt > 0.1)
+		game()->eng->dt = 0.1;
+	prev = curr;
 	objs[E]->update(objs[E], game()->map[1]);
 	objs[P]->update(objs[P], game()->map[1]);
 	draw_screen(game()->mlx);
-	usleep(33);
 	return (0);
 }
 
