@@ -11,7 +11,7 @@ void			cast_rays(t_map *map, t_ray *r, t_obj *obj, int type);
 t_game			*game(void);
 
 // Time Utils
-void			set_time(long *time);
+double			get_time(void);
 
 // Math Utils
 int				ft_min(int a, int b);
@@ -19,13 +19,12 @@ void			round_vtrs(t_vtr *a, t_vtr *b);
 
 void			draw_column(t_ray *r, int column, t_imgs **tex);
 // Draw Utils
-void	draw_flashlight(t_vtr size, int radius);
-void	draw_fov(t_ray *r, t_vtr pos, int type);
-void	draw_line(t_vtr start, t_vtr end, int color);
-void	draw_flashlight(t_vtr size, int radius, int type);
-void	ft_pixel_put(t_mlx *mlx, int x, int y, int color);
-void	draw_tile(t_mlx *mlx, t_vtr tpos, int scale, int color);
-void	draw_circle(t_mlx *mlx, t_vtr cpos, int radius, int color);
+void			draw_fov(t_ray *r, t_vtr pos, int type);
+void			draw_line(t_vtr start, t_vtr end, int color);
+void			draw_flashlight(t_vtr size, int radius, int type);
+void			ft_pixel_put(t_mlx *mlx, int x, int y, int color);
+void			draw_tile(t_mlx *mlx, t_vtr tpos, int scale, int color);
+void			draw_circle(t_mlx *mlx, t_vtr cpos, int radius, int color);
 
 // Map Utils
 void			set_exit(t_map *map);
@@ -56,11 +55,11 @@ void			destroy_map(t_map *map);
 void			generate_map(t_map *map);
 
 //Initializors
-t_obj	*create_enemy(t_vtr pos);
-t_obj	*create_player(t_vtr pos);
-void	init_game(int ac, t_str *av);
-t_map	*create_map(int level, int fd);
-t_obj	*create_door(t_map *map, t_vtr pos);
+t_obj			*create_enemy(t_vtr pos);
+t_obj			*create_player(t_vtr pos);
+void			init_game(int ac, t_str *av);
+t_map			*create_map(int level, int fd);
+t_obj			*create_door(t_map *map, t_vtr pos);
 
 int				mouse_press(int button, int x, int y, void *arg);
 int				exit_game(char *str);
@@ -73,7 +72,6 @@ int				key_press(int key);
 int				key_unpress(int key);
 void			draw_minimap(t_map *map);
 int				get_pos(int *pos, char **map, int entity);
-unsigned long	get_time(void);
-int				ft_get_pixel_color(t_imgs *img, int x, int y);
+int				ft_get_color(t_imgs *img, int x, int y);
 
 #endif

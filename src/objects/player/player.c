@@ -10,13 +10,13 @@ static void	set_orientation(t_player *p)
 
 static void	rotate(t_eng *eng, t_player *p)
 {
-	double	rotSpeed;
+	double	speed;
 
-	rotSpeed = 0.03;
+	speed = 1.0;
 	if (eng->key[K_LEFT] && !eng->key[K_RIGHT])
-		p->angle -= rotSpeed;
+		p->angle -= speed * eng->dt;
 	else if (eng->key[K_RIGHT] && !eng->key[K_LEFT])
-		p->angle += rotSpeed;
+		p->angle += speed * eng->dt;
 	if (p->angle < 0)
 		p->angle = 2 * M_PI;
 	if (p->angle > 2 * M_PI)
@@ -49,15 +49,15 @@ void	walk(t_eng *eng, t_player *p, t_map *map)
 {
 	t_vtr	walk;
 	double	speed;
-	double	walkAngle;
+	double	walk_angle;
 
-	speed = 0.045;
+	speed = 1.0;
 	if (eng->key[SHIFT])
 		speed *= 2.0;
-	walkAngle = p->angle;
-	handle_angle(eng, p, &walkAngle, &speed);
-	walk.x = p->pos.x + cos(walkAngle) * speed;
-	walk.y = p->pos.y + sin(walkAngle) * speed;
+	walk_angle = p->angle;
+	handle_angle(eng, p, &walk_angle, &speed);
+	walk.x = p->pos.x + cos(walk_angle) * speed * eng->dt;
+	walk.y = p->pos.y + sin(walk_angle) * speed * eng->dt;
 	if (map->map[(int)p->pos.y][(int)walk.x] == '0')
 		p->pos.x = walk.x;
 	if (map->map[(int)walk.y][(int)p->pos.x] == '0')
@@ -75,9 +75,9 @@ void	p_update(t_obj *obj, t_map *map)
 	|| game()->eng->key[K_A] || game()->eng->key[K_D])
 		walk(game()->eng, p, map);
 	if (game()->eng->key[K_F] == true)
-		p->battery -= 0.1;
+		p->battery -= 0.1 * game()->eng->dt;
 	if (game()->eng->key[K_F] == false && p->battery < 100)
-		p->battery += 0.05;
+		p->battery += 0.05 * game()->eng->dt;
 }
 
 t_obj	*create_player(t_vtr pos)
