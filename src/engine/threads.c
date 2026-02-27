@@ -1,5 +1,11 @@
 #include "thread.h"
 
+void    _clean(t_thread_plus *this)
+{
+    this->function = NULL;
+    this->arg = NULL;
+}
+
 void *swimming(t_thread_plus *this)
 {
     void *arg;
@@ -8,20 +14,25 @@ void *swimming(t_thread_plus *this)
     {
         arg = this->get(this, this->launch);
         if ((int)arg > 0)
-            todo;
+        {
+            this->set(this, this->launch, this->launch - 1);
+            this->function(this->arg);
+            this->clean(this);
+            continue ;
+        }
         usleep(100);
     }
     return (NULL);
 }
 
-static void _deploy(t_thread *this, void (*f)(void *arg))
+static void _deploy(t_thread *this, void (*f)(void *), void *arg)
 {
     t_thread_plus *new;
 
     new = (t_thread_plus *)this;
     new->set(this, new->launch, new->launch + 1);
-
-
+    new->function = f;
+    new->arg = arg;
 }
 
 static void _set(t_thread *this, void *arg, void *value)
@@ -61,6 +72,7 @@ t_thread *init_tpool(int n)
     new.deploy = _deploy;
     new.set = _set;
     new.get = _get;
+    new.clean = _clean;
     new.destroy = _destroy;
     pthread_mutex_init(&new.mutex, NULL);
     new.thread_id = ft_calloc(n, sizeof(pthread_t));
