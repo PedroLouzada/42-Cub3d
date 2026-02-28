@@ -30,6 +30,7 @@ void	declare_hooks(t_mlx *mlx)
 void	init_game(int ac, t_str *av)
 {
 	static t_eng	eng;
+	int				i;
 
 	if (ac != 2)
 	{
@@ -51,9 +52,10 @@ void	init_game(int ac, t_str *av)
 	if (!game()->mlx->img)
 		exit_game("Error\nMemory Allocation\n");
 	game()->eng = &eng;
+	game()->eng->pool = init_tpool(4);
 	alloc_assets();
 	init_rand();
-	int i = 0;
+	i = 0;
 	while (++i < 6)
 		game()->map[i] = create_map(i, -1);
 	declare_hooks(game()->mlx);

@@ -78,8 +78,8 @@ void	game_scene(void)
 	p = (t_player *)game()->map[1]->objs[P];
 	size.x = WIN_WIDTH;
 	size.y = WIN_HEIGHT;
-	cast_rays(game()->map[1], game()->map[1]->rays[E], game()->map[1]->objs[E], E);
-	cast_rays(game()->map[1], game()->map[1]->rays[P], game()->map[1]->objs[P], P);
+	cast_rays(1, E);
+	cast_rays(1, P);
 	if (game()->eng->key[K_F] == true && p->battery > 0)
 	{
 		draw_flashlight(size, size.y / 20, LIGHT_ON);

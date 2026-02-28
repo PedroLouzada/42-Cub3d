@@ -22,6 +22,10 @@ void	swimming(void *p)
 		pthread_mutex_unlock(&this->mutex);
 		if (job.function)
 			job.function(job.arg);
+		pthread_mutex_lock(&this->mutex);
+		this->pending++;
+		pthread_cond_signal(&this->done);
+		pthread_mutex_unlock(&this->mutex);
 	}
 	return ;
 }
@@ -38,7 +42,7 @@ static void	_deploy(t_thread *this, void (*f)(void *), void *arg)
 		return ;
 	}
 	new->queue[new->size].function = f;
-	new->queue[new->size].arg = f;
+	new->queue[new->size].arg = arg;
 	new->size = (new->size + 1) % 10;
 	new->to_do++;
 	pthread_cond_signal(&new->working);
@@ -54,6 +58,17 @@ void	_destroy(t_thread *this)
 	pthread_mutex_destroy(&new->mutex);
 }
 
+void	_wait(t_thread *this, int n)
+{
+	t_thread_plus	*new;
+
+	new = (t_thread_plus *)this;
+	pthread_mutex_lock(&new->mutex);
+	while (new->pending < n)
+		pthread_cond_wait(&new->done, &new->mutex);
+	pthread_mutex_unlock(&new->mutex);
+	new->pending = 0;
+}
 t_thread	*init_tpool(int n)
 {
 	int						i;
@@ -62,6 +77,7 @@ t_thread	*init_tpool(int n)
 	i = -1;
 	new.deploy = _deploy;
 	new.destroy = _destroy;
+	new.wait = _wait;
 	pthread_cond_init(&new.working, NULL);
 	pthread_mutex_init(&new.mutex, NULL);
 	new.queue = ft_calloc(10, sizeof(t_job));

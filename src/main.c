@@ -21,11 +21,5 @@ void f2(void *arg)
 
 int	main(int ac, char **av)
 {
-	t_thread *t = init_tpool(4);
-
-	t->deploy(f1, NULL);
-	t->deploy(f1, NULL);
-	sleep(2);
-	exit(0);
     init_game(ac, av);
 }

@@ -45,23 +45,52 @@ void	dda(t_ray *r, t_map *map)
 	}
 }
 
-void	cast_rays(t_map *m, t_ray *r, t_obj *obj, int type)
+void	reduced_ray(int *array)
 {
-	int	i;
-	char **map;
+	int			i;
+	t_ray		*r;
+	const int	end = array[3];
+	t_map		*map;
 
-	map = m->map;
-	i = -1;
-	while (++i < WIN_WIDTH)
+	map = game()->map[array[0]];
+	i = array[2] - 1;
+	r = map->rays[array[1]];
+	while (++i < end)
 	{
-		init_ray(&r[i], obj, i);
-		dda(&r[i], m);
+		init_ray(&r[i], map->objs[array[1]], i);
+		dda(&r[i], map);
 		if (r[i].side == 0)
 			r[i].perp = r[i].sDist.x - r[i].dltDist.x;
 		else
 			r[i].perp = r[i].sDist.y - r[i].dltDist.y;
-		if (type == E)
+		if (array[1] == E)
 			continue ;
-		draw_column(&r[i], i, m->textures);
+		draw_column(&r[i], i, map->textures);
 	}
+}
+
+static int	*return_args(int map, int type, int v1, int v2)
+{
+	int	*p;
+
+	p = malloc(4 * sizeof(int));
+	if (!p)
+		exit_game("Memory Allocation\n");
+	p[0] = map;
+	p[1] = type;
+	p[2] = v1;
+	p[3] = v2;
+	return (p);
+}
+
+void	cast_rays(int map, int type)
+{
+	t_thread	*pool;
+
+	pool = game()->eng->pool;
+	pool->deploy(pool, (void *)reduced_ray, return_args(map, type, 0, 480));
+	pool->deploy(pool, (void *)reduced_ray, return_args(map, type, 480, 960));
+	pool->deploy(pool, (void *)reduced_ray, return_args(map, type, 960, 1440));
+	pool->deploy(pool, (void *)reduced_ray, return_args(map, type, 1440, 1920));
+	// pool->wait(pool, 4);
 }

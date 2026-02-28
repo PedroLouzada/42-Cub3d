@@ -5,7 +5,7 @@
 # include "types.h"
 
 // Raycasting
-void			cast_rays(t_map *map, t_ray *r, t_obj *obj, int type);
+void			cast_rays(int map, int type);
 
 // Data
 t_game			*game(void);

@@ -18,6 +18,7 @@ struct							s_thread
 	void						(*deploy)(t_thread *this, void (*f)(void *),
 								void *arg);
 	void						(*destroy)(t_thread *this);
+	void						(*wait)(t_thread *this, int n);
 };
 
 struct							s_thread_plus
@@ -26,6 +27,7 @@ struct							s_thread_plus
 								void *arg);
 	void						(*destroy)(t_thread *this);
 	void						(*clean)(t_thread_plus *this);
+	void						(*wait)(t_thread *this, int n);
 	int							to_do;
 	int							index;
 	int							size;
@@ -34,6 +36,8 @@ struct							s_thread_plus
 	pthread_mutex_t				mutex;
 	pthread_cond_t				working;
 	t_job						*queue;
+	int							pending;
+	pthread_cond_t				done;
 };
 
 t_thread						*init_tpool(int n);
