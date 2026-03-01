@@ -55,7 +55,7 @@ int	exit_game(char *str)
 	if (str)
 		write(2, str, ft_strlen(str));
 	i = -1;
-	clear_image();
+	// clear_image();
 	mlx_destroy_window(game()->mlx->mlx, game()->mlx->win);
 	while (++i < 6)
 	{

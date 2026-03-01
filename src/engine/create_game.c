@@ -48,9 +48,6 @@ void	init_game(int ac, t_str *av)
 			TITLE);
 	if (!game()->mlx->win)
 		parse_exit("Memory Allocation\n", (void *)game()->map[0]->objs, -1, 1);
-	game()->mlx->img = new_img(NULL);
-	if (!game()->mlx->img)
-		exit_game("Error\nMemory Allocation\n");
 	game()->eng = &eng;
 	game()->eng->pool = init_tpool(4);
 	alloc_assets();

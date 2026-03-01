@@ -54,5 +54,17 @@
 # define CEILING 0xE1E2BB
 # define TITLE "||BACKROOMS | CUB3D||"
 # define MLX_ERR "Error on mlx initialization\n"
+# define BUFFER 0
+# define BACKGROUND 1
+# define BUTTON1 2
+# define BUTTON2 3
+# define BUTTON3 4
+# define BUTTONBORDER 5
+# define WASDIMG 6
+# define ARROWS 7
+# define MOUSEIMG 8
+# define BACKBUTTON 9 
+# define BACKBORDER 10 
+# define PLAYERIMG 11 
 
 #endif

@@ -12,10 +12,7 @@ void	swimming(void *p)
 		while (!this->to_do && !this->quit)
 			pthread_cond_wait(&this->working, &this->mutex);
 		if (this->quit)
-		{
-			pthread_mutex_unlock(&this->mutex);
-			break ;
-		}
+			return (void)pthread_mutex_unlock(&this->mutex);
 		job = this->queue[this->index];
 		this->index = (this->index + 1) % 10;
 		this->to_do--;
@@ -62,6 +59,7 @@ void	_wait(t_thread *this, int n)
 {
 	t_thread_plus	*new;
 
+	
 	new = (t_thread_plus *)this;
 	pthread_mutex_lock(&new->mutex);
 	while (new->pending < n)

@@ -96,12 +96,12 @@ void	alloc_textures(t_map *map, int level)
 		{
 			if (!index)
 			{
-				map->textures[i] = new_img("./assets/textures/green_wall/green_wall_1.xpm");
+				map->textures[i] = new_img("./assets/textures/green_wall/wall1.xpm");
 				index = !index;
 			}
 			else
 			{
-				map->textures[i] = new_img("./assets/textures/green_wall/green_wall_2.xpm");
+				map->textures[i] = new_img("./assets/textures/green_wall/wall2.xpm");
 				index = !index;
 			}
 			if (!map->textures[i])

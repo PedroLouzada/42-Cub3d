@@ -6,22 +6,22 @@ int		ft_isdigit(int c);
 void	clear_image(void)
 {
 	int	i;
-	t_imgs *curr;
 
 	i = -1;
 	while (++i < 4)
 	{
 		if (game()->map[0] && game()->map[0]->textures[i])
-		mlx_destroy_image(game()->mlx->mlx, game()->map[0]->textures[i]);
+			mlx_destroy_image(game()->mlx->mlx, game()->map[0]->textures[i]);
 	}
-	while (game()->mlx->img)
+	i = -1;
+	while (++i < 12)
 	{
-		curr = game()->mlx->img;
-		mlx_destroy_image(game()->mlx->mlx, curr->img);
-		game()->mlx->img = curr->next;
-		free(curr);
+		mlx_destroy_image(game()->mlx->mlx, game()->mlx->img[i]->img);
+		free(game()->mlx->img[i]);
 	}
+	free(game()->mlx->img);
 }
+
 
 void	parse_exit(char *s, char *arg, int fd, bool map)
 {

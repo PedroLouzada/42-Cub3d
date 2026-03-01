@@ -2,11 +2,11 @@
 
 void	init_ray(t_ray *r, t_obj *obj, int column)
 {
-	double	cameraX;
+	double	camera_x;
 
-	cameraX = 2.0 * column / (double)WIN_WIDTH - 1.0;
-	r->dir.x = obj->dir.x + obj->plane.x * cameraX;
-	r->dir.y = obj->dir.y + obj->plane.y * cameraX;
+	camera_x = 2.0 * column / (double)WIN_WIDTH - 1.0;
+	r->dir.x = obj->dir.x + obj->plane.x * camera_x;
+	r->dir.y = obj->dir.y + obj->plane.y * camera_x;
 	r->map.x = floor(obj->pos.x);
 	r->map.y = floor(obj->pos.y);
 	r->pos = obj->pos;
@@ -69,28 +69,20 @@ void	reduced_ray(int *array)
 	}
 }
 
-static int	*return_args(int map, int type, int v1, int v2)
-{
-	int	*p;
-
-	p = malloc(4 * sizeof(int));
-	if (!p)
-		exit_game("Memory Allocation\n");
-	p[0] = map;
-	p[1] = type;
-	p[2] = v1;
-	p[3] = v2;
-	return (p);
-}
-
 void	cast_rays(int map, int type)
 {
+	int const	args[4][4] = {
+	{map, type, 0, 480},
+	{map, type, 480, 960},
+	{map, type, 960, 1440},
+	{map, type, 1440, 1920},
+	};
 	t_thread	*pool;
 
 	pool = game()->eng->pool;
-	pool->deploy(pool, (void *)reduced_ray, return_args(map, type, 0, 480));
-	pool->deploy(pool, (void *)reduced_ray, return_args(map, type, 480, 960));
-	pool->deploy(pool, (void *)reduced_ray, return_args(map, type, 960, 1440));
-	pool->deploy(pool, (void *)reduced_ray, return_args(map, type, 1440, 1920));
-	// pool->wait(pool, 4);
+	pool->deploy(pool, (void *)reduced_ray, (void *)args[0]);
+	pool->deploy(pool, (void *)reduced_ray, (void *)args[1]);
+	pool->deploy(pool, (void *)reduced_ray, (void *)args[2]);
+	pool->deploy(pool, (void *)reduced_ray, (void *)args[3]);
+	pool->wait(pool, 4);
 }

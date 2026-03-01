@@ -18,6 +18,8 @@
 # include "minilibx-linux/mlx.h"
 # include "minilibx-linux/mlx_int.h"
 
+#define DEBUG fprintf(stderr, "%s, %i\n", __FUNCTION__, __LINE__)
+
 //========================== PARSING =====================
 
 void    parsing(char **av);

@@ -65,11 +65,11 @@ void	draw_flashlight(t_vtr size, int radius, int type)
 			distance = sqrt(draw.x * draw.x + draw.y * draw.y);
             if (distance < radius)
 				continue ;
-            color = ft_get_color(game()->mlx->img, (int)pos.x, (int)pos.y);
+            color = ft_get_color(game()->mlx->img[BUFFER], (int)pos.x, (int)pos.y);
 			darken_color(distance, radius, &color, type);
 			if (color < 0)
 				continue ;
-            ft_pixel_put(game()->mlx, (int)pos.x, (int)pos.y, color);
+            ft_pixel_put(game()->mlx->img[BUFFER], (int)pos.x, (int)pos.y, color);
 		}
 	}
 }

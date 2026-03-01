@@ -46,16 +46,6 @@ void	e_update(t_obj *this, t_map *map)
 	walk(e, map);
 }
 
-// void *g_texture(t_obj *this, double dir)
-// {
-// 	t_imgs *curr;
-
-// 	curr = game()->mlx->img;
-// 	while (curr->index < 17)
-// 		curr = curr->next;
-// 	return(curr);
-// }
-
 t_obj	*create_enemy(t_vtr pos)
 {
 	t_enemy *e;
