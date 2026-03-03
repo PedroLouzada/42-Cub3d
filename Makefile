@@ -59,6 +59,11 @@ clean:
 	else \
 		echo "No build directory to delete!"; \
 	fi
+	rm -rf maps/level_1.cub; \
+	rm -rf maps/level_2.cub; \
+	rm -rf maps/level_3.cub; \
+	rm -rf maps/level_4.cub; \
+	rm -rf maps/level_5.cub; \
 
 fclean: clean
 	@rm -f $(NAME)
