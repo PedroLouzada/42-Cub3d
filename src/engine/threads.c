@@ -1,8 +1,7 @@
 #include "thread.h"
 
 void	swimming(void *p)
-{
-	t_job			job;
+{	t_job			job;
 	t_thread_plus	*this;
 
 	this = p;
@@ -28,8 +27,7 @@ void	swimming(void *p)
 }
 
 static void	_deploy(t_thread *this, void (*f)(void *), void *arg)
-{
-	t_thread_plus	*new;
+{	t_thread_plus	*new;
 
 	new = (t_thread_plus *)this;
 	pthread_mutex_lock(&new->mutex);
@@ -47,8 +45,7 @@ static void	_deploy(t_thread *this, void (*f)(void *), void *arg)
 }
 
 void	_destroy(t_thread *this)
-{
-	t_thread_plus	*new;
+{	t_thread_plus	*new;
 
 	new = (t_thread_plus *)this;
 	free(new->thread_id);
@@ -56,8 +53,7 @@ void	_destroy(t_thread *this)
 }
 
 void	_wait(t_thread *this, int n)
-{
-	t_thread_plus	*new;
+{	t_thread_plus	*new;
 
 	
 	new = (t_thread_plus *)this;
@@ -68,8 +64,7 @@ void	_wait(t_thread *this, int n)
 	new->pending = 0;
 }
 t_thread	*init_tpool(int n)
-{
-	int						i;
+{	int						i;
 	static t_thread_plus	new;
 
 	i = -1;

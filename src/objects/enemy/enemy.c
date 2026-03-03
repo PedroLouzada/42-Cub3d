@@ -1,16 +1,14 @@
 #include "cub3d.h"
 
 static void	set_orientation(t_enemy *e)
-{
-	e->dir.x = cos(e->angle);
+{	e->dir.x = cos(e->angle);
 	e->dir.y = sin(e->angle);
 	e->plane.x = -e->dir.y * FOV;
 	e->plane.y = e->dir.x * FOV;
 }
 
 static void	rotate(t_enemy *e, double speed)
-{
-	e->angle += speed * game()->eng->dt;
+{	e->angle += speed * game()->eng->dt;
 	if (e->angle < 0)
 		e->angle = 2 * M_PI;
 	if (e->angle > 2 * M_PI)
@@ -19,8 +17,7 @@ static void	rotate(t_enemy *e, double speed)
 }
 
 static void	walk(t_enemy *e, t_map *map)
-{
-	t_vtr	walk;
+{	t_vtr	walk;
 	double	speed;
 
 	speed = 2.0;
@@ -35,8 +32,7 @@ static void	walk(t_enemy *e, t_map *map)
 }
 
 void	e_update(t_obj *this, t_map *map)
-{
-	t_enemy		*e;
+{	t_enemy		*e;
 	t_player	*p;
 
 	e = (t_enemy *)this;
@@ -47,8 +43,7 @@ void	e_update(t_obj *this, t_map *map)
 }
 
 t_obj	*create_enemy(t_vtr pos)
-{
-	t_enemy *e;
+{	t_enemy *e;
 
 	e = ft_calloc(1, sizeof(t_enemy));
 	if (!e)

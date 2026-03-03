@@ -4,8 +4,7 @@ char	*ft_strtrim(char *s1, char *set);
 int		is_valid_char(char c);
 
 int	get_width(char *str)
-{
-	char		*new;
+{	char		*new;
 	int			len;
 	static int	old_len;
 
@@ -25,8 +24,7 @@ int	get_width(char *str)
 }
 
 void	get_map_dimension(char *str)
-{
-	int		fd;
+{	int		fd;
 	char	*line;
 
 	static t_vtr dim; // testar melhor o vetor ser estatico
@@ -54,8 +52,7 @@ void	get_map_dimension(char *str)
 }
 
 void	check_border(char *str, int fd)
-{
-	int	i;
+{	int	i;
 
 	i = -1;
 	while (str[++i])
@@ -66,8 +63,7 @@ void	check_border(char *str, int fd)
 }
 
 int	check_emptyspace(char *str)
-{
-	int	i;
+{	int	i;
 
 	i = -1;
 	while (str[++i])
@@ -79,8 +75,7 @@ int	check_emptyspace(char *str)
 }
 
 void	check_characters(char *str, int fd, int *d, t_map *map)
-{
-	int			i;
+{	int			i;
 	static int	n1;
 	static int	n2;
 

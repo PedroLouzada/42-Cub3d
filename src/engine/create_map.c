@@ -1,8 +1,7 @@
 #include "cub3d.h"
 
 int		tile_color(t_map *map, t_vtr pos)
-{
-	int		color;
+{	int		color;
 
 	color = BLACK;
 	if (pos.y >= 0 && pos.y < map->map_size.y
@@ -84,8 +83,7 @@ void	draw_minimap(t_map *map)
 }
 
 void	alloc_textures(t_map *map, int level)
-{
-	int		i;
+{	int		i;
 	bool	index;
 
 	i = -1;
@@ -111,8 +109,7 @@ void	alloc_textures(t_map *map, int level)
 }
 
 t_map	*create_map(int level, int fd)
-{
-	t_map *const map = ft_calloc(1, sizeof(t_map));
+{	t_map *const map = ft_calloc(1, sizeof(t_map));
 	if (!map)
 		parse_exit("Memory Allocation\n", NULL, fd, 0);
 	map->level = level;

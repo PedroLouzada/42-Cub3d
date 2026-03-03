@@ -1,8 +1,7 @@
 #include "cub3d.h"
 
 int		in_range(t_map *map, int x, int y)
-{
-	int out;
+{	int out;
 
 	out = 1;
 	if (x < 1 || x > map->map_size.x - 2)
@@ -15,8 +14,7 @@ int		in_range(t_map *map, int x, int y)
 }
 
 int		which_direction(int right, int left, int back)
-{
-	int	which_direction;
+{	int	which_direction;
 
 	if (back)
 		which_direction = rand() % 3;
@@ -32,8 +30,7 @@ int		which_direction(int right, int left, int back)
 }
 
 void	check_path(t_map *map, t_vtr pos, int *direction)
-{
-	if (*direction == NORTH && !in_range(map, pos.x, pos.y + 1))
+{	if (*direction == NORTH && !in_range(map, pos.x, pos.y + 1))
 			*direction = which_direction(EAST, WEST, SOUTH);
 	if (*direction == SOUTH && !in_range(map, pos.x, pos.y - 1))
 			*direction = which_direction(EAST, WEST, NORTH);
@@ -44,8 +41,7 @@ void	check_path(t_map *map, t_vtr pos, int *direction)
 }
 
 void	move_in_path(t_map *map, t_vtr *pos, int direction)
-{
-	if (direction == NORTH && in_range(map, pos->x, pos->y + 1))
+{	if (direction == NORTH && in_range(map, pos->x, pos->y + 1))
 		pos->y++;
 	if (direction == EAST && in_range(map, pos->x + 1, pos->y))
 		pos->x++;
@@ -56,8 +52,7 @@ void	move_in_path(t_map *map, t_vtr *pos, int direction)
 }
 
 bool	valid_door(t_map *map, t_vtr pos)
-{
-	int		i;
+{	int		i;
 	t_str	*cmap;
 	bool	valid;
 	int		psx[2];

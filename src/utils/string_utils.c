@@ -1,8 +1,7 @@
 #include "cub3d.h"
 
 int ft_strlen(char *s)
-{
-    int i;
+{    int i;
 
     if (!s)
         return (0);
@@ -13,8 +12,7 @@ int ft_strlen(char *s)
 }
 
 char	*ft_strrchr(char *str, int c)
-{
-	int	i;
+{	int	i;
 
 	i = ft_strlen(str) - 1;
 	if ((char)c == '\0')
@@ -29,8 +27,7 @@ char	*ft_strrchr(char *str, int c)
 }
 
 int	ft_strncmp(const char *str1, const char *str2, size_t n)
-{
-	size_t	i;
+{	size_t	i;
 
 	i = 0;
 	while ((str1[i] || str2[i]) && i < n)
@@ -43,8 +40,7 @@ int	ft_strncmp(const char *str1, const char *str2, size_t n)
 }
 
 static int	ft_check(char c, const char *set)
-{
-	while (*set)
+{	while (*set)
 	{
 		if (c == *set++)
 			return (1);
@@ -53,8 +49,7 @@ static int	ft_check(char c, const char *set)
 }
 
 char	*ft_strtrim(char *s1, char *set)
-{
-	unsigned int	start;
+{	unsigned int	start;
 	unsigned int	end;
 	char			*str;
 

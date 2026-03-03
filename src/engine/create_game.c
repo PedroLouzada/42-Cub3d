@@ -4,6 +4,7 @@ int	run(t_obj **objs)
 {
 	static double	prev;
 	static double	curr;
+	int				x, y;
 
 	curr = get_time();
 	game()->eng->dt = curr - prev;
@@ -13,6 +14,8 @@ int	run(t_obj **objs)
 	objs[E]->update(objs[E], game()->map[1]);
 	objs[P]->update(objs[P], game()->map[1]);
 	draw_screen(game()->mlx);
+	mlx_mouse_get_pos(game()->mlx->mlx, game()->mlx->win, &x, &y);
+	mouse_move(x, y);
 	usleep(33);
 	return (0);
 }
@@ -22,7 +25,6 @@ void	declare_hooks(t_mlx *mlx)
 	mlx_hook(mlx->win, 17, 0, exit_game, 0);
 	mlx_hook(mlx->win, 2, (1L << 0), key_press, game);
 	mlx_hook(mlx->win, 3, (1L << 1), key_unpress, game);
-	mlx_hook(mlx->win, 6, 1L << 6, mouse_move, NULL);
 	mlx_hook(mlx->win, 4, 1L << 2, mouse_press, NULL);
 	mlx_loop_hook(mlx->mlx, run, game()->map[1]->objs);
 	mlx_loop(mlx->mlx);

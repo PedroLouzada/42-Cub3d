@@ -26,8 +26,7 @@ void	draw_img(t_imgs *img, int px, int py)
 }
 
 void	titlescreen(void)
-{
-	t_imgs	**img;
+{	t_imgs	**img;
 
 	img = game()->mlx->img;
 	game()->eng->in_button[3] = false;
@@ -44,8 +43,7 @@ void	titlescreen(void)
 }
 
 void	control_screen(void)
-{
-	int		i;
+{	int		i;
 	t_imgs	**img;
 
 	i = 0;
@@ -62,8 +60,7 @@ void	control_screen(void)
 }
 
 void	game_scene(void)
-{
-	t_player	*p;
+{	t_player	*p;
 	t_vtr		size;
 
 	p = (t_player *)game()->map[1]->objs[P];

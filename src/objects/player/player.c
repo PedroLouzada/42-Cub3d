@@ -41,7 +41,7 @@ void	handle_angle(t_eng *eng, t_player *p, double *angle, double *speed)
 	if (eng->key[K_S] && eng->key[K_A])
 		*angle = p->angle - 3 * M_PI_4;
 	if ((eng->key[K_W] && eng->key[K_D]) || (eng->key[K_W] && eng->key[K_A])
-	|| (eng->key[K_S] && eng->key[K_D]) || (eng->key[K_S] && eng->key[K_A]))
+		|| (eng->key[K_S] && eng->key[K_D]) || (eng->key[K_S] && eng->key[K_A]))
 		*speed *= 1.2;
 }
 
@@ -54,6 +54,8 @@ void	walk(t_eng *eng, t_player *p, t_map *map)
 	speed = 1.5;
 	if (eng->key[SHIFT])
 		speed *= 2.0;
+	else if (eng->key[CTRL])
+		speed /= 2.0;
 	walk_angle = p->angle;
 	handle_angle(eng, p, &walk_angle, &speed);
 	walk.x = p->pos.x + cos(walk_angle) * speed * eng->dt;
@@ -71,8 +73,8 @@ void	p_update(t_obj *obj, t_map *map)
 	p = (t_player *)obj;
 	if (game()->eng->key[K_LEFT] || game()->eng->key[K_RIGHT])
 		rotate(game()->eng, p);
-	if (game()->eng->key[K_W] || game()->eng->key[K_S]
-	|| game()->eng->key[K_A] || game()->eng->key[K_D])
+	if (game()->eng->key[K_W] || game()->eng->key[K_S] || game()->eng->key[K_A]
+		|| game()->eng->key[K_D])
 		walk(game()->eng, p, map);
 	if (game()->eng->key[K_F] == true)
 		p->battery -= 0.1 * game()->eng->dt;

@@ -1,8 +1,7 @@
 #include "cub3d.h"
 
 void	*ft_calloc(size_t nm, size_t sz)
-{
-	size_t	size;
+{	size_t	size;
 	t_str	data;
 	void	*alloc;
 
@@ -21,8 +20,7 @@ void	*ft_calloc(size_t nm, size_t sz)
 }
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
-{
-	char	*start;
+{	char	*start;
 
 	start = dest;
 	if (!dest && !src)
@@ -33,8 +31,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 }
 
 t_str	ft_joinstr(t_str s1, t_str s2)
-{
-	int		tln;
+{	int		tln;
 	t_str	str;
 
 	if (!s1 || !s2)
@@ -49,8 +46,7 @@ t_str	ft_joinstr(t_str s1, t_str s2)
 }
 
 int	exit_game(char *str)
-{
-	int	i;
+{	int	i;
 	int	j;
 	if (str)
 		write(2, str, ft_strlen(str));

@@ -4,8 +4,7 @@ void	map_validation(char *str, int *d);
 void	check_sintax(char *str);
 
 void	change_door(char **map, t_vtr size)
-{
-	int	y;
+{	int	y;
 	int	x;
 
 	y = 0;
@@ -23,8 +22,7 @@ void	change_door(char **map, t_vtr size)
 }
 
 t_vtr	get_vtr(char **map)
-{
-	int		y;
+{	int		y;
 	int		x;
 	t_vtr	pos;
 
@@ -48,8 +46,7 @@ t_vtr	get_vtr(char **map)
 }
 
 void	init_objs(t_map *map, int d)
-{
-	map->objs = ft_calloc(d + 3, sizeof(t_obj *));
+{	map->objs = ft_calloc(d + 3, sizeof(t_obj *));
 	if (!map->objs)
 		parse_exit("Memory Allocation11\n", NULL, -1, 1);
 	change_door(map->map, map->map_size);
@@ -59,8 +56,7 @@ void	init_objs(t_map *map, int d)
 }
 
 void	parsing(char **av)
-{
-	int	*d;
+{	int	*d;
 
 	d = 0;
 	check_sintax(av[1]);

@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-void	set_orientation(t_player *p);
+void		set_orientation(t_player *p);
 
 int	mouse_press(int button, int x, int y)
 {
@@ -36,8 +36,6 @@ static void	button_highlight(const int x, const int y)
 	int	i;
 
 	i = 0;
-	if (!game()->eng->title[0] && !game()->eng->title[1])
-		return ;
 	if (game()->eng->title[0])
 	{
 		while (i < 3)
@@ -64,13 +62,15 @@ static void	mouse_rotate(const int x, const int y)
 	dx = x - WIN_WIDTH / 2;
 	game()->map[1]->objs[P]->angle += dx * 0.0009;
 	set_orientation((t_player *)game()->map[1]->objs[P]);
-	mlx_mouse_move(game()->mlx->mlx, game()->mlx->win, WIN_WIDTH / 2, WIN_HEIGHT / 2);
+	mlx_mouse_move(game()->mlx->mlx, game()->mlx->win, WIN_WIDTH / 2, WIN_HEIGHT
+		/ 2);
 }
 
 int	mouse_move(const int x, const int y)
 {
-	button_highlight(x, y);
-	// if (!game()->eng->title[0] && !game()->eng->title[1])
-	// 	mouse_rotate(x, y);
+	if (game()->eng->title[0] || game()->eng->title[1])
+		button_highlight(x, y);
+	else if (game()->eng->key[K_TAB])
+		mouse_rotate(x, y);
 	return (0);
 }

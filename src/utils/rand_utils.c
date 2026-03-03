@@ -1,8 +1,7 @@
 #include "cub3d.h"
 
 void	init_rand(void)
-{
-	struct timeval	time;
+{	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) < 0)
 		return ;
@@ -10,8 +9,7 @@ void	init_rand(void)
 }
 
 t_vtr	rand_pos(t_vtr range)
-{
-	t_vtr	pos;
+{	t_vtr	pos;
 	double	data[3];
 
 	data[0] = 1;
@@ -23,8 +21,7 @@ t_vtr	rand_pos(t_vtr range)
 }
 
 void	where_to_next(int *direction)
-{
-	int	where_to;
+{	int	where_to;
 
 	where_to = pick_range(NORTH, SOUTH);
 	if (*direction == NORTH && where_to == SOUTH)
@@ -39,8 +36,7 @@ void	where_to_next(int *direction)
 }
 
 double	pick_rand(double a, double b)
-{
-	double pick;
+{	double pick;
 
 	pick = rand() % 2;
 	if (pick)
@@ -49,6 +45,5 @@ double	pick_rand(double a, double b)
 }
 
 double	pick_range(double min, double max)
-{
-	return (min + ((double)rand() / RAND_MAX) * (max - min));
+{	return (min + ((double)rand() / RAND_MAX) * (max - min));
 }

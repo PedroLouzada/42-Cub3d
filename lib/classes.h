@@ -10,7 +10,7 @@ typedef struct s_door	t_door;
 typedef struct s_game	t_game;
 typedef struct s_enemy	t_enemy;
 typedef struct s_player	t_player;
-typedef struct s_thread t_thread;
+typedef struct s_thread	t_thread;
 
 struct					s_obj
 {
@@ -75,7 +75,7 @@ struct					s_map
 	t_str				*map;
 	int					level;
 	t_obj				**objs;
-	t_imgs 				*player; //temporario
+	t_imgs *player; // temporario
 	t_ray				*rays[2];
 	t_vtr				map_size;
 	t_vtr				mini_size;

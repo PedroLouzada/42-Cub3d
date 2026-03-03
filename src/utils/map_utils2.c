@@ -1,8 +1,7 @@
 #include "cub3d.h"
 
 bool	not_door(t_map *map, t_vtr pos)
-{
-	int	i;
+{	int	i;
 
 	i = -1;
 	while (map->objs[++i])
@@ -14,8 +13,7 @@ bool	not_door(t_map *map, t_vtr pos)
 }
 
 t_vtr	spawn(t_map *map, char tile)
-{
-	t_vtr	pos;
+{	t_vtr	pos;
 
 	pos = rand_pos(map->map_size);
 	while (map->map[(int)pos.y][(int)pos.x] != tile)
@@ -24,8 +22,7 @@ t_vtr	spawn(t_map *map, char tile)
 }
 
 void	check_map(t_map *map, int x, int y)
-{
-	if (map->map[y][x] == '1' || map->map[y][x] == '0')
+{	if (map->map[y][x] == '1' || map->map[y][x] == '0')
 		return ;
 	map->map[y][x] = '0';
 	check_map(map, x + 1, y);
@@ -35,8 +32,7 @@ void	check_map(t_map *map, int x, int y)
 }
 
 bool	valid_map(t_map *map)
-{
-	t_vtr	pos;
+{	t_vtr	pos;
 
 	pos.y = -1;
 	while (map->map[(int)++pos.y])
@@ -52,8 +48,7 @@ bool	valid_map(t_map *map)
 }
 
 void	set_exit(t_map *map)
-{
-	t_vtr	pos;
+{	t_vtr	pos;
 	
 	pos = spawn(map, '1');
 	while (map->map[(int)pos.y][(int)pos.x + 1] != '0'

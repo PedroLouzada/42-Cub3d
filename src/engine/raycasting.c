@@ -49,8 +49,8 @@ void	reduced_ray(int *array)
 {
 	int			i;
 	t_ray		*r;
-	const int	end = array[3];
 	t_map		*map;
+	const int	end = array[3];
 
 	map = game()->map[array[0]];
 	i = array[2] - 1;
