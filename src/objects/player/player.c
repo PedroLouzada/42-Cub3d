@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-static void	set_orientation(t_player *p)
+void	set_orientation(t_player *p)
 {
 	p->dir.x = cos(p->angle);
 	p->dir.y = sin(p->angle);
@@ -51,7 +51,7 @@ void	walk(t_eng *eng, t_player *p, t_map *map)
 	double	speed;
 	double	walk_angle;
 
-	speed = 1.0;
+	speed = 1.5;
 	if (eng->key[SHIFT])
 		speed *= 2.0;
 	walk_angle = p->angle;

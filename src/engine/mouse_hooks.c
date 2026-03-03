@@ -1,6 +1,8 @@
 #include "cub3d.h"
 
-int	mouse_press(int button, int x, int y, void *arg)
+void	set_orientation(t_player *p);
+
+int	mouse_press(int button, int x, int y)
 {
 	if (button == 1)
 	{
@@ -26,17 +28,16 @@ int	mouse_press(int button, int x, int y, void *arg)
 			}
 		}
 	}
-	(void)arg;
 	return (0);
 }
 
-int	mouse_move(int x, int y, void *arg)
+static void	button_highlight(const int x, const int y)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!game()->eng->title[0] && !game()->eng->title[1])
-		return (0);
+		return ;
 	if (game()->eng->title[0])
 	{
 		while (i < 3)
@@ -54,6 +55,22 @@ int	mouse_move(int x, int y, void *arg)
 		if ((x >= 90 && x <= 390) && (y >= 850 && y <= 950))
 			game()->eng->in_button[3] = true;
 	}
-	(void)arg;
+}
+
+static void	mouse_rotate(const int x, const int y)
+{
+	int	dx;
+
+	dx = x - WIN_WIDTH / 2;
+	game()->map[1]->objs[P]->angle += dx * 0.0009;
+	set_orientation((t_player *)game()->map[1]->objs[P]);
+	mlx_mouse_move(game()->mlx->mlx, game()->mlx->win, WIN_WIDTH / 2, WIN_HEIGHT / 2);
+}
+
+int	mouse_move(const int x, const int y)
+{
+	button_highlight(x, y);
+	// if (!game()->eng->title[0] && !game()->eng->title[1])
+	// 	mouse_rotate(x, y);
 	return (0);
 }

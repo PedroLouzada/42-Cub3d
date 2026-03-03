@@ -61,10 +61,10 @@ void	init_game(int ac, t_str *av);
 t_map	*create_map(int level, int fd);
 t_obj	*create_door(t_map *map, t_vtr pos);
 
-int		mouse_press(int button, int x, int y, void *arg);
+int		mouse_press(int button, int x, int y);
 int		exit_game(char *str);
 void	clear_image(void);
-int		mouse_move(int x, int y, void *arg);
+int		mouse_move(int x, int y);
 void	draw_screen(t_mlx *mlx);
 void	alloc_assets(void);
 t_imgs	*new_img(char *name);
