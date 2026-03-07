@@ -1,7 +1,8 @@
 #include "thread.h"
 
 void	swimming(void *p)
-{	t_job			job;
+{
+	t_job			job;
 	t_thread_plus	*this;
 
 	this = p;
@@ -27,7 +28,8 @@ void	swimming(void *p)
 }
 
 static void	_deploy(t_thread *this, void (*f)(void *), void *arg)
-{	t_thread_plus	*new;
+{
+	t_thread_plus	*new;
 
 	new = (t_thread_plus *)this;
 	pthread_mutex_lock(&new->mutex);
@@ -45,17 +47,27 @@ static void	_deploy(t_thread *this, void (*f)(void *), void *arg)
 }
 
 void	_destroy(t_thread *this)
-{	t_thread_plus	*new;
+{
+	int				i;
+	t_thread_plus	*new;
 
 	new = (t_thread_plus *)this;
-	free(new->thread_id);
+	new->quit = true;
+	pthread_cond_broadcast(&new->working);
+	pthread_cond_broadcast(&new->done);
+	i = 0;
+	while (i < 4)
+		pthread_join(new->thread_id[i++], NULL);
 	pthread_mutex_destroy(&new->mutex);
+	pthread_cond_destroy(&new->done);
+	pthread_cond_destroy(&new->working);
+	free(new->thread_id);
 }
 
 void	_wait(t_thread *this, int n)
-{	t_thread_plus	*new;
+{
+	t_thread_plus	*new;
 
-	
 	new = (t_thread_plus *)this;
 	pthread_mutex_lock(&new->mutex);
 	while (new->pending < n)
@@ -64,7 +76,8 @@ void	_wait(t_thread *this, int n)
 	new->pending = 0;
 }
 t_thread	*init_tpool(int n)
-{	int						i;
+{
+	int						i;
 	static t_thread_plus	new;
 
 	i = -1;

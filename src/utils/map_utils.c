@@ -55,35 +55,51 @@ void	move_in_path(t_map *map, t_vtr *pos, int direction)
 		pos->y--;
 }
 
+static bool	in_bounds(char **map, int y, int x)
+{
+	size_t	len;
+
+	if (!map || y < 0 || x < 0 || !map[y])
+		return (false);
+	len = ft_strlen(map[y]);
+	if ((size_t)x >= len)
+		return (false);
+	return (true);
+}
+
 bool	valid_door(t_map *map, t_vtr pos)
 {
 	int		i;
 	t_str	*cmap;
 	bool	valid;
-	int		psx[2];
+	int		x;
+	int		y;
 
-	i = -1;
-	valid = false;
-	cmap = map->map;
-	psx[0] = (int)pos.x;
-	psx[1] = (int)pos.y;
-	if (!cmap || !cmap[psx[1]] || !cmap[psx[1]][psx[0]])
+	if (!map || !map->map || !map->objs)
 		return (false);
-	if (cmap[psx[1]][psx[0]] == '0')
+	cmap = map->map;
+	x = (int)pos.x;
+	y = (int)pos.y;
+	valid = false;
+	if (!in_bounds(cmap, y, x))
+		return (false);
+	/* need all 4 neighbors */
+	if (!in_bounds(cmap, y, x + 1) || !in_bounds(cmap, y, x - 1)
+		|| !in_bounds(cmap, y + 1, x) || !in_bounds(cmap, y - 1, x))
+		return (false);
+	if (cmap[y][x] != '0')
+		return (false);
+	if (cmap[y][x + 1] == '0' && cmap[y][x - 1] == '0' && cmap[y + 1][x] == '1'
+		&& cmap[y - 1][x] == '1')
+		valid = true;
+	if (cmap[y + 1][x] == '0' && cmap[y - 1][x] == '0' && cmap[y][x + 1] == '1'
+		&& cmap[y][x - 1] == '1')
+		valid = true;
+	i = -1;
+	while (valid && map->objs[++i])
 	{
-		if (cmap[psx[1]][psx[0] + 1] == '0' && cmap[psx[1]][psx[0] - 1] == '0'
-			&& cmap[psx[1] + 1][psx[0]] == '1' && cmap[psx[1]
-			- 1][psx[0]] == '1')
-			valid = true;
-		if (cmap[psx[1] + 1][psx[0]] == '0' && cmap[psx[1] - 1][psx[0]] == '0'
-			&& cmap[psx[1]][psx[0] + 1] == '1' && cmap[psx[1]][psx[0]
-			- 1] == '1')
-			valid = true;
-		while (map->objs[++i])
-		{
-			if (map->objs[i]->pos.x == pos.x && map->objs[i]->pos.y == pos.y)
-				valid = false;
-		}
+		if (map->objs[i]->pos.x == pos.x && map->objs[i]->pos.y == pos.y)
+			return (false);
 	}
 	return (valid);
 }

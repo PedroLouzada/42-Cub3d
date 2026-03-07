@@ -4,7 +4,8 @@ char	*ft_strtrim(char *s1, char *set);
 int		is_valid_char(char c);
 
 int	get_width(char *str)
-{	char		*new;
+{
+	char		*new;
 	int			len;
 	static int	old_len;
 
@@ -24,10 +25,11 @@ int	get_width(char *str)
 }
 
 void	get_map_dimension(char *str)
-{	int		fd;
-	char	*line;
+{
+	int				fd;
+	char			*line;
+	static t_vtr	dim;
 
-	static t_vtr dim; // testar melhor o vetor ser estatico
 	dim.y = 0;
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
@@ -47,12 +49,13 @@ void	get_map_dimension(char *str)
 		parse_exit("Map should have more than 1 line\n", NULL, fd, 0);
 	game()->map[0] = create_map(0, fd);
 	game()->map[0]->map_size = dim;
-	game()->map[0]->map = calloc(game()->map[0]->map_size.y, sizeof(char *));
+	game()->map[0]->map = calloc(game()->map[0]->map_size.y + 1, sizeof(char *));
 	close(fd);
 }
 
 void	check_border(char *str, int fd)
-{	int	i;
+{
+	int	i;
 
 	i = -1;
 	while (str[++i])
@@ -63,7 +66,8 @@ void	check_border(char *str, int fd)
 }
 
 int	check_emptyspace(char *str)
-{	int	i;
+{
+	int	i;
 
 	i = -1;
 	while (str[++i])
@@ -75,7 +79,8 @@ int	check_emptyspace(char *str)
 }
 
 void	check_characters(char *str, int fd, t_map *map)
-{	int			i;
+{
+	int			i;
 	static int	n1;
 	static int	n2;
 

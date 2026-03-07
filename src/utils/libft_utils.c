@@ -56,19 +56,10 @@ int	exit_game(char *str)
 
 	if (str)
 		write(2, str, ft_strlen(str));
-	t = (t_thread_plus *)game()->eng->pool;
-	t->quit = true;
-	pthread_cond_broadcast(&t->working);
-	pthread_cond_broadcast(&t->done);
-	i = 0;
-	while (i < 4)
-		pthread_join(t->thread_id[i++], NULL);
-	pthread_mutex_destroy(&t->mutex);
-	pthread_cond_destroy(&t->done);
-	pthread_cond_destroy(&t->working);
-	i = -1;
+	game()->eng->pool->destroy(game()->eng->pool);
 	clear_image();
 	mlx_destroy_window(game()->mlx->mlx, game()->mlx->win);
+	i = -1;
 	while (++i < 6)
 	{
 		free_double(game()->map[i]->map);

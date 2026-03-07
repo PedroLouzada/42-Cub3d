@@ -6,7 +6,8 @@ int		check_header(char *line, int fd);
 char	*ft_strdup_newline(char *s);
 
 int	empty_line(char *line)
-{	int	i;
+{
+	int	i;
 
 	i = 0;
 	while (line[i])
@@ -19,7 +20,8 @@ int	empty_line(char *line)
 }
 
 void	check_map_content(int fd)
-{	int		i;
+{
+	int		i;
 	char	*line;
 
 	line = NULL;
@@ -42,7 +44,8 @@ void	check_map_content(int fd)
 }
 
 char	**copy_map(t_map *src)
-{	int		i;
+{
+	int		i;
 	char	**copy;
 
 	i = -1;
@@ -62,11 +65,11 @@ char	**copy_map(t_map *src)
 	return (copy);
 }
 
-
 int	get_pos(int *pos, char **map, int entity)
-{	int	i;
-	int	j;
-	char c;
+{
+	int		i;
+	int		j;
+	char	c;
 
 	i = 0;
 	if (!entity)
@@ -92,7 +95,8 @@ int	get_pos(int *pos, char **map, int entity)
 }
 
 void	flood_fill(char **map, int x, int y, int *pos)
-{	if (!map || !map[y] || !map[y][x] || map[y][x] == ' ' || map[y][x] == '\n')
+{
+	if (!map || !map[y] || !map[y][x] || map[y][x] == ' ' || map[y][x] == '\n')
 	{
 		free_double(map);
 		parse_exit("Map must be closed by walls \'1\'\n", NULL, -1, 1);
@@ -109,7 +113,8 @@ void	flood_fill(char **map, int x, int y, int *pos)
 }
 
 void	map_validation(char *str)
-{	int		fd;
+{
+	int		fd;
 	int		pos[2];
 	char	**copy;
 
