@@ -1,7 +1,7 @@
 #include "cub3d.h"
 
 void	get_map_dimension(char *str);
-void	check_characters(char *str, int fd, int *d, t_map *map);
+void	check_characters(char *str, int fd, t_map *map);
 int		check_header(char *line, int fd);
 char	*ft_strdup_newline(char *s);
 
@@ -18,7 +18,7 @@ int	empty_line(char *line)
 	return (1);
 }
 
-void	check_map_content(int fd, int *d)
+void	check_map_content(int fd)
 {	int		i;
 	char	*line;
 
@@ -32,7 +32,7 @@ void	check_map_content(int fd, int *d)
 			break ;
 		if (check_header(line, fd) || empty_line(line))
 			continue ;
-		check_characters(line, fd, d, game()->map[0]);
+		check_characters(line, fd, game()->map[0]);
 		game()->map[0]->map[i] = ft_strdup_newline(line);
 		if (!game()->map[0]->map[i++])
 			parse_exit("Memory Allocation\n", line, fd, 1);
@@ -108,7 +108,7 @@ void	flood_fill(char **map, int x, int y, int *pos)
 		flood_fill(map, pos[0], pos[1], pos);
 }
 
-void	map_validation(char *str, int *d)
+void	map_validation(char *str)
 {	int		fd;
 	int		pos[2];
 	char	**copy;
@@ -119,7 +119,7 @@ void	map_validation(char *str, int *d)
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
 		parse_exit("Could not open the file\n", NULL, -1, 1);
-	check_map_content(fd, d);
+	check_map_content(fd);
 	copy = copy_map(game()->map[0]);
 	get_pos(pos, copy, 0);
 	flood_fill(copy, pos[0], pos[1], pos);

@@ -4,13 +4,23 @@ int		ft_strncmp(const char *str1, const char *str2, size_t n);
 int		ft_isdigit(int c);
 
 void	clear_image(void)
-{	int	i;
+{
+	int	j;
+	int	i;
 
-	i = -1;
-	while (++i < 4)
+	j = -1;
+	while (++j < 6)
 	{
-		if (game()->map[0] && game()->map[0]->textures[i])
-			mlx_destroy_image(game()->mlx->mlx, game()->map[0]->textures[i]);
+		i = -1;
+		while (++i < 4)
+		{
+			if (game()->map[j] && game()->map[j]->textures[i])
+			{
+				mlx_destroy_image(game()->mlx->mlx,
+					game()->map[j]->textures[i]);
+				game()->map[j]->textures[i] = NULL;
+			}
+		}
 	}
 	i = -1;
 	while (++i < 12)
@@ -21,9 +31,9 @@ void	clear_image(void)
 	free(game()->mlx->img);
 }
 
-
 void	parse_exit(char *s, char *arg, int fd, bool map)
-{	int	len;
+{
+	int	len;
 
 	len = ft_strlen(s);
 	write(2, "Error\n", 6);
@@ -50,20 +60,23 @@ void	parse_exit(char *s, char *arg, int fd, bool map)
 }
 
 int	ft_isempty(char c)
-{	if (c == 32 || c == '\0' || (c >= 7 && c <= 13))
+{
+	if (c == 32 || c == '\0' || (c >= 7 && c <= 13))
 		return (1);
 	return (0);
 }
 
 int	is_valid_char(char c)
-{	if (c == '0' || c == '1' || c == ' ' || c == '\n' || c == 'N' || c == 'S'
+{
+	if (c == '0' || c == '1' || c == ' ' || c == '\n' || c == 'N' || c == 'S'
 		|| c == 'W' || c == 'E' || c == 'D')
 		return (1);
 	return (0);
 }
 int	check_map_len(char *str)
-{	const int	len = ft_strlen(str);
-	int	tail;
+{
+	const int	len = ft_strlen(str);
+	int			tail;
 
 	if (len < 5)
 		return (0);
@@ -74,7 +87,8 @@ int	check_map_len(char *str)
 }
 
 void	check_sintax(char *str)
-{	char *tail;
+{
+	char	*tail;
 
 	tail = ft_strrchr(str, '.');
 	if (!tail || ft_strncmp(tail, ".cub", 5))

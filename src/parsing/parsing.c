@@ -1,10 +1,12 @@
 #include "cub3d.h"
 
-void	map_validation(char *str, int *d);
+void	map_validation(char *str);
 void	check_sintax(char *str);
+void	generate_objs(t_map *map);
 
 void	change_door(char **map, t_vtr size)
-{	int	y;
+{
+	int	y;
 	int	x;
 
 	y = 0;
@@ -22,7 +24,8 @@ void	change_door(char **map, t_vtr size)
 }
 
 t_vtr	get_vtr(char **map)
-{	int		y;
+{
+	int		y;
 	int		x;
 	t_vtr	pos;
 
@@ -45,23 +48,11 @@ t_vtr	get_vtr(char **map)
 	return (pos);
 }
 
-void	init_objs(t_map *map, int d)
-{	map->objs = ft_calloc(d + 3, sizeof(t_obj *));
-	if (!map->objs)
-		parse_exit("Memory Allocation11\n", NULL, -1, 1);
-	change_door(map->map, map->map_size);
-	map->objs[P] = create_player(get_vtr(map->map));
-	if (!map->objs)
-		parse_exit("Memory Allocation\n", NULL, -1, 1);
-}
-
 void	parsing(char **av)
-{	int	*d;
-
-	d = 0;
+{
 	check_sintax(av[1]);
-	map_validation(av[1], d);
-	// init_objs(game()->map[0], *d);
+	map_validation(av[1]);
+	generate_objs(game()->map[0]);
 	return ;
 }
 

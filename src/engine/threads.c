@@ -78,9 +78,6 @@ t_thread	*init_tpool(int n)
 	if (!new.thread_id || !new.queue)
 		exit_game("Memory Allocation\n");
 	while (++i < n)
-	{
 		pthread_create(&new.thread_id[i], NULL, (void *)swimming, &new);
-		pthread_detach(new.thread_id[i]);
-	}
 	return ((t_thread *)&new);
 }

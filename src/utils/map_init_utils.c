@@ -74,7 +74,7 @@ int	check_emptyspace(char *str)
 	return (0);
 }
 
-void	check_characters(char *str, int fd, int *d, t_map *map)
+void	check_characters(char *str, int fd, t_map *map)
 {	int			i;
 	static int	n1;
 	static int	n2;
@@ -89,8 +89,6 @@ void	check_characters(char *str, int fd, int *d, t_map *map)
 		check_border(str, fd);
 	while (str[++i])
 	{
-		if (str[i] == 'D')
-			d++;
 		if (!is_valid_char(str[i]))
 			parse_exit("Map must contain the specified chars\n", str, fd, 1);
 		if (str[i] == 'N' || str[i] == 'E' || str[i] == 'W' || str[i] == 'S')

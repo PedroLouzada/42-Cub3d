@@ -12,6 +12,7 @@ int	mouse_press(int button, int x, int y)
 			{
 				game()->eng->title[0] = false;
 				game()->eng->title[1] = false;
+				game()->eng->current_map = 1;
 			}
 			else if ((x >= 240 && x <= 640) && (y >= 560 && y <= 660))
 			{
@@ -60,8 +61,8 @@ static void	mouse_rotate(const int x, const int y)
 	int	dx;
 
 	dx = x - WIN_WIDTH / 2;
-	game()->map[1]->objs[P]->angle += dx * 0.0009;
-	set_orientation((t_player *)game()->map[1]->objs[P]);
+	game()->map[game()->eng->current_map]->objs[P]->angle += dx * 0.0009;
+	set_orientation((t_player *)game()->map[game()->eng->current_map]->objs[P]);
 	mlx_mouse_move(game()->mlx->mlx, game()->mlx->win, WIN_WIDTH / 2, WIN_HEIGHT
 		/ 2);
 }

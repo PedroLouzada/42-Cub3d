@@ -16,7 +16,7 @@ t_vtr	spawn(t_map *map, char tile)
 {	t_vtr	pos;
 
 	pos = rand_pos(map->map_size);
-	while (map->map[(int)pos.y][(int)pos.x] != tile)
+	while (map->map[(int)pos.y] && map->map[(int)pos.y][(int)pos.x] != tile)
 		pos = rand_pos(map->map_size);
 	return (pos);
 }

@@ -1,7 +1,8 @@
 #include "cub3d.h"
 
 void	*ft_calloc(size_t nm, size_t sz)
-{	size_t	size;
+{
+	size_t	size;
 	t_str	data;
 	void	*alloc;
 
@@ -20,7 +21,8 @@ void	*ft_calloc(size_t nm, size_t sz)
 }
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
-{	char	*start;
+{
+	char	*start;
 
 	start = dest;
 	if (!dest && !src)
@@ -31,7 +33,8 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 }
 
 t_str	ft_joinstr(t_str s1, t_str s2)
-{	int		tln;
+{
+	int		tln;
 	t_str	str;
 
 	if (!s1 || !s2)
@@ -46,12 +49,25 @@ t_str	ft_joinstr(t_str s1, t_str s2)
 }
 
 int	exit_game(char *str)
-{	int	i;
-	int	j;
+{
+	int				i;
+	int				j;
+	t_thread_plus	*t;
+
 	if (str)
 		write(2, str, ft_strlen(str));
+	t = (t_thread_plus *)game()->eng->pool;
+	t->quit = true;
+	pthread_cond_broadcast(&t->working);
+	pthread_cond_broadcast(&t->done);
+	i = 0;
+	while (i < 4)
+		pthread_join(t->thread_id[i++], NULL);
+	pthread_mutex_destroy(&t->mutex);
+	pthread_cond_destroy(&t->done);
+	pthread_cond_destroy(&t->working);
 	i = -1;
-	// clear_image();
+	clear_image();
 	mlx_destroy_window(game()->mlx->mlx, game()->mlx->win);
 	while (++i < 6)
 	{

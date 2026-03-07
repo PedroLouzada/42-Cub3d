@@ -1,7 +1,7 @@
-NO ./assets/textures/n.txt
-SO ./assets/textures/s.txt
-WE ./assets/textures/w.txt
-EA ./assets/textures/e.txt
+NO ./assets/textures/green_wall/wall1.xpm
+SO ./assets/textures/green_wall/wall2.xpm
+WE ./assets/textures/green_wall/wall1.xpm
+EA ./assets/textures/green_wall/wall2.xpm
 
 F 220,100,0
 C 225,30,0

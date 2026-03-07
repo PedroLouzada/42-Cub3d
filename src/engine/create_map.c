@@ -1,11 +1,12 @@
 #include "cub3d.h"
 
-int		tile_color(t_map *map, t_vtr pos)
-{	int		color;
+int	tile_color(t_map *map, t_vtr pos)
+{
+	int	color;
 
 	color = BLACK;
-	if (pos.y >= 0 && pos.y < map->map_size.y
-	&& pos.x >= 0 && pos.x < map->map_size.x)
+	if (pos.y >= 0 && pos.y < map->map_size.y && pos.x >= 0
+		&& pos.x < map->map_size.x)
 	{
 		if (map->map[(int)pos.y][(int)pos.x] == '1')
 			color = WHITE;
@@ -36,7 +37,7 @@ void	draw_characters(t_map *map)
 	pos.y *= TILE_SZ;
 	draw_circle(game()->mlx, pos, TILE_SZ / 2.5, BLUE);
 	pos.x = (map->map_size.x / 2) * TILE_SZ;
-    pos.y = (map->map_size.y / 2) * TILE_SZ;
+	pos.y = (map->map_size.y / 2) * TILE_SZ;
 	draw_flashlight(pos, pos.y / 36, MINIMAP);
 }
 
@@ -65,7 +66,7 @@ void	draw_minimap(t_map *map)
 	data[0].y = -1;
 	data[1].y = map->objs[P]->pos.y - (map->map_size.y / 4);
 	data[2].x = (map->objs[P]->pos.x - (int)map->objs[P]->pos.x) * TILE_SZ;
-    data[2].y = (map->objs[P]->pos.y - (int)map->objs[P]->pos.y) * TILE_SZ;
+	data[2].y = (map->objs[P]->pos.y - (int)map->objs[P]->pos.y) * TILE_SZ;
 	while (++data[0].y < map->map_size.y / 2)
 	{
 		data[0].x = -1;
@@ -83,33 +84,35 @@ void	draw_minimap(t_map *map)
 }
 
 void	alloc_textures(t_map *map, int level)
-{	int		i;
+{
+	int		i;
 	bool	index;
 
 	i = -1;
 	index = 0;
-	if (level % 2)
+	/* 	if (level % 2)
+		{ */
+	while (++i < 4)
 	{
-		while (++i < 4)
+		if (!index)
 		{
-			if (!index)
-			{
-				map->textures[i] = new_img("./assets/textures/green_wall/wall1.xpm");
-				index = !index;
-			}
-			else
-			{
-				map->textures[i] = new_img("./assets/textures/green_wall/wall2.xpm");
-				index = !index;
-			}
-			if (!map->textures[i])
-				exit_game("Memory Allocation\n");
+			map->textures[i] = new_img("./assets/textures/green_wall/wall1.xpm");
+			index = !index;
 		}
+		else
+		{
+			map->textures[i] = new_img("./assets/textures/green_wall/wall2.xpm");
+			index = !index;
+		}
+		if (!map->textures[i])
+			exit_game("Memory Allocation\n");
 	}
+	// }
 }
 
 t_map	*create_map(int level, int fd)
-{	t_map *const map = ft_calloc(1, sizeof(t_map));
+{
+	t_map *const map = ft_calloc(1, sizeof(t_map));
 	if (!map)
 		parse_exit("Memory Allocation\n", NULL, fd, 0);
 	map->level = level;

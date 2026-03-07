@@ -41,7 +41,7 @@ void	alloc_assets(void)
 	{
 		img = new_img(paths[i]);
 		if (!img || !img->img)
-			exit_game("Error\nMemory Allocation2\n");
+			exit_game("Error\nMemory Allocation\n");
 		game()->mlx->img[i + 1] = img;
 		i++;
 	}

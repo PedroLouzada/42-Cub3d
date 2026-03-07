@@ -40,6 +40,7 @@ struct					s_player
 	void				*(*get_texture)(t_obj *this, double dir);
 	double				battery;
 	t_ray				*ray;
+	int					level;
 };
 
 struct					s_enemy
@@ -72,8 +73,8 @@ struct					s_door
 
 struct					s_map
 {
-	t_str				*map;
 	int					level;
+	t_str				*map;
 	t_obj				**objs;
 	t_imgs *player; // temporario
 	t_ray				*rays[2];
@@ -102,6 +103,7 @@ typedef struct s_eng
 	bool				title[2];
 	bool				key[80000];
 	int					in_button[4];
+	int					current_map;
 	t_thread			*pool;
 }						t_eng;
 

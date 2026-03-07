@@ -1,7 +1,8 @@
 #include "cub3d.h"
 
 t_str	get_file(int level)
-{	t_str	files[5];
+{
+	t_str	files[5];
 
 	files[0] = "maps/level_1";
 	files[1] = "maps/level_2";
@@ -12,7 +13,8 @@ t_str	get_file(int level)
 }
 
 void	print_map(t_map *map)
-{	t_str	file;
+{
+	t_str	file;
 	int		data[3];
 
 	file = get_file(map->level);
@@ -34,7 +36,8 @@ void	print_map(t_map *map)
 }
 
 void	generate_objs(t_map *map)
-{	t_vtr	pos;
+{
+	t_vtr	pos;
 	int		data[2];
 
 	data[0] = (int)pick_range(MIN_DOORS, MAX_DOORS) + 1;
@@ -52,22 +55,27 @@ void	generate_objs(t_map *map)
 				return (map->destroy(map));
 		}
 	}
-	map->objs[P] = create_player(spawn(map, '0'));
+	pos = spawn(map, '0');
+	if (!map->level)
+		pos = (t_vtr){5, 10};
+	map->objs[P] = create_player(pos);
 	if (!map->objs[P])
 		return (map->destroy(map));
-	map->objs[E] = create_enemy((t_vtr){map->objs[P]->pos.x + 1, map->objs[P]->pos.y + 1});
+	map->objs[E] = create_enemy((t_vtr){map->objs[P]->pos.x + 1,
+			map->objs[P]->pos.y + 1});
 	if (!map->objs[E])
 		return (map->destroy(map));
 }
 
 void	generate_paths(t_map *map, t_vtr pos, int paths)
-{	int	data[2];
+{
+	int	data[2];
 
 	data[0] = 0;
 	data[1] = (int)pick_range(NORTH, SOUTH);
 	if (!paths)
 		return ;
-	while (map->map[(int)pos.y][(int)pos.x] != '.' )
+	while (map->map[(int)pos.y][(int)pos.x] != '.')
 	{
 		map->map[(int)pos.y][(int)pos.x] = '.';
 		check_path(map, pos, &data[1]);
@@ -80,7 +88,8 @@ void	generate_paths(t_map *map, t_vtr pos, int paths)
 }
 
 void	generate_map(t_map *map)
-{	t_vtr	pos;
+{
+	t_vtr	pos;
 
 	map->map = ft_calloc(map->map_size.y + 1, sizeof(t_str));
 	if (!map->map)

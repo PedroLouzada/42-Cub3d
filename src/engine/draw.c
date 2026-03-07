@@ -63,7 +63,7 @@ void	game_scene(void)
 {	t_player	*p;
 	t_vtr		size;
 
-	p = (t_player *)game()->map[1]->objs[P];
+	p = (t_player *)game()->map[game()->eng->current_map]->objs[P];
 	size.x = WIN_WIDTH;
 	size.y = WIN_HEIGHT;
 	cast_rays(1, E);
@@ -73,7 +73,7 @@ void	game_scene(void)
 	{
 		draw_flashlight(size, size.y / 20, LIGHT_ON);
 		draw_img(game()->mlx->img[PLAYERIMG], 1470, 711);
-		game()->map[1]->minimap(game()->map[1]);
+		game()->map[game()->eng->current_map]->minimap(game()->map[game()->eng->current_map]);
 	}
 	else
 		draw_flashlight(size, 0, LIGHT_OFF);
