@@ -47,37 +47,3 @@ t_str	ft_joinstr(t_str s1, t_str s2)
 	ft_memcpy((str + ft_strlen(s1)), s2, ft_strlen(s2));
 	return (str);
 }
-
-int	exit_game(char *str)
-{
-	int				i;
-	int				j;
-	t_thread_plus	*t;
-
-	if (str)
-		write(2, str, ft_strlen(str));
-	game()->eng->pool->destroy(game()->eng->pool);
-	clear_image();
-	mlx_destroy_window(game()->mlx->mlx, game()->mlx->win);
-	i = -1;
-	while (++i < 6)
-	{
-		free_double(game()->map[i]->map);
-		if (game()->map[i]->objs)
-		{
-			j = 0;
-			while (game()->map[i]->objs[j])
-				free(game()->map[i]->objs[j++]);
-			free(game()->map[i]->objs);
-		}
-		free(game()->map[i]->rays[E]);
-		free(game()->map[i]->rays[P]);
-		if (i < 6)
-			free(game()->map[i]);
-	}
-	mlx_destroy_display(game()->mlx->mlx);
-	free(game()->mlx->mlx);
-	free(game()->mlx);
-	exit(0);
-	return (0);
-}

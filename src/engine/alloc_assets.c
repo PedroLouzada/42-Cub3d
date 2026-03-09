@@ -1,7 +1,8 @@
 #include "cub3d.h"
 
 t_imgs	*new_img(char *name)
-{	t_mlx	*mlx;
+{
+	t_mlx	*mlx;
 	t_imgs	*new_img;
 
 	new_img = ft_calloc(1, sizeof(t_imgs));
@@ -21,7 +22,8 @@ t_imgs	*new_img(char *name)
 }
 
 void	alloc_assets(void)
-{	int		i;
+{
+	int		i;
 	t_imgs	*img;
 	char *const paths[] = {"./assets/imgs/home/homescreen.xpm",
 		"./assets/imgs/home/play_butt.xpm",

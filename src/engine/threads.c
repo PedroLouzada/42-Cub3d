@@ -1,6 +1,6 @@
 #include "thread.h"
 
-void	swimming(void *p)
+void	*swimming(void *p)
 {
 	t_job			job;
 	t_thread_plus	*this;
@@ -12,7 +12,7 @@ void	swimming(void *p)
 		while (!this->to_do && !this->quit)
 			pthread_cond_wait(&this->working, &this->mutex);
 		if (this->quit)
-			return (void)pthread_mutex_unlock(&this->mutex);
+			return (pthread_mutex_unlock(&this->mutex), NULL);
 		job = this->queue[this->index];
 		this->index = (this->index + 1) % 10;
 		this->to_do--;
@@ -24,7 +24,7 @@ void	swimming(void *p)
 		pthread_cond_signal(&this->done);
 		pthread_mutex_unlock(&this->mutex);
 	}
-	return ;
+	return (NULL);
 }
 
 static void	_deploy(t_thread *this, void (*f)(void *), void *arg)
@@ -33,7 +33,7 @@ static void	_deploy(t_thread *this, void (*f)(void *), void *arg)
 
 	new = (t_thread_plus *)this;
 	pthread_mutex_lock(&new->mutex);
-	if (new->size == 10)
+	if (new->to_do == 10)
 	{
 		pthread_mutex_unlock(&new->mutex);
 		return ;
@@ -52,16 +52,20 @@ void	_destroy(t_thread *this)
 	t_thread_plus	*new;
 
 	new = (t_thread_plus *)this;
+	pthread_mutex_lock(&new->mutex);
 	new->quit = true;
 	pthread_cond_broadcast(&new->working);
 	pthread_cond_broadcast(&new->done);
+	pthread_mutex_unlock(&new->mutex);
 	i = 0;
-	while (i < 4)
+	while (i < new->number)
 		pthread_join(new->thread_id[i++], NULL);
 	pthread_mutex_destroy(&new->mutex);
 	pthread_cond_destroy(&new->done);
 	pthread_cond_destroy(&new->working);
 	free(new->thread_id);
+	free(new->queue);
+	free(new);
 }
 
 void	_wait(t_thread *this, int n)
@@ -72,25 +76,30 @@ void	_wait(t_thread *this, int n)
 	pthread_mutex_lock(&new->mutex);
 	while (new->pending < n)
 		pthread_cond_wait(&new->done, &new->mutex);
-	pthread_mutex_unlock(&new->mutex);
 	new->pending = 0;
+	pthread_mutex_unlock(&new->mutex);
 }
 t_thread	*init_tpool(int n)
 {
-	int						i;
-	static t_thread_plus	new;
+	int				i;
+	t_thread_plus	*new;
 
 	i = -1;
-	new.deploy = _deploy;
-	new.destroy = _destroy;
-	new.wait = _wait;
-	pthread_cond_init(&new.working, NULL);
-	pthread_mutex_init(&new.mutex, NULL);
-	new.queue = ft_calloc(10, sizeof(t_job));
-	new.thread_id = ft_calloc(n, sizeof(pthread_t));
-	if (!new.thread_id || !new.queue)
+	new = ft_calloc(1, sizeof(t_thread_plus));
+	if (!new)
+		exit_game("Memory Allocation\n");
+	new->number = n;
+	new->deploy = _deploy;
+	new->destroy = _destroy;
+	new->wait = _wait;
+	pthread_cond_init(&new->working, NULL);
+	pthread_cond_init(&new->done, NULL);
+	pthread_mutex_init(&new->mutex, NULL);
+	new->queue = ft_calloc(10, sizeof(t_job));
+	new->thread_id = ft_calloc(n, sizeof(pthread_t));
+	if (!new->thread_id || !new->queue)
 		exit_game("Memory Allocation\n");
 	while (++i < n)
-		pthread_create(&new.thread_id[i], NULL, (void *)swimming, &new);
-	return ((t_thread *)&new);
+		pthread_create(&new->thread_id[i], NULL, swimming, new);
+	return ((t_thread *)new);
 }

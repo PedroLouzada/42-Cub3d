@@ -1,12 +1,14 @@
 #include "cub3d.h"
 
 void	skip_spaces(char **str)
-{	while (**str && **str == ' ')
+{
+	while (**str && **str == ' ')
 		(*str)++;
 }
 
 char	*get_path(char *str)
-{	int	len;
+{
+	int	len;
 
 	str = str + 2;
 	skip_spaces(&str);
@@ -16,7 +18,8 @@ char	*get_path(char *str)
 }
 
 void	open_path(char *root, char *str, int fd, int n)
-{	int	x;
+{
+	int	x;
 	int	y;
 	int	spr_fd;
 
@@ -29,13 +32,14 @@ void	open_path(char *root, char *str, int fd, int n)
 	close(spr_fd);
 	if (game()->map[0]->textures[n])
 		parse_exit("Double definition on wall texture\n", root, fd, 1);
-	game()->map[0]->textures[n] = mlx_xpm_file_to_image(game()->mlx->mlx, str, &x, &y);
-	if (!game()->map[0]->textures[n])
+	game()->map[0]->textures[n] = new_img(str);
+	if (!game()->map[0]->textures[n] || !game()->map[0]->textures[n]->img)
 		parse_exit("Xpm file not valid\n", root, fd, 1);
 }
 
 void	check_textures(char *root, char *str, int fd)
-{	if (!ft_strncmp(str, "NO ", 3))
+{
+	if (!ft_strncmp(str, "NO ", 3))
 		open_path(root, str, fd, 0);
 	else if (!ft_strncmp(str, "EA ", 3))
 		open_path(root, str, fd, 1);
@@ -46,7 +50,8 @@ void	check_textures(char *root, char *str, int fd)
 }
 
 void	check_colors(char *root, char *str, int fd, t_map *map)
-{	if (str[0] == 'C')
+{
+	if (str[0] == 'C')
 	{
 		if (map->colors[0])
 			parse_exit("Double ceiling \'C\' definition:\n", root, fd, 1);
@@ -61,8 +66,9 @@ void	check_colors(char *root, char *str, int fd, t_map *map)
 }
 
 int	all_done(t_map *map)
-{	int	i;
-	static bool done;
+{
+	int			i;
+	static bool	done;
 
 	if (done)
 		return (1);
@@ -83,7 +89,8 @@ int	all_done(t_map *map)
 }
 
 int	check_header(char *line, int fd)
-{	char *str;
+{
+	char *str;
 
 	str = line;
 	if (all_done(game()->map[0]))

@@ -19,6 +19,8 @@
 # include "minilibx-linux/mlx_int.h"
 
 #define DEBUG fprintf(stderr, "%s, %i\n", __FUNCTION__, __LINE__)
+#define HERE fprintf(stderr, "Here\n");
+#define THERE fprintf(stderr, "There\n");
 
 //========================== PARSING =====================
 

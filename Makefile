@@ -29,6 +29,7 @@ SRCS =  src/main.c \
 		src/utils/rand_utils.c \
 		src/utils/libft_utils.c \
 		src/utils/time_utils.c \
+		src/utils/exit.c \
 		src/engine/raycasting.c \
 		src/engine/threads.c \
 
@@ -78,7 +79,7 @@ re: fclean
 r:
 	make re && clear && ./cub3D maps/a.cub
 v:
-	make re && clear && valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all ./cub3D maps/a.cub
+	make re && clear && valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all --track-origins=yes ./cub3D maps/a.cub
 
 t:
 	make re && clear && valgrind --tool=helgrind ./cub3D maps/a.cub

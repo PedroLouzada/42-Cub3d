@@ -1,8 +1,11 @@
 #include "cub3d.h"
 
 void	destroy_map(t_map *map)
-{	int	i;
+{
+	int	i;
 
+	free(map->rays[E]);
+	free(map->rays[P]);
 	i = -1;
 	while (++i < map->map_size.y)
 	{
@@ -16,12 +19,13 @@ void	destroy_map(t_map *map)
 		free(map->objs[i]);
 	if (map->objs)
 		free(map->objs);
-	if (map)	
+	if (map)
 		free(map);
 }
 
 void	clean_map(t_map *map)
-{	int	i;
+{
+	int	i;
 
 	i = -1;
 	while (map->map[++i])

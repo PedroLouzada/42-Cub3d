@@ -51,7 +51,7 @@ void	init_game(int ac, t_str *av)
 	if (!game()->mlx->mlx)
 		parse_exit("Memory Allocation\n", NULL, -1, 0);
 	parsing(av);
-	game()->mlx->win = mlx_new_window(game()->mlx->mlx, WIN_WIDTH, WIN_HEIGHT,
+	game()->mlx->win = mlx_new_window(game()->mlx->mlx, 800, 600,
 			TITLE);
 	if (!game()->mlx->win)
 		parse_exit("Memory Allocation\n", (void *)game()->map[0]->objs, -1, 1);

@@ -55,14 +55,14 @@ void	move_in_path(t_map *map, t_vtr *pos, int direction)
 		pos->y--;
 }
 
-static bool	in_bounds(char **map, int y, int x)
+bool	in_bounds(char **map, int y, int x)
 {
 	size_t	len;
 
 	if (!map || y < 0 || x < 0 || !map[y])
 		return (false);
 	len = ft_strlen(map[y]);
-	if ((size_t)x >= len)
+	if (x >= len)
 		return (false);
 	return (true);
 }
@@ -83,7 +83,6 @@ bool	valid_door(t_map *map, t_vtr pos)
 	valid = false;
 	if (!in_bounds(cmap, y, x))
 		return (false);
-	/* need all 4 neighbors */
 	if (!in_bounds(cmap, y, x + 1) || !in_bounds(cmap, y, x - 1)
 		|| !in_bounds(cmap, y + 1, x) || !in_bounds(cmap, y - 1, x))
 		return (false);

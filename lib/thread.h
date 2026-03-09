@@ -37,6 +37,7 @@ struct							s_thread_plus
 	pthread_cond_t				working;
 	t_job						*queue;
 	int							pending;
+	int							number;
 	pthread_cond_t				done;
 };
 
