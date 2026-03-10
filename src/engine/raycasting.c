@@ -1,8 +1,8 @@
 #include "cub3d.h"
 
-void	init_ray(t_ray *r, t_obj *obj, int column)
+void init_ray(t_ray *r, t_obj *obj, int column)
 {
-	double	camera_x;
+	double camera_x;
 
 	camera_x = 2.0 * column / (double)WIN_WIDTH - 1.0;
 	r->dir.x = obj->dir.x + obj->plane.x * camera_x;
@@ -24,7 +24,7 @@ void	init_ray(t_ray *r, t_obj *obj, int column)
 		r->sDist.y = (r->map.y + 1.0 - obj->pos.y) * r->dltDist.y;
 }
 
-void	dda(t_ray *r, t_map *map)
+void dda(t_ray *r, t_map *map)
 {
 	while (1)
 	{
@@ -41,16 +41,17 @@ void	dda(t_ray *r, t_map *map)
 			r->side = 1;
 		}
 		if (map->map[(int)r->map.y][(int)r->map.x] == '1')
-			break ;
+			break;
 	}
 }
 
-void	reduced_ray(int *array)
+void reduced_ray(void *p)
 {
-	int			i;
-	t_ray		*r;
-	t_map		*map;
-	const int	end = array[3];
+	const int *array = p;
+	int i;
+	t_ray *r;
+	t_map *map;
+	const int end = array[3];
 
 	map = game()->map[array[0]];
 	i = array[2] - 1;
@@ -64,25 +65,25 @@ void	reduced_ray(int *array)
 		else
 			r[i].perp = r[i].sDist.y - r[i].dltDist.y;
 		if (array[1] == E)
-			continue ;
+			continue;
 		draw_column(&r[i], i, map->textures);
 	}
 }
 
-void	cast_rays(int map, int type)
+void cast_rays(int map, int type)
 {
-	int const	args[4][4] = {
-	{map, type, 0, 480},
-	{map, type, 480, 960},
-	{map, type, 960, 1440},
-	{map, type, 1440, 1920},
+	int const args[4][4] = {
+		{map, type, 0, 480},
+		{map, type, 480, 960},
+		{map, type, 960, 1440},
+		{map, type, 1440, 1920},
 	};
-	t_thread	*pool;
+	t_thread *pool;
 
 	pool = game()->eng->pool;
-	pool->deploy(pool, (void *)reduced_ray, (void *)args[0]);
-	pool->deploy(pool, (void *)reduced_ray, (void *)args[1]);
-	pool->deploy(pool, (void *)reduced_ray, (void *)args[2]);
-	pool->deploy(pool, (void *)reduced_ray, (void *)args[3]);
+	pool->deploy(pool, reduced_ray, (void *)args[0]);
+	pool->deploy(pool, reduced_ray, (void *)args[1]);
+	pool->deploy(pool, reduced_ray, (void *)args[2]);
+	pool->deploy(pool, reduced_ray, (void *)args[3]);
 	pool->wait(pool, 4);
 }

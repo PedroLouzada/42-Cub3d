@@ -77,6 +77,7 @@ struct					s_map
 	t_str				*map;
 	t_obj				**objs;
 	t_imgs *player; // temporario
+	bool				exit;
 	t_ray				*rays[2];
 	t_vtr				map_size;
 	t_vtr				mini_size;

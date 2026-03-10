@@ -47,6 +47,7 @@ void	init_game(int ac, t_str *av)
 	game()->mlx = ft_calloc(1, sizeof(t_mlx));
 	if (!game()->mlx)
 		parse_exit("Memory Allocation\n", NULL, -1, 0);
+	XInitThreads();
 	game()->mlx->mlx = mlx_init();
 	if (!game()->mlx->mlx)
 		parse_exit("Memory Allocation\n", NULL, -1, 0);
