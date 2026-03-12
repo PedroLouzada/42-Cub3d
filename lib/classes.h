@@ -105,6 +105,7 @@ typedef struct s_eng
 	bool				key[80000];
 	int					in_button[4];
 	int					current_map;
+	int					battery;
 	t_thread			*pool;
 }						t_eng;
 

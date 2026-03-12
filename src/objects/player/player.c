@@ -70,7 +70,6 @@ void	p_update(t_obj *obj, t_map *map)
 {
 	t_player	*p;
 
-
 	p = (t_player *)obj;
 	if (game()->eng->key[K_LEFT] || game()->eng->key[K_RIGHT])
 		rotate(game()->eng, p);
@@ -81,11 +80,20 @@ void	p_update(t_obj *obj, t_map *map)
 		p->battery -= 0.1 * game()->eng->dt;
 	if (game()->eng->key[K_F] == false && p->battery < 100)
 		p->battery += 0.05 * game()->eng->dt;
+	// if (p->battery >= 66.00)
+	// 	game()->eng->battery = 12;
+	// else if (p->battery >= 33.00)
+	// 	game()->eng->battery = 13;
+	// else if (p->battery >= 0)
+	// 	game()->eng->battery = 14;
+	// else
+	// 	game()->eng->battery = 15;
 }
 
 t_obj	*create_player(t_vtr pos)
 {
 	t_player	*p;
+	static int	i;
 
 	p = ft_calloc(1, sizeof(t_player));
 	if (!p)
@@ -93,7 +101,6 @@ t_obj	*create_player(t_vtr pos)
 	p->lives = 3;
 	p->pos = pos;
 	p->battery = 100;
-	static int i;
 	p->level = i++;
 	p->update = p_update;
 	p->angle = pick_rand(pick_rand(M_PI_2, 0), pick_rand(M_PI, 3 * M_PI_2));

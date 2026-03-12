@@ -32,7 +32,11 @@ void	alloc_assets(void)
 		"./assets/imgs/home/border_butt.xpm",
 		"./assets/imgs/home/wasd_keys.xpm", "./assets/imgs/home/arrow_keys.xpm",
 		"./assets/imgs/home/mouse.xpm", "./assets/imgs/home/back_button.xpm",
-		"./assets/imgs/home/back_border.xpm", "./assets/imgs/player.xpm", NULL};
+		"./assets/imgs/home/back_border.xpm", "./assets/imgs/player.xpm",
+/* 		"./assets/imgs/battery/full_battery.xpm",
+		"./assets/imgs/battery/2-3_battery.xpm",
+		"./assets/imgs/battery/1-3_battery.xpm",
+		"./assets/imgs/battery/empty_battery.xpm", */ NULL};
 
 	game()->mlx->img = ft_calloc(12, sizeof(t_imgs *));
 	game()->mlx->img[0] = new_img(NULL);

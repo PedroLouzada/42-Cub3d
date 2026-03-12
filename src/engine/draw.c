@@ -77,6 +77,7 @@ void	game_scene(void)
 	}
 	else
 		draw_flashlight(size, 0, LIGHT_OFF);
+	// draw_img(game()->mlx->img[game()->eng->battery], 200, 711);
 }
 
 void	draw_screen(t_mlx *mlx)

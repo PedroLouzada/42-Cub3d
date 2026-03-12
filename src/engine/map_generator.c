@@ -55,10 +55,9 @@ void	generate_objs(t_map *map)
 				return (map->destroy(map));
 		}
 	}
-	pos = spawn(map, '0');
-	if (!map->level)
-		pos = (t_vtr){5, 10};
-	map->objs[P] = create_player(pos);
+	if (map->level)
+		map->player_pos = spawn(map, '0');
+	map->objs[P] = create_player(map->player_pos);
 	if (!map->objs[P])
 		return (map->destroy(map));
 	map->objs[E] = create_enemy((t_vtr){map->objs[P]->pos.x + 1,

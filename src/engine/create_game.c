@@ -47,12 +47,11 @@ void	init_game(int ac, t_str *av)
 	game()->mlx = ft_calloc(1, sizeof(t_mlx));
 	if (!game()->mlx)
 		parse_exit("Memory Allocation\n", NULL, -1, 0);
-	XInitThreads();
 	game()->mlx->mlx = mlx_init();
 	if (!game()->mlx->mlx)
 		parse_exit("Memory Allocation\n", NULL, -1, 0);
 	parsing(av);
-	game()->mlx->win = mlx_new_window(game()->mlx->mlx, 800, 600,
+	game()->mlx->win = mlx_new_window(game()->mlx->mlx, WIN_WIDTH, WIN_HEIGHT,
 			TITLE);
 	if (!game()->mlx->win)
 		parse_exit("Memory Allocation\n", (void *)game()->map[0]->objs, -1, 1);
