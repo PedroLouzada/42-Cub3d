@@ -73,5 +73,6 @@ int		key_unpress(int key);
 void	draw_minimap(t_map *map);
 int		get_pos(int *pos, char **map, int entity);
 int		ft_get_color(t_imgs *img, int x, int y);
+bool	in_bounds(char **map, int y, int x);
 
 #endif

@@ -16,8 +16,7 @@ t_vtr	get_vtr(char **map)
 		x = -1;
 		while (map[y][++x])
 		{
-			if (map[y][x] == 'N' || map[y][x] == 'E' || map[y][x] == 'W'
-				|| map[y][x] == 'S')
+			if (map[y][x] == 'P')
 			{
 				pos.x = x;
 				pos.y = y;
@@ -25,13 +24,13 @@ t_vtr	get_vtr(char **map)
 			}
 		}
 	}
+	pos.x = 0;
+	pos.y = 0;
 	return (pos);
 }
 
 void	parsing(char **av)
 {
-	t_vtr pos;
-
 	check_sintax(av[1]);
 	map_validation(av[1]);
 	game()->map[0]->player_pos = get_vtr(game()->map[0]->map);

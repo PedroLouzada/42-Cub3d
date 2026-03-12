@@ -41,6 +41,7 @@ struct					s_player
 	double				battery;
 	t_ray				*ray;
 	int					level;
+	double				stamina;
 };
 
 struct					s_enemy

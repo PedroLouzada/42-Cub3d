@@ -19,6 +19,11 @@ int	mouse_press(int button, int x, int y)
 				game()->eng->title[0] = false;
 				game()->eng->title[1] = true;
 			}
+			else if ((x >= 240 && x <= 640) && (y >= 440 && y <= 540))
+			{
+				game()->eng->title[0] = false;
+				game()->eng->title[1] = false;
+			}
 		}
 		else if (game()->eng->title[1])
 		{

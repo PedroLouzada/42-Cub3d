@@ -20,7 +20,7 @@ void	clear_image(void)
 		}
 	}
 	i = -1;
-	while (++i < 12)
+	while (++i < 16)
 	{
 		mlx_destroy_image(game()->mlx->mlx, game()->mlx->img[i]->img);
 		free(game()->mlx->img[i]);

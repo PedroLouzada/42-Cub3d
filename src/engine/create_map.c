@@ -90,24 +90,25 @@ void	alloc_textures(t_map *map, int level)
 
 	i = -1;
 	index = 0;
-	/* 	if (level % 2)
-		{ */
-	while (++i < 4)
+	if (level % 2)
 	{
-		if (!index)
+		while (++i < 4)
 		{
-			map->textures[i] = new_img("./assets/textures/green_wall/wall1.xpm");
-			index = !index;
-		}
-		else
-		{
-			map->textures[i] = new_img("./assets/textures/green_wall/wall2.xpm");
-			index = !index;
-		}
-		if (!map->textures[i])
-			exit_game("Memory Allocation\n");
+			if (!index)
+			{
+				map->textures[i] = new_img("./assets/textures/green_wall/wall1.xpm");
+				index = !index;
+			}
+			else
+			{
+				map->textures[i] = new_img("./assets/textures/green_wall/wall2.xpm");
+				index = !index;
+			}
+			if (!map->textures[i])
+				exit_game("Memory Allocation\n");
+	
+			}
 	}
-	// }
 }
 
 t_map	*create_map(int level, int fd)

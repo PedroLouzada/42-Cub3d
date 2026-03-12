@@ -79,16 +79,16 @@ int	texture_dir(t_ray *r)
 		if (r->dir.x > 0)
 			return (1);
 		else
-			return (3);
+			return (2);
 	}
 	else
 	{
 		if (r->dir.y > 0)
-			return (0);
+			return (3);
 		else
-			return (2);
+			return (0);
 	}
-	return (0);
+	return (-1);
 }
 
 void	set_tx(t_ray *ray, int width)
@@ -106,9 +106,9 @@ void	set_tx(t_ray *ray, int width)
 		tx = 0;
 	if (tx >= width)
 		tx = width - 1;
-	if (ray->side == 0 && ray->dir.x > 0)
+	if (ray->side == 0 && ray->dir.x < 0)
 		tx = width - tx - 1;
-	if (ray->side == 1 && ray->dir.y < 0)
+	if (ray->side == 1 && ray->dir.y > 0)
 		tx = width - tx - 1;
 	ray->tex.tex_x = tx;
 }
@@ -132,8 +132,8 @@ t_imgs	*set_tex(t_ray *ray, double start, double lheight, t_imgs **tex)
 
 	ray->tex.txt_id = texture_dir(ray);
 	img = tex[ray->tex.txt_id];
-	set_tx(ray, img->height);
-	ray->tex.tex_step = (double)img->width / lheight;
+	set_tx(ray, img->width);
+	ray->tex.tex_step = (double)img->height / lheight;
 	ray->tex.tex_pos = (start - (WIN_HEIGHT / 2) + (lheight / 2))
 		* ray->tex.tex_step;
 	return (img);

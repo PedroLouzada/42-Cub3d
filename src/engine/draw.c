@@ -26,7 +26,8 @@ void	draw_img(t_imgs *img, int px, int py)
 }
 
 void	titlescreen(void)
-{	t_imgs	**img;
+{
+	t_imgs	**img;
 
 	img = game()->mlx->img;
 	game()->eng->in_button[3] = false;
@@ -43,7 +44,8 @@ void	titlescreen(void)
 }
 
 void	control_screen(void)
-{	int		i;
+{
+	int		i;
 	t_imgs	**img;
 
 	i = 0;
@@ -59,25 +61,68 @@ void	control_screen(void)
 		draw_img(img[BACKBORDER], 90, 850);
 }
 
+void	draw_stamina(t_vtr xy, t_vtr wh, double stamina)
+{
+	int	fill_w;
+	int	start_x;
+	int	i;
+	int	j;
+
+	if (stamina <= 5 || stamina >= 100)
+		return ;
+	fill_w = (int)(wh.x * stamina);
+	start_x = (xy.x + wh.x / 2) - fill_w / 2;
+	j = 0;
+	while (j < wh.y)
+	{
+		i = 0;
+		while (i < fill_w)
+		{
+			ft_pixel_put(game()->mlx->img[BUFFER], start_x + i, (int)xy.y + j, WHITE);
+			i++;
+		}
+		j++;
+	}
+}
+
+void	draw_hud(void)
+{
+	const t_player	*p = (t_player *)game()->map[game()->eng->current_map]->objs[P];
+
+	if (p->battery >= 66.00)
+		game()->eng->battery = 12;
+	else if (p->battery >= 33.00)
+		game()->eng->battery = 13;
+	else if (p->battery >= 10)
+		game()->eng->battery = 14;
+	else
+		game()->eng->battery = 15;
+	draw_img(game()->mlx->img[game()->eng->battery], 100, 790);
+}
+
 void	game_scene(void)
-{	t_player	*p;
+{
+	t_player	*p;
 	t_vtr		size;
 
 	p = (t_player *)game()->map[game()->eng->current_map]->objs[P];
 	size.x = WIN_WIDTH;
 	size.y = WIN_HEIGHT;
-	cast_rays(1, E);
-	cast_rays(1, P);
+	if (game()->eng->current_map)
+		cast_rays(game()->eng->current_map, E);
+	cast_rays(game()->eng->current_map, P);
 	draw_img(game()->mlx->img[PLAYERIMG], 1470, 711);
-	if (game()->eng->key[K_F] == true && p->battery > 0)
+	if (game()->eng->key[K_F] == true && p->battery > 10)
 	{
 		draw_flashlight(size, size.y / 20, LIGHT_ON);
 		draw_img(game()->mlx->img[PLAYERIMG], 1470, 711);
-		game()->map[game()->eng->current_map]->minimap(game()->map[game()->eng->current_map]);
+		if (game()->eng->current_map)
+			game()->map[game()->eng->current_map]->minimap(game()->map[game()->eng->current_map]);
 	}
 	else
 		draw_flashlight(size, 0, LIGHT_OFF);
-	// draw_img(game()->mlx->img[game()->eng->battery], 200, 711);
+	draw_hud();
+	draw_stamina((t_vtr){960, 900}, (t_vtr){3, 5}, p->stamina);
 }
 
 void	draw_screen(t_mlx *mlx)

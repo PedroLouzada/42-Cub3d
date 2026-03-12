@@ -1,7 +1,5 @@
 #include "cub3d.h"
 
-bool	in_bounds(char **map, int y, int x);
-
 static void	set_orientation(t_enemy *e)
 {
 	e->dir.x = cos(e->angle);
@@ -43,6 +41,8 @@ void	e_update(t_obj *this, t_map *map)
 	t_enemy		*e;
 	t_player	*p;
 
+	if (!game()->eng->current_map)
+		return ;
 	e = (t_enemy *)this;
 	p = (t_player *)map->objs[P];
 	if ((int)e->pos.x == (int)p->pos.x && (int)e->pos.y == (int)p->pos.y)
