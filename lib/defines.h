@@ -71,5 +71,6 @@
 # define BACKBORDER 10 
 # define PLAYERIMG 11 
 # define Q_KEYIMG 16
+# define EXIT 17
 
 #endif

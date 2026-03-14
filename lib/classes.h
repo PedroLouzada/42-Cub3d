@@ -106,6 +106,7 @@ typedef struct s_eng
 	int					in_button[4];
 	int					current_map;
 	int					battery;
+	bool				door;
 	t_thread			*pool;
 }						t_eng;
 

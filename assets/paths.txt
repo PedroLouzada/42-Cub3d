@@ -14,3 +14,4 @@
 ./assets/imgs/battery/1-3_battery.xpm
 ./assets/imgs/battery/empty_battery.xpm
 ./assets/imgs/home/Q_key.xpm
+./assets/textures/green_wall/exit.xpm

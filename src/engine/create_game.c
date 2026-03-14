@@ -26,6 +26,7 @@ int	run(t_map **maps)
 			game()->eng.screen[2] = false;
 		}
 	}
+	if (game()->eng.key[K_E])
 	usleep(33);
 	return (0);
 }

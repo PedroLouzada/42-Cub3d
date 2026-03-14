@@ -42,7 +42,8 @@ void	dda(t_ray *r, t_map *map)
 		}
 		if (!in_bounds(map->map, (int)r->map.y, (int)r->map.x)
 			|| map->map[(int)r->map.y][(int)r->map.x] == '1'
-			|| map->map[(int)r->map.y][(int)r->map.x] == 'D')
+			|| map->map[(int)r->map.y][(int)r->map.x] == 'D'
+			|| map->map[(int)r->map.y][(int)r->map.x] == 'S')
 		{
 			r->hit = map->map[(int)r->map.y][(int)r->map.x];
 			break ;

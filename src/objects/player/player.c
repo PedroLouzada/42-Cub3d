@@ -60,9 +60,11 @@ void	walk(t_eng *eng, t_player *p, t_map *map)
 	handle_angle(eng, p, &walk_angle, &speed);
 	walk.x = p->pos.x + cos(walk_angle) * speed * eng->dt;
 	walk.y = p->pos.y + sin(walk_angle) * speed * eng->dt;
-	if (map->map[(int)p->pos.y][(int)walk.x] == '0')
+	if (map->map[(int)p->pos.y][(int)walk.x] == '0'
+		|| map->map[(int)p->pos.y][(int)walk.x] == 'd')
 		p->pos.x = walk.x;
-	if (map->map[(int)walk.y][(int)p->pos.x] == '0')
+	if (map->map[(int)walk.y][(int)p->pos.x] == '0'
+		|| map->map[(int)walk.y][(int)p->pos.x] == 'd')
 		p->pos.y = walk.y;
 }
 
@@ -76,16 +78,23 @@ void	p_update(t_obj *obj, t_map *map)
 	if (game()->eng.key[K_W] || game()->eng.key[K_S] || game()->eng.key[K_A]
 		|| game()->eng.key[K_D])
 		walk(&game()->eng, p, map);
-	if (game()->eng.key[K_F] == true && p->battery > 0)
-		p->battery -= 5 * game()->eng.dt;
+	// if (game()->eng.key[K_F] == true && p->battery > 0)
+	// 	p->battery -= 5 * game()->eng.dt;
 	else if (game()->eng.key[K_F] == false && p->battery < 100)
 		p->battery += 4 * game()->eng.dt;
 	else if (p->battery <= 0 && game()->eng.key[K_F] == true)
 		game()->eng.key[K_F] = false;
-	if (game()->eng.key[SHIFT] && p->stamina >= 0)
-		p->stamina -= 30 * game()->eng.dt;
+	// if (game()->eng.key[SHIFT] && p->stamina >= 0)
+	// 	p->stamina -= 30 * game()->eng.dt;
 	else if (p->stamina < 100)
 		p->stamina += 20 * game()->eng.dt;
+	if (game()->eng.key[K_E] && !game()->eng.door)
+	{
+		interact_door(p, map, map->rays[P]);
+		game()->eng.door = true;
+	}
+	if (!game()->eng.key[K_E])
+		game()->eng.door = false;
 }
 
 double	get_angle(char dir)

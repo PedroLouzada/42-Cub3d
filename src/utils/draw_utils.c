@@ -135,6 +135,8 @@ t_imgs	*set_tex(t_ray *ray, double start, double lheight, t_map *map)
 
 	if (ray->hit == 'D')
 		img = map->door;
+	else if (ray->hit == 'S')
+		img = game()->mlx->img[EXIT];
 	else
 	{
 		ray->tex.txt_id = texture_dir(ray);

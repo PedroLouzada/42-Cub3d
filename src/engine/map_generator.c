@@ -47,15 +47,18 @@ void	generate_objs(t_map *map)
 	data[1] = 1;
 	if (map->level)
 	{
-		while (--data[0])
+		while (data[0] > 0)
 		{
-			pos = rand_pos(map->map_size);
+				pos = rand_pos(map->map_size);
 			if (valid_door(map, pos))
 			{
 				map->objs[++data[1]] = create_door(map, pos);
 				if (!map->objs[data[1]])
 					parse_exit("Memory Allocation\n", NULL, -1, 1);
 			}
+			else
+				continue;
+			data[0]--;
 		}
 		map->player_pos = spawn(map, '0');
 	}

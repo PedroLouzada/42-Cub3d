@@ -67,11 +67,47 @@ bool	in_bounds(char **map, int y, int x)
 	return (true);
 }
 
+static bool	is_floor(char c)
+{
+	return (c == '0' || c == 'E' || c == 'N' || c == 'W' || c == 'S'
+		|| c == 'P');
+}
+
+static bool	is_wall(char c)
+{
+	return (c == '1' || c == 'D');
+}
+
+static bool	check_horizontal(char **map, int x, int y)
+{
+	if (is_wall(map[y + 1][x]) && is_wall(map[y - 1][x]) && 
+		is_floor(map[y][x + 1]) && is_floor(map[y][x - 1]))
+		return (true);
+	return (false);
+}
+
+static bool	check_vertical(char **map, int x, int y)
+{
+	if (is_wall(map[y][x + 1]) && is_wall(map[y][x - 1]) && 
+		is_floor(map[y + 1][x]) && is_floor(map[y - 1][x]))
+		return (true);
+	return (false);
+}
+
+static bool	check_hallway(char **map, int x, int y)
+{
+	bool	ver;
+	bool	hor;
+
+	ver = check_vertical(map, x, y);
+	hor = check_horizontal(map, x, y);
+	return (ver || hor);
+}
+
 bool	valid_door(t_map *map, t_vtr pos)
 {
 	int		i;
 	t_str	*cmap;
-	bool	valid;
 	int		x;
 	int		y;
 
@@ -80,25 +116,18 @@ bool	valid_door(t_map *map, t_vtr pos)
 	cmap = map->map;
 	x = (int)pos.x;
 	y = (int)pos.y;
-	valid = false;
 	if (!in_bounds(cmap, y, x))
 		return (false);
-	if (!in_bounds(cmap, y, x + 1) || !in_bounds(cmap, y, x - 1)
-		|| !in_bounds(cmap, y + 1, x) || !in_bounds(cmap, y - 1, x))
+	if (!in_bounds(cmap, y, x + 2) || !in_bounds(cmap, y, x - 2)
+		|| !in_bounds(cmap, y + 2, x) || !in_bounds(cmap, y - 2, x))
 		return (false);
-	if (cmap[y][x] != '0')
+	if (cmap[y][x] != '0' || !check_hallway(cmap, x, y))
 		return (false);
-	if (cmap[y][x + 1] == '0' && cmap[y][x - 1] == '0' && cmap[y + 1][x] == '1'
-		&& cmap[y - 1][x] == '1')
-		valid = true;
-	if (cmap[y + 1][x] == '0' && cmap[y - 1][x] == '0' && cmap[y][x + 1] == '1'
-		&& cmap[y][x - 1] == '1')
-		valid = true;
 	i = -1;
-	while (valid && map->objs[++i])
+	while (map->objs[++i])
 	{
 		if (map->objs[i]->pos.x == pos.x && map->objs[i]->pos.y == pos.y)
 			return (false);
 	}
-	return (valid);
+	return (true);
 }

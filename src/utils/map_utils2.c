@@ -58,5 +58,5 @@ void	set_exit(t_map *map)
 	{
 		pos = spawn(map, '1');
 	}
-	map->map[(int)pos.y][(int)pos.x] = 'E';
+	map->map[(int)pos.y][(int)pos.x] = 'S';
 }
