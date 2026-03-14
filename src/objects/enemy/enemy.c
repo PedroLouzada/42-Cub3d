@@ -10,7 +10,7 @@ static void	set_orientation(t_enemy *e)
 
 static void	rotate(t_enemy *e, double speed)
 {
-	e->angle += speed * game()->eng->dt;
+	e->angle += speed * game()->eng.dt;
 	if (e->angle < 0)
 		e->angle = 2 * M_PI;
 	if (e->angle > 2 * M_PI)
@@ -24,8 +24,8 @@ static void	walk(t_enemy *e, t_map *map)
 	double	speed;
 
 	speed = 2.0;
-	walk.x = e->pos.x + cos(e->angle) * speed * game()->eng->dt;
-	walk.y = e->pos.y + sin(e->angle) * speed * game()->eng->dt;
+	walk.x = e->pos.x + cos(e->angle) * speed * game()->eng.dt;
+	walk.y = e->pos.y + sin(e->angle) * speed * game()->eng.dt;
 	if (in_bounds(map->map, (int)e->pos.y, (int)walk.x)
 		&& map->map[(int)e->pos.y][(int)walk.x] == '0')
 		e->pos.x = walk.x;
@@ -41,7 +41,7 @@ void	e_update(t_obj *this, t_map *map)
 	t_enemy		*e;
 	t_player	*p;
 
-	if (!game()->eng->current_map)
+	if (!game()->eng.current_map)
 		return ;
 	e = (t_enemy *)this;
 	p = (t_player *)map->objs[P];

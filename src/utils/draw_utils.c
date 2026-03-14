@@ -23,23 +23,25 @@ void	draw_circle(t_mlx *mlx, t_vtr cpos, int radius, int color)
 		while (pos.x <= radius)
 		{
 			if (pos.x * pos.x + pos.y * pos.y <= radius * radius)
-				ft_pixel_put(mlx->img[BUFFER], cpos.x + pos.x, cpos.y + pos.y, color);
+				ft_pixel_put(mlx->img[BUFFER], cpos.x + pos.x, cpos.y + pos.y,
+					color);
 			pos.x++;
 		}
 		pos.y++;
-	}	
+	}
 }
 
 void	draw_tile(t_mlx *mlx, t_vtr tpos, int scale, int color)
 {
-	t_vtr pos;
+	t_vtr	pos;
 
 	pos.y = -1;
 	while (++pos.y < scale)
 	{
 		pos.x = -1;
 		while (++pos.x < scale)
-			ft_pixel_put(mlx->img[BUFFER], tpos.x + pos.x, tpos.y + pos.y, color);
+			ft_pixel_put(mlx->img[BUFFER], tpos.x + pos.x, tpos.y + pos.y,
+				color);
 	}
 }
 
@@ -55,7 +57,8 @@ void	draw_line(t_vtr start, t_vtr end, int color)
 	data[2].x = data[0].x - data[0].y;
 	while (1)
 	{
-		ft_pixel_put(game()->mlx->img[BUFFER], (int)start.x, (int)start.y, color);
+		ft_pixel_put(game()->mlx->img[BUFFER], (int)start.x, (int)start.y,
+			color);
 		if (start.x == end.x && start.y == end.y)
 			break ;
 		data[2].y = data[2].x * 2;
@@ -126,12 +129,17 @@ void	set_ty(t_ray *ray, int height)
 	ray->tex.tex_y = ty;
 }
 
-t_imgs	*set_tex(t_ray *ray, double start, double lheight, t_imgs **tex)
+t_imgs	*set_tex(t_ray *ray, double start, double lheight, t_map *map)
 {
-	t_imgs *img;
+	t_imgs	*img;
 
-	ray->tex.txt_id = texture_dir(ray);
-	img = tex[ray->tex.txt_id];
+	if (ray->hit == 'D')
+		img = map->door;
+	else
+	{
+		ray->tex.txt_id = texture_dir(ray);
+		img = map->textures[ray->tex.txt_id];
+	}
 	set_tx(ray, img->width);
 	ray->tex.tex_step = (double)img->height / lheight;
 	ray->tex.tex_pos = (start - (WIN_HEIGHT / 2) + (lheight / 2))
@@ -139,7 +147,7 @@ t_imgs	*set_tex(t_ray *ray, double start, double lheight, t_imgs **tex)
 	return (img);
 }
 
-void	draw_column(t_ray *r, int column, t_imgs **tex)
+void	draw_column(t_ray *r, int column, t_map *map)
 {
 	double	i;
 	t_vtr	draw;
@@ -154,7 +162,7 @@ void	draw_column(t_ray *r, int column, t_imgs **tex)
 	if (draw.y > WIN_HEIGHT)
 		draw.y = WIN_HEIGHT;
 	i = -1;
-	img = set_tex(r, draw.x, lheight, tex);
+	img = set_tex(r, draw.x, lheight, map);
 	while (++i < draw.x)
 		ft_pixel_put(game()->mlx->img[BUFFER], column, (int)i, CEILING);
 	while (++i < draw.y)

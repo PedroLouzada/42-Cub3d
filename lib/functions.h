@@ -17,7 +17,7 @@ double	get_time(void);
 int		ft_min(int a, int b);
 void	round_vtrs(t_vtr *a, t_vtr *b);
 
-void	draw_column(t_ray *r, int column, t_imgs **tex);
+void	draw_column(t_ray *r, int column, t_map *map);
 // Draw Utils
 void	draw_fov(t_ray *r, t_vtr pos, int type);
 void	draw_line(t_vtr start, t_vtr end, int color);
@@ -63,7 +63,6 @@ t_obj	*create_door(t_map *map, t_vtr pos);
 
 int		mouse_press(int button, int x, int y);
 int		exit_game(char *str);
-void	clear_image(void);
 int		mouse_move(int x, int y);
 void	draw_screen(t_mlx *mlx);
 void	alloc_assets(void);

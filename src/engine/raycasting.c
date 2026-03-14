@@ -41,8 +41,12 @@ void	dda(t_ray *r, t_map *map)
 			r->side = 1;
 		}
 		if (!in_bounds(map->map, (int)r->map.y, (int)r->map.x)
-			|| map->map[(int)r->map.y][(int)r->map.x] == '1')
+			|| map->map[(int)r->map.y][(int)r->map.x] == '1'
+			|| map->map[(int)r->map.y][(int)r->map.x] == 'D')
+		{
+			r->hit = map->map[(int)r->map.y][(int)r->map.x];
 			break ;
+		}
 	}
 }
 
@@ -67,21 +71,21 @@ void	reduced_ray(void *p)
 			r[i].perp = r[i].sDist.y - r[i].dltDist.y;
 		if (array[1] == E)
 			continue ;
-		draw_column(&r[i], i, map->textures);
+		draw_column(&r[i], i, map);
 	}
 }
 
 void	cast_rays(int map, int type)
 {
+	t_thread	*pool;
+
 	int const args[4][4] = {
 		{map, type, 0, 480},
 		{map, type, 480, 960},
 		{map, type, 960, 1440},
 		{map, type, 1440, 1920},
 	};
-	t_thread *pool;
-
-	pool = game()->eng->pool;
+	pool = game()->eng.pool;
 	pool->deploy(pool, reduced_ray, (void *)args[0]);
 	pool->deploy(pool, reduced_ray, (void *)args[1]);
 	pool->deploy(pool, reduced_ray, (void *)args[2]);

@@ -71,21 +71,21 @@ void	p_update(t_obj *obj, t_map *map)
 	t_player	*p;
 
 	p = (t_player *)obj;
-	if (game()->eng->key[K_LEFT] || game()->eng->key[K_RIGHT])
-		rotate(game()->eng, p);
-	if (game()->eng->key[K_W] || game()->eng->key[K_S] || game()->eng->key[K_A]
-		|| game()->eng->key[K_D])
-		walk(game()->eng, p, map);
-	if (game()->eng->key[K_F] == true && p->battery > 0)
-		p->battery -= 5 * game()->eng->dt;
-	else if (game()->eng->key[K_F] == false && p->battery < 100)
-		p->battery += 4 * game()->eng->dt;
-	else if (p->battery <= 0 && game()->eng->key[K_F] == true)
-		game()->eng->key[K_F] = false;
-	if (game()->eng->key[SHIFT] && p->stamina >= 0)
-		p->stamina -= 30 * game()->eng->dt;
+	if (game()->eng.key[K_LEFT] || game()->eng.key[K_RIGHT])
+		rotate(&game()->eng, p);
+	if (game()->eng.key[K_W] || game()->eng.key[K_S] || game()->eng.key[K_A]
+		|| game()->eng.key[K_D])
+		walk(&game()->eng, p, map);
+	if (game()->eng.key[K_F] == true && p->battery > 0)
+		p->battery -= 5 * game()->eng.dt;
+	else if (game()->eng.key[K_F] == false && p->battery < 100)
+		p->battery += 4 * game()->eng.dt;
+	else if (p->battery <= 0 && game()->eng.key[K_F] == true)
+		game()->eng.key[K_F] = false;
+	if (game()->eng.key[SHIFT] && p->stamina >= 0)
+		p->stamina -= 30 * game()->eng.dt;
 	else if (p->stamina < 100)
-		p->stamina += 20 * game()->eng->dt;
+		p->stamina += 20 * game()->eng.dt;
 }
 
 double	get_angle(char dir)

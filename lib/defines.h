@@ -15,6 +15,7 @@
 # define K_S 115
 # define K_D 100
 # define K_E 101
+# define K_Q 113
 # define SHIFT 65505
 # define K_RIGHT 65363
 # define K_LEFT 65361
@@ -69,5 +70,6 @@
 # define BACKBUTTON 9 
 # define BACKBORDER 10 
 # define PLAYERIMG 11 
+# define Q_KEYIMG 16
 
 #endif

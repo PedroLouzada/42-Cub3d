@@ -6,18 +6,26 @@ int	run(t_map **maps)
 	static double	prev;
 	static double	curr;
 
-	objs = maps[game()->eng->current_map]->objs;
+	objs = maps[game()->eng.current_map]->objs;
 	int x, y;
 	curr = get_time();
-	game()->eng->dt = curr - prev;
-	if (game()->eng->dt > 0.1)
-		game()->eng->dt = 0.1;
+	game()->eng.dt = curr - prev;
+	if (game()->eng.dt > 0.1)
+		game()->eng.dt = 0.1;
 	prev = curr;
-	objs[E]->update(objs[E], game()->map[game()->eng->current_map]);
-	objs[P]->update(objs[P], game()->map[game()->eng->current_map]);
+	objs[E]->update(objs[E], game()->map[game()->eng.current_map]);
+	objs[P]->update(objs[P], game()->map[game()->eng.current_map]);
 	draw_screen(game()->mlx);
 	mlx_mouse_get_pos(game()->mlx->mlx, game()->mlx->win, &x, &y);
 	mouse_move(x, y);
+	if (game()->eng.screen[2])
+	{
+		if (game()->eng.key[K_Q])
+		{
+			game()->eng.screen[0] = true;
+			game()->eng.screen[2] = false;
+		}
+	}
 	usleep(33);
 	return (0);
 }
@@ -29,21 +37,10 @@ void	declare_hooks(t_mlx *mlx)
 	mlx_hook(mlx->win, 3, (1L << 1), key_unpress, game);
 	mlx_hook(mlx->win, 4, 1L << 2, mouse_press, NULL);
 	mlx_loop_hook(mlx->mlx, run, game()->map);
-	mlx_loop(mlx->mlx);
 }
 
-void	init_game(int ac, t_str *av)
+void	mlx_alloc(char **av)
 {
-	static t_eng	eng;
-	int				i;
-
-	if (ac != 2)
-	{
-		fprintf(stderr, "Error\nExpected <fileName> <map.cub>\n");
-		exit(0);
-	}
-	game()->eng = &eng;
-	game()->eng->pool = init_tpool(4);
 	game()->mlx = ft_calloc(1, sizeof(t_mlx));
 	if (!game()->mlx)
 		parse_exit("Memory Allocation\n", NULL, -1, 0);
@@ -54,13 +51,22 @@ void	init_game(int ac, t_str *av)
 	game()->mlx->win = mlx_new_window(game()->mlx->mlx, WIN_WIDTH, WIN_HEIGHT,
 			TITLE);
 	if (!game()->mlx->win)
-		parse_exit("Memory Allocation\n", (void *)game()->map[0]->objs, -1, 1);
+		parse_exit("Memory Allocation\n", NULL, -1, 1);
+}
+
+void	init_game(int ac, t_str *av)
+{
+	int	i;
+
+	if (ac != 2)
+		parse_exit("Expected <fileName> <map.cub>\n", NULL, -1, 0);
+	mlx_alloc(av);
 	alloc_assets();
 	init_rand();
 	i = 0;
 	while (++i < 6)
 		game()->map[i] = create_map(i, -1);
 	declare_hooks(game()->mlx);
+	game()->eng.pool = init_tpool(4);
+	mlx_loop(game()->mlx->mlx);
 }
-
-// fazer função para dar handle aos erros do mlx

@@ -43,27 +43,29 @@ void	generate_objs(t_map *map)
 	data[0] = (int)pick_range(MIN_DOORS, MAX_DOORS) + 1;
 	map->objs = ft_calloc(data[0] + 3, sizeof(t_obj *));
 	if (!map->objs)
-		return (map->destroy(map));
+		parse_exit("Memory Allocation\n", NULL, -1, 1);
 	data[1] = 1;
-	while (--data[0])
-	{
-		pos = rand_pos(map->map_size);
-		if (valid_door(map, pos))
-		{
-			map->objs[++data[1]] = create_door(map, pos);
-			if (!map->objs[data[1]])
-				return (map->destroy(map));
-		}
-	}
 	if (map->level)
+	{
+		while (--data[0])
+		{
+			pos = rand_pos(map->map_size);
+			if (valid_door(map, pos))
+			{
+				map->objs[++data[1]] = create_door(map, pos);
+				if (!map->objs[data[1]])
+					parse_exit("Memory Allocation\n", NULL, -1, 1);
+			}
+		}
 		map->player_pos = spawn(map, '0');
+	}
 	map->objs[P] = create_player(map->player_pos);
 	if (!map->objs[P])
-		return (map->destroy(map));
+		parse_exit("Memory Allocation\n", NULL, -1, 1);
 	map->objs[E] = create_enemy((t_vtr){map->objs[P]->pos.x + 1,
 			map->objs[P]->pos.y + 1});
 	if (!map->objs[E])
-		return (map->destroy(map));
+		parse_exit("Memory Allocation\n", (void *)map->objs[P], -1, 1);
 }
 
 void	generate_paths(t_map *map, t_vtr pos, int paths)
@@ -92,13 +94,13 @@ void	generate_map(t_map *map)
 
 	map->map = ft_calloc(map->map_size.y + 1, sizeof(t_str));
 	if (!map->map)
-		return (map->destroy(map));
+		exit_game("Memory Allocation\n");
 	pos.x = -1;
 	while (++pos.x < map->map_size.y)
 	{
 		map->map[(int)pos.x] = ft_calloc(map->map_size.x + 1, 1);
 		if (!map->map[(int)pos.x])
-			return (map->destroy(map));
+			exit_game("Memory Allocation\n");
 		pos.y = -1;
 		while (++pos.y < map->map_size.x)
 			map->map[(int)pos.x][(int)pos.y] = '1';

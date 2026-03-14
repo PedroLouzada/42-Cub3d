@@ -119,11 +119,9 @@ void	map_validation(char *str)
 	char	**copy;
 
 	get_map_dimension(str);
-	if (!game()->map[0]->map)
-		parse_exit("Memory Allocation\n", NULL, -1, 1);
 	fd = open(str, O_RDONLY);
-	if (fd < 0)
-		parse_exit("Could not open the file\n", NULL, -1, 1);
+	if (!game()->map[0]->map || fd < 0)
+		parse_exit("Memory Allocation\n", NULL, fd, 0);
 	check_map_content(fd);
 	copy = copy_map(game()->map[0]);
 	get_pos(pos, copy, 0);

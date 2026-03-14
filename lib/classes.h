@@ -78,7 +78,6 @@ struct					s_map
 	t_str				*map;
 	t_obj				**objs;
 	t_imgs *player; // temporario
-	bool				exit;
 	t_ray				*rays[2];
 	t_vtr				map_size;
 	t_vtr				mini_size;
@@ -89,7 +88,7 @@ struct					s_map
 	void				(*clean)(t_map *);
 	void				(*minimap)(t_map *);
 	void				(*destroy)(t_map *);
-	double				zbuffer[WIN_WIDTH];
+	t_imgs				*door;
 };
 
 typedef struct s_mlx
@@ -102,7 +101,7 @@ typedef struct s_mlx
 typedef struct s_eng
 {
 	double				dt;
-	bool				title[2];
+	bool				screen[3];
 	bool				key[80000];
 	int					in_button[4];
 	int					current_map;
@@ -114,7 +113,7 @@ struct					s_game
 {
 	t_mlx				*mlx;
 	t_map				*map[6];
-	t_eng				*eng;
+	t_eng				eng;
 };
 
 #endif

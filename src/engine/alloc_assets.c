@@ -1,5 +1,21 @@
 #include "cub3d.h"
 
+static void	remove_newline(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\n')
+		{
+			str[i] = 0;
+			return ;
+		}
+		i++;
+	}
+}
+
 t_imgs	*new_img(char *name)
 {
 	t_mlx	*mlx;
@@ -10,8 +26,11 @@ t_imgs	*new_img(char *name)
 		return (NULL);
 	mlx = game()->mlx;
 	if (name)
+	{
+		remove_newline(name);
 		new_img->img = mlx_xpm_file_to_image(mlx->mlx, name, &new_img->width,
 				&new_img->height);
+	}
 	else
 		new_img->img = mlx_new_image(mlx->mlx, WIN_WIDTH, WIN_HEIGHT);
 	if (!new_img->img)
@@ -23,33 +42,35 @@ t_imgs	*new_img(char *name)
 
 void	alloc_assets(void)
 {
-	int		i;
-	t_imgs	*img;
-	char *const paths[] = {"./assets/imgs/home/homescreen.xpm",
-		"./assets/imgs/home/play_butt.xpm",
-		"./assets/imgs/home/tutorial_butt.xpm",
-		"./assets/imgs/home/controls_butt.xpm",
-		"./assets/imgs/home/border_butt.xpm",
-		"./assets/imgs/home/wasd_keys.xpm", "./assets/imgs/home/arrow_keys.xpm",
-		"./assets/imgs/home/mouse.xpm", "./assets/imgs/home/back_button.xpm",
-		"./assets/imgs/home/back_border.xpm", "./assets/imgs/player.xpm",
- 		"./assets/imgs/battery/full_battery.xpm",
-		"./assets/imgs/battery/2-3_battery.xpm",
-		"./assets/imgs/battery/1-3_battery.xpm",
-		"./assets/imgs/battery/empty_battery.xpm", NULL};
+	int			i;
+	char		*str;
+	t_imgs		*img;
+	const int	fd = open("./assets/paths.txt", O_RDONLY);
 
-	game()->mlx->img = ft_calloc(16, sizeof(t_imgs *));
+	if (fd < 0)
+		parse_exit("Invalid Fd", NULL, -1, 1);
+	game()->mlx->img = ft_calloc(18, sizeof(t_imgs *));
+	if (!game()->mlx->img)
+		parse_exit("Memory Allocation\n", NULL, fd, 1);
 	game()->mlx->img[0] = new_img(NULL);
 	if (!game()->mlx->img[0])
-		exit_game("Memory Allocation\n");
+		parse_exit("Memory Allocation\n", NULL, fd, 1);
 	i = 0;
-	while (paths[i])
+	while (1)
 	{
-		img = new_img(paths[i]);
+		str = get_next_line(fd);
+		if (!str)
+			break ;
+		img = new_img(str);
 		if (!img || !img->img)
+		{
+			(free(str), close(fd));
 			exit_game("Error\nMemory Allocation\n");
+		}
 		game()->mlx->img[i + 1] = img;
 		i++;
+		free(str);
 	}
-	game()->eng->title[0] = true;
+	game()->eng.screen[0] = true;
+	close(fd);
 }

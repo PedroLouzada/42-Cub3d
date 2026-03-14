@@ -28,13 +28,13 @@ void	open_path(char *root, char *str, int fd, int n)
 	str = get_path(str);
 	spr_fd = open(str, O_RDONLY);
 	if (spr_fd < 0)
-		parse_exit("Texture path not valid\n", root, fd, 1);
+		parse_exit("Texture path not valid\n", root, fd, 0);
 	close(spr_fd);
 	if (game()->map[0]->textures[n])
-		parse_exit("Double definition on wall texture\n", root, fd, 1);
+		parse_exit("Double definition on wall texture\n", root, fd, 0);
 	game()->map[0]->textures[n] = new_img(str);
 	if (!game()->map[0]->textures[n] || !game()->map[0]->textures[n]->img)
-		parse_exit("Xpm file not valid\n", root, fd, 1);
+		parse_exit("Xpm file not valid\n", root, fd, 0);
 }
 
 void	check_textures(char *root, char *str, int fd)

@@ -51,6 +51,8 @@ void	_destroy(t_thread *this)
 	int				i;
 	t_thread_plus	*new;
 
+	if (!this)
+		return ;
 	new = (t_thread_plus *)this;
 	pthread_mutex_lock(&new->mutex);
 	new->quit = true;
@@ -87,7 +89,7 @@ t_thread	*init_tpool(int n)
 	i = -1;
 	new = ft_calloc(1, sizeof(t_thread_plus));
 	if (!new)
-		exit_game("Memory Allocation\n");
+		parse_exit("Memory Allocation\n", NULL, -1, 0);
 	new->number = n;
 	new->deploy = _deploy;
 	new->destroy = _destroy;
@@ -97,8 +99,11 @@ t_thread	*init_tpool(int n)
 	pthread_mutex_init(&new->mutex, NULL);
 	new->queue = ft_calloc(10, sizeof(t_job));
 	new->thread_id = ft_calloc(n, sizeof(pthread_t));
-	if (!new->thread_id || !new->queue)
-		exit_game("Memory Allocation\n");
+	if (!new->queue || !new->thread_id)
+	{
+		(free(new->queue), free(new->thread_id) , free(new));
+		parse_exit("Memory Allocation\n", NULL, -1, 0);
+	}
 	while (++i < n)
 		pthread_create(&new->thread_id[i], NULL, swimming, new);
 	return ((t_thread *)new);
