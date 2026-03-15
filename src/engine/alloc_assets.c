@@ -49,7 +49,7 @@ void	alloc_assets(void)
 
 	if (fd < 0)
 		parse_exit("Invalid Fd", NULL, -1, 1);
-	game()->mlx->img = ft_calloc(19, sizeof(t_imgs *));
+	game()->mlx->img = ft_calloc(24, sizeof(t_imgs *));
 	if (!game()->mlx->img)
 		parse_exit("Memory Allocation\n", NULL, fd, 1);
 	game()->mlx->img[0] = new_img(NULL);

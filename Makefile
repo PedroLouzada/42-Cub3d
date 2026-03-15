@@ -30,6 +30,7 @@ SRCS =  src/main.c \
 		src/utils/libft_utils.c \
 		src/utils/time_utils.c \
 		src/utils/exit.c \
+		src/utils/split.c \
 		src/engine/raycasting.c \
 		src/engine/threads.c \
 

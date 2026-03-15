@@ -98,6 +98,8 @@ void	draw_hud(void)
 	else
 		game()->eng.battery = 15;
 	draw_img(game()->mlx->img[game()->eng.battery], 80, 850);
+	if (game()->eng.current_map)
+		draw_img(game()->mlx->img[game()->eng.current_map + 17], 1820, 20);
 }
 
 void	game_scene(void)

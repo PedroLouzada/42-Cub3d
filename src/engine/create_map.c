@@ -10,7 +10,7 @@ int	tile_color(t_map *map, t_vtr pos)
 	{
 		if (map->map[(int)pos.y][(int)pos.x] == '1')
 			color = WHITE;
-		if (map->map[(int)pos.y][(int)pos.x] == 'E')
+		if (map->map[(int)pos.y][(int)pos.x] == 'S')
 			color = GREEN;
 		if (map->map[(int)pos.y][(int)pos.x] == 'D')
 			color = RED;

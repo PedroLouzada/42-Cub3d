@@ -61,7 +61,7 @@ void	check_border(char *str, int fd)
 	while (str[++i])
 	{
 		if (str[i] != ' ' && str[i] != '1' && str[i] != '\n')
-			parse_exit("Map must be surrounded by walls \'1\'\n", str, fd, 1);
+			parse_exit("aquiMap must be surrounded by walls \'1\'\n", str, fd, 1);
 	}
 }
 
@@ -83,6 +83,7 @@ void	check_characters(char *str, int fd, t_map *map)
 	int			i;
 	static int	n1;
 	static int	n2;
+	static bool flag;
 
 	i = -1;
 	if (!check_emptyspace(str))
@@ -98,8 +99,11 @@ void	check_characters(char *str, int fd, t_map *map)
 			parse_exit("Map must contain the specified chars\n", str, fd, 1);
 		if (str[i] == 'N' || str[i] == 'E' || str[i] == 'W' || str[i] == 'S')
 		{
+			if (flag)
+				parse_exit("Should only contain one player\n", str, fd, 1);
 			game()->map[0]->direction = str[i];
 			str[i] = 'P';
+			flag = true;
 		}
 	}
 	n1++;

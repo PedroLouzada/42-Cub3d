@@ -65,5 +65,14 @@ void	interact_door(t_player *p, t_map *map, t_ray *r)
 			map->map[(int)r->map.y][(int)r->map.x] = 'D';
 			return ;
 		}
+		if (map->map[(int)r->map.y][(int)r->map.x] == 'S')
+		{
+			game()->eng.current_map += 1;
+			if (game()->eng.current_map >= 5)
+			{
+				printf("*!CONGRATULATIONS!*\n");
+				exit_game(NULL);
+			}
+		}
 	}
 }

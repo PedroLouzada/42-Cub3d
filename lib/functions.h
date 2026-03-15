@@ -70,10 +70,14 @@ t_imgs	*new_img(char *name);
 int		key_press(int key);
 int		key_unpress(int key);
 void	draw_minimap(t_map *map);
-int		get_pos(int *pos, char **map, int entity);
+int		get_pos(int *pos, char **map);
 int		ft_get_color(t_imgs *img, int x, int y);
 bool	in_bounds(char **map, int y, int x);
 void		interact_door(t_player *p, t_map *map, t_ray *r);
 void	init_ray(t_ray *r, t_obj *obj, int column);
+bool	is_floor(char c);
+bool	is_wall(char c);
+char	**ft_split(char *s, char c);
+
 
 #endif

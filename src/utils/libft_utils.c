@@ -47,3 +47,14 @@ t_str	ft_joinstr(t_str s1, t_str s2)
 	ft_memcpy((str + ft_strlen(s1)), s2, ft_strlen(s2));
 	return (str);
 }
+
+bool	is_floor(char c)
+{
+	return (c == '0' || c == 'E' || c == 'N' || c == 'W' || c == 'S'
+		|| c == 'P');
+}
+
+bool	is_wall(char c)
+{
+	return (c == '1' || c == 'D');
+}

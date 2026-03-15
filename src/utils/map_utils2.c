@@ -47,16 +47,28 @@ bool	valid_map(t_map *map)
 	return (true);
 }
 
+static bool valid_exit(char **map, int x, int y)
+{
+	if (is_floor(map[y][x + 1]) || is_floor(map[y][x - 1]))
+	{
+		if (is_floor(map[y + 1][x]) || is_floor(map[y - 1][x]))
+			return (false);
+		return (true);
+	}
+	else if (is_floor(map[y + 1][x]) || is_floor(map[y - 1][x]))
+	{
+		if (is_floor(map[y][x + 1]) || is_floor(map[y][x + 1]))
+			return (false);
+		return (true);
+	}
+	return (false);
+}
+
 void	set_exit(t_map *map)
 {	t_vtr	pos;
 	
 	pos = spawn(map, '1');
-	while (map->map[(int)pos.y][(int)pos.x + 1] != '0'
-		&& map->map[(int)pos.y][(int)pos.x - 1] != '0'
-		&& map->map[(int)pos.y + 1][(int)pos.x] != '0'
-		&& map->map[(int)pos.y - 1][(int)pos.x] != '0')
-	{
+	while (!valid_exit(map->map, (int)pos.x, (int)pos.y))
 		pos = spawn(map, '1');
-	}
 	map->map[(int)pos.y][(int)pos.x] = 'S';
 }

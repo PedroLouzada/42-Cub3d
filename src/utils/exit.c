@@ -18,9 +18,13 @@ void	clear_image(int n)
 		{
 			if (game()->map[j])
 			{
-				mlx_destroy_image(game()->mlx->mlx,
-					game()->map[j]->textures[i]->img);
-				free(game()->map[j]->textures[i]);
+				if (game()->map[j]->textures[i]
+					&& game()->map[j]->textures[i]->img)
+				{
+					mlx_destroy_image(game()->mlx->mlx,
+						game()->map[j]->textures[i]->img);
+					free(game()->map[j]->textures[i]);
+				}
 			}
 		}
 	}
@@ -39,15 +43,13 @@ void	clear_image(int n)
 
 void	parse_exit(char *s, char *arg, int fd, bool map)
 {
-	int	len;
-
-	len = ft_strlen(s);
 	write(2, "Error\n", 6);
-	write(2, s, len);
+	write(2, s, ft_strlen(s));
 	free(arg);
 	if (map)
 		clear_image(1);
-	game()->map[0]->destroy(game()->map[0]);
+	if (game()->map[0])
+		game()->map[0]->destroy(game()->map[0]);
 	if (game()->mlx)
 	{
 		if (game()->mlx->win)
@@ -61,7 +63,8 @@ void	parse_exit(char *s, char *arg, int fd, bool map)
 	}
 	if (fd > 0)
 		close(fd);
-	game()->eng.pool->destroy(game()->eng.pool);
+	if (game()->eng.pool)
+		game()->eng.pool->destroy(game()->eng.pool);
 	exit(1);
 }
 

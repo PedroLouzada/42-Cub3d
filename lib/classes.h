@@ -83,7 +83,7 @@ struct					s_map
 	t_vtr				mini_size;
 	char				direction;
 	t_vtr				player_pos;
-	void				*colors[2];
+	int					colors[2][4];
 	t_imgs				*textures[4];
 	void				(*clean)(t_map *);
 	void				(*minimap)(t_map *);
