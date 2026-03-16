@@ -91,6 +91,16 @@ void	generate_paths(t_map *map, t_vtr pos, int paths)
 	generate_paths(map, rand_pos(map->map_size), --paths);
 }
 
+void set_colors(t_map *map)
+{
+	map->colors[0][1] = 228;
+	map->colors[0][2] = 230;
+	map->colors[0][3] = 168;
+	map->colors[1][1] = 198;
+	map->colors[1][2] = 197;
+	map->colors[1][3] = 139;
+}
+
 void	generate_map(t_map *map)
 {
 	t_vtr	pos;
@@ -115,4 +125,5 @@ void	generate_map(t_map *map)
 		return (map->clean(map), generate_map(map));
 	generate_objs(map);
 	set_exit(map);
+	set_colors(map);
 }

@@ -149,6 +149,11 @@ t_imgs	*set_tex(t_ray *ray, double start, double lheight, t_map *map)
 	return (img);
 }
 
+int rgb(int r, int g, int b)
+{
+    return (r << 16 | g << 8 | b);
+}
+
 void	draw_column(t_ray *r, int column, t_map *map)
 {
 	double	i;
@@ -165,14 +170,16 @@ void	draw_column(t_ray *r, int column, t_map *map)
 		draw.y = WIN_HEIGHT;
 	i = -1;
 	img = set_tex(r, draw.x, lheight, map);
+	int *color = map->colors[0];
 	while (++i < draw.x)
-		ft_pixel_put(game()->mlx->img[BUFFER], column, (int)i, CEILING);
+		ft_pixel_put(game()->mlx->img[BUFFER], column, (int)i, rgb(color[1], color[2], color[3]));
 	while (++i < draw.y)
 	{
 		set_ty(r, img->height);
 		ft_pixel_put(game()->mlx->img[BUFFER], column, (int)i, ft_get_color(img,
 				r->tex.tex_x, r->tex.tex_y));
 	}
+	color = map->colors[1];
 	while (++i < WIN_HEIGHT)
-		ft_pixel_put(game()->mlx->img[BUFFER], column, (int)i, FLOOR);
+		ft_pixel_put(game()->mlx->img[BUFFER], column, (int)i, rgb(color[1], color[2], color[3]));
 }
