@@ -70,24 +70,44 @@ void	control_screen(void)
 		draw_img(img, 90, 850); // back_border
 }
 
+static void	draw_enemy_in_scene(t_player *p, t_enemy *e)
+{
+	t_vtr		v[2];
+	double		inv_det;
+	t_imgs		*sprite;
+
+	v[0].x = e->pos.x - p->pos.x;
+	v[0].y = e->pos.y - p->pos.y;
+	inv_det = 1.0 / (p->plane.x * p->dir.y - p->dir.x * p->plane.y);
+	v[1].x = (p->dir.y * v[0].x - p->dir.x * v[0].y) * inv_det;
+	v[1].y = (-p->plane.y * v[0].x + p->plane.x * v[0].y) * inv_det;
+	if (v[1].y <= 0)
+		return ;
+	v[1].x = (WIN_WIDTH / 2.0) * (1 + (v[1].x / v[1].y));
+	sprite = (t_imgs *)e->get_texture((t_obj *)e, p->angle);
+	draw_enemy_sprite(e, v[1], sprite);
+}
+
 void	game_scene(void)
 {
 	t_player	*p;
-	t_vtr		size;
+	t_enemy		*e;
+	t_vtr		v[1];
 
 	p = (t_player *)game()->map[1]->objs[P];
-	size.x = WIN_WIDTH;
-	size.y = WIN_HEIGHT;
-	cast_rays(game()->map[1], game()->map[1]->rays[E], game()->map[1]->objs[E], E);
-	cast_rays(game()->map[1], game()->map[1]->rays[P], game()->map[1]->objs[P], P);
+	e = (t_enemy *)game()->map[1]->objs[E];
+	v[0].x = WIN_WIDTH;
+	v[0].y = WIN_HEIGHT;
+	enemy_los(e, game()->map[1]);
+	cast_rays(game()->map[1], p->ray, game()->map[1]->objs[P]);
+	draw_enemy_in_scene(p, e);
 	if (game()->eng->key[K_F] == true && p->battery > 0)
 	{
-		draw_flashlight(size, size.y / 20, LIGHT_ON);
+		draw_flashlight(v[0], v[0].y / 20, false);
 		game()->map[1]->minimap(game()->map[1]);
 	}
 	else
-		draw_flashlight(size, 0, LIGHT_OFF);
-	
+		draw_flashlight(v[0], 0, false);
 }
 
 void	draw_screen(t_mlx *mlx)

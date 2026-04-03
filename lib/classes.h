@@ -39,6 +39,7 @@ struct s_player
 	bool		(*collision)(t_obj *this, t_obj *target);
 	void 		*(*get_texture)(t_obj *this, double dir);
 	double		battery;
+	t_ray		*ray;
 };
 
 struct s_enemy
@@ -53,6 +54,10 @@ struct s_enemy
 	void		(*update)(t_obj *this, t_map *map);
 	bool		(*collision)(t_obj *this, t_obj *target);
 	void 		*(*get_texture)(t_obj *this, double dir);
+	t_imgs		*textures[6];
+	t_ray		*ray;
+	bool		chase;
+	int			frame;
 };
 
 struct s_door
@@ -74,9 +79,7 @@ struct s_map
 	t_str		*map;
 	int			level;
 	t_obj		**objs;
-	t_ray		*rays[2];
 	t_vtr		map_size;
-	t_vtr		mini_size;
 	char		direction;
 	t_vtr		player_pos;
 	void 		*colors[2];
@@ -100,7 +103,7 @@ typedef struct s_eng
 	bool	title[2];
 	bool	key[80000];
 	int		in_button[4];
-} t_eng;
+} 	t_eng;
 
 struct s_game
 {

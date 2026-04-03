@@ -40,20 +40,20 @@ void	generate_objs(t_map *map)
 	t_vtr	pos;
 	int		data[2];
 
-	data[0] = (int)pick_range(MIN_DOORS, MAX_DOORS) + 1;
+	data[0] = (int)pick_range(MIN_DOORS, MAX_DOORS);
 	map->objs = ft_calloc(data[0] + 3, sizeof(t_obj *));
 	if (!map->objs)
 		return (map->destroy(map));
-	data[1] = 1;
-	while (--data[0])
+	data[1] = P;
+	while (data[0])
 	{
-		pos = rand_pos(map->map_size);
-		if (valid_door(map, pos))
-		{
-			map->objs[++data[1]] = create_door(map, pos);
-			if (!map->objs[data[1]])
-				return (map->destroy(map));
-		}
+		pos = spawn(map, '0');
+		if (!valid_door(map, pos))
+			continue ;
+		map->objs[++data[1]] = create_door(map, pos);
+		if (!map->objs[data[1]])
+			return (map->destroy(map));
+		data[0]--;
 	}
 	map->objs[P] = create_player(spawn(map, '0'));
 	if (!map->objs[P])

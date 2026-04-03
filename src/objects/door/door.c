@@ -8,6 +8,6 @@ t_obj	*create_door(t_map *map, t_vtr pos)
 	if (!door)
 		return (NULL);
 	door->pos = pos;
-	map->map[(int)pos.y][(int)pos.y] = 'D';
+	map->map[(int)pos.y][(int)pos.x] = 'D';
 	return ((t_obj *)door);
 }

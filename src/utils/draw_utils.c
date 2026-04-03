@@ -6,7 +6,7 @@ void	ft_pixel_put(t_mlx *mlx, int x, int y, int color)
 
 	if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
 		return ;
-	if (color == 16711935)
+	if (color == CLEAR)
 		return ;
 	pixel = mlx->img->addr + (y * mlx->img->sline + x * (mlx->img->bpp / 8));
 	*(unsigned int *)pixel = color;
@@ -30,16 +30,28 @@ void	draw_circle(t_mlx *mlx, t_vtr cpos, int radius, int color)
 	}
 }
 
-void	draw_tile(t_mlx *mlx, t_vtr tpos, int scale, int color)
+void	draw_tile(t_mlx *mlx, t_vtr tpos, int color)
 {
-	t_vtr	pos;
+	t_vtr	pos[3];
+	int		radius;
 
-	pos.y = -1;
-	while (++pos.y < scale)
+	pos[0].y = -1;
+	radius = RANGE * TILE_SZ;
+	color = darken_color(0, 0, color, true);
+	while (++pos[0].y < TILE_SZ)
 	{
-		pos.x = -1;
-		while (++pos.x < scale)
-			ft_pixel_put(mlx, tpos.x + pos.x, tpos.y + pos.y, color);
+		pos[0].x = -1;
+		while (++pos[0].x < TILE_SZ)
+		{
+			pos[1].x = tpos.x + pos[0].x;
+			pos[1].y = tpos.y + pos[0].y;
+			pos[2].x = pos[1].x - CENTER_X;
+			pos[2].y = pos[1].y - CENTER_Y;
+			if (pos[2].x * pos[2].x + pos[2].y * pos[2].y <= radius * radius)
+				ft_pixel_put(mlx, pos[1].x, pos[1].y, color);
+			else
+				ft_pixel_put(mlx, pos[1].x, pos[1].y, CLEAR);
+		}
 	}
 }
 
@@ -143,8 +155,10 @@ void	draw_column(t_ray *r, int column, t_imgs **tex)
 {
 	double	i;
 	t_vtr	draw;
+	int		color;
 	double	lheight;
 	t_imgs	*img;
+	double	intensity;
 
 	lheight = (double)WIN_HEIGHT / r->perp;
 	draw.x = -lheight / 2 + (double)WIN_HEIGHT / 2;
@@ -160,9 +174,84 @@ void	draw_column(t_ray *r, int column, t_imgs **tex)
 	while (++i < draw.y)
 	{
 		set_ty(r, img->height);
-		ft_pixel_put(game()->mlx, column, (int)i, ft_get_color(img,
-				r->tex.tex_x, r->tex.tex_y));
+		color = ft_get_color(img, r->tex.tex_x, r->tex.tex_y);
+		if (game()->eng->key[K_F])
+		{
+			intensity = 1.0 - (r->perp / RANGE);
+			if (intensity < 0.0)
+				intensity = 0.0;
+			color = darken_color(r->perp * (1.0 - intensity), 0.375, color, false);
+		}
+		ft_pixel_put(game()->mlx, column, (int)i, color);
 	}
 	while (++i < WIN_HEIGHT)
 		ft_pixel_put(game()->mlx, column, (int)i, FLOOR);
+}
+
+void	draw_enemy_sprite(t_enemy *e, t_vtr screen_pos, t_imgs *sprite)
+{
+	int		height;
+	int		width;
+	int		start_x;
+	int		end_x;
+	int		start_y;
+	int		end_y;
+	int		stripe;
+	int		y;
+	int		tex_x;
+	int		tex_y;
+	int		color;
+	double	shade;
+	t_map		*map;
+
+	if (!e || !sprite)
+		return ;
+	map = game()->map[1];
+	height = fabs((int)(WIN_HEIGHT / screen_pos.y));
+	width = height;
+	if (height <= 0 || width <= 0)
+		return ;
+	start_y = -height / 2 + WIN_HEIGHT / 2;
+	if (start_y < 0)
+		start_y = 0;
+	end_y = height / 2 + WIN_HEIGHT / 2;
+	if (end_y >= WIN_HEIGHT)
+		end_y = WIN_HEIGHT - 1;
+	start_x = -width / 2 + (int)screen_pos.x;
+	if (start_x < 0)
+		start_x = 0;
+	end_x = width / 2 + (int)screen_pos.x;
+	if (end_x >= WIN_WIDTH)
+		end_x = WIN_WIDTH - 1;
+	stripe = start_x - 1;
+	while (++stripe <= end_x)
+	{
+		if (screen_pos.y >= map->zbuffer[stripe])
+			continue ;
+		tex_x = (int)((stripe - (-width / 2 + (int)screen_pos.x))
+			* (double)sprite->width / width);
+		if (tex_x < 0)
+			tex_x = 0;
+		if (tex_x >= sprite->width)
+			tex_x = sprite->width - 1;
+		y = start_y - 1;
+		while (++y <= end_y)
+		{
+			tex_y = (int)((y - (-height / 2 + WIN_HEIGHT / 2))
+				* (double)sprite->height / height);
+			if (tex_y < 0)
+				tex_y = 0;
+			if (tex_y >= sprite->height)
+				tex_y = sprite->height - 1;
+			color = ft_get_color(sprite, tex_x, tex_y);
+			if (game()->eng->key[K_F])
+			{
+				shade = 1.0 - (screen_pos.y / RANGE);
+				if (shade < 0.0)
+					shade = 0.0;
+				color = darken_color(screen_pos.y * (1.0 - shade), 0.375, color, false);
+			}
+			ft_pixel_put(game()->mlx, stripe, y, color);
+		}
+	}
 }

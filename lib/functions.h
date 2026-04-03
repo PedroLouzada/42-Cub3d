@@ -4,8 +4,24 @@
 # include "cub3d.h"
 # include "types.h"
 
+// Player Movement
+void			set_p_orientation(t_player *p);
+void			p_rotate(t_eng *eng, t_player *p);
+void			p_walk(t_eng *eng, t_player *p, t_map *map);
+
+// Enemy Movement
+void			set_e_orientation(t_enemy *e);
+double			e_timer(bool reset, int timer);
+void			e_walk(t_enemy *e, t_map *map);
+void			e_rotate(t_enemy *e, double speed);
+void			e_chase(t_enemy *e, t_map *map);
+
+// Enemy View
+void			enemy_los(t_enemy *e, t_map *map);
+
 // Raycasting
-void			cast_rays(t_map *map, t_ray *r, t_obj *obj, int type);
+void			init_ray(t_ray *r, t_obj *obj, int column);
+void			cast_rays(t_map *map, t_ray *r, t_obj *obj);
 
 // Data
 t_game			*game(void);
@@ -14,17 +30,20 @@ t_game			*game(void);
 double			get_time(void);
 
 // Math Utils
-int				ft_min(int a, int b);
+double			ft_min(double a, double b);
 void			round_vtrs(t_vtr *a, t_vtr *b);
 
-void			draw_column(t_ray *r, int column, t_imgs **tex);
 // Draw Utils
-void			draw_fov(t_ray *r, t_vtr pos, int type);
+int				tile_color(t_map *map, t_vtr pos);
+void			draw_fov(t_map *map, t_ray *r, t_vtr pos);
 void			draw_line(t_vtr start, t_vtr end, int color);
-void			draw_flashlight(t_vtr size, int radius, int type);
+void			draw_tile(t_mlx *mlx, t_vtr tpos, int color);
+void			draw_column(t_ray *r, int column, t_imgs **tex);
 void			ft_pixel_put(t_mlx *mlx, int x, int y, int color);
-void			draw_tile(t_mlx *mlx, t_vtr tpos, int scale, int color);
+void			draw_flashlight(t_vtr size, int radius, bool minimap);
 void			draw_circle(t_mlx *mlx, t_vtr cpos, int radius, int color);
+void			draw_enemy_sprite(t_enemy *e, t_vtr screen_pos, t_imgs *sprite);
+int 			darken_color(double distance, double radius, int color, bool minimap);
 
 // Map Utils
 void			set_exit(t_map *map);

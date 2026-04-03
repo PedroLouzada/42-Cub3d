@@ -40,17 +40,15 @@ void	dda(t_ray *r, t_map *map)
 			r->map.y += r->step.y;
 			r->side = 1;
 		}
-		if (map->map[(int)r->map.y][(int)r->map.x] == '1')
+		if (map->map[(int)r->map.y][(int)r->map.x] != '0')
 			break ;
 	}
 }
 
-void	cast_rays(t_map *m, t_ray *r, t_obj *obj, int type)
+void	cast_rays(t_map *m, t_ray *r, t_obj *obj)
 {
 	int	i;
-	char **map;
-
-	map = m->map;
+	
 	i = -1;
 	while (++i < WIN_WIDTH)
 	{
@@ -60,8 +58,7 @@ void	cast_rays(t_map *m, t_ray *r, t_obj *obj, int type)
 			r[i].perp = r[i].sDist.x - r[i].dltDist.x;
 		else
 			r[i].perp = r[i].sDist.y - r[i].dltDist.y;
-		if (type == E)
-			continue ;
+		m->zbuffer[i] = r[i].perp;
 		draw_column(&r[i], i, m->textures);
 	}
 }

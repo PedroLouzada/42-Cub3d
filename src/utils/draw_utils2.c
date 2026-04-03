@@ -1,53 +1,56 @@
 #include "cub3d.h"
 
-void	draw_fov(t_ray *r, t_vtr pos, int type)
+void	draw_fov(t_map *map, t_ray *r, t_vtr pos)
 {
-    int		i;
-    t_vtr	s;
-    t_vtr	e;
+	double	len;
+    int		i[3];
+    t_vtr	data[2];
 
-    s.x = pos.x * TILE_SZ;
-    s.y = pos.y * TILE_SZ;
-    i = -1;
-    while (++i < WIN_WIDTH)
+	i[0] = (WIN_WIDTH / 4);
+	i[1] = (WIN_WIDTH / 4) * 3;
+    i[2] = i[0] - 1 ;
+    while (++i[2] < i[1])
     {
-		if (r[i].perp < 0 || r[i].perp > WIN_WIDTH)
+		if (r[i[2]].perp < 0)
             continue;
-		if (r[i].perp > RANGE)
-			r[i].perp = RANGE;
-        e.x = (pos.x + r[i].dir.x * r[i].perp) * TILE_SZ;
-        e.y = (pos.y + r[i].dir.y * r[i].perp) * TILE_SZ;
-		if (type == E)
-        	draw_line(s, e, PINK);
-		if (type == P)
-			draw_line(s, e, PURPLE);
+		len = ft_min(r[i[2]].perp, RANGE);
+		data[0] = pos;
+        data[1].x = pos.x + (r[i[2]].dir.x * len) * TILE_SZ;
+        data[1].y = pos.y + (r[i[2]].dir.y * len) * TILE_SZ;
+		draw_line(data[0], data[1], FLOOR);
     }
 }
 
-void 	darken_color(double distance, int radius, int *color, int type)
+int 	darken_color(double distance, double radius, int color, bool minimap)
 {
 	int		rgb[3];
+	double	max_dist;
 	double	intensity;
 	double	brightness;
 
-	if (*color < 0)
-		return ;
-	intensity = (distance - radius) / (radius * TILE_SZ);
+	if (color < 0)
+		return (-1);
+	if (color == CLEAR)
+		return (color);
+	max_dist = radius * TILE_SZ;
+	intensity = distance / (max_dist * max_dist);
 	if (intensity > 1.0)
         intensity = 1.0;
-	rgb[0] = (*color >> 16) & 0xFF;
-	rgb[1] = (*color >> 8) & 0xFF;
-	rgb[2] = *color & 0xFF;
+	rgb[0] = (color >> 16) & 0xFF;
+	rgb[1] = (color >> 8) & 0xFF;
+	rgb[2] = color & 0xFF;
     brightness = 1.0 - intensity;
-	if (brightness < 0.125 && type != MINIMAP)
+	if (brightness < 0.125)
 		brightness = 0.125;
-    rgb[0] = (int)(rgb[0] * brightness);
+	if (minimap)
+		brightness = 0.225;
+	rgb[0] = (int)(rgb[0] * brightness);
     rgb[1] = (int)(rgb[1] * brightness);
     rgb[2] = (int)(rgb[2] * brightness);
-	*color = (rgb[0] << 16) | (rgb[1] << 8) | rgb[2];
+	return ((rgb[0] << 16) | (rgb[1] << 8) | rgb[2]);
 }
 
-void	draw_flashlight(t_vtr size, int radius, int type)
+void	draw_flashlight(t_vtr size, int radius, bool minimap)
 {
 	t_vtr	pos;
 	t_vtr	draw;
@@ -62,14 +65,15 @@ void	draw_flashlight(t_vtr size, int radius, int type)
 		{
 			draw.x = pos.x - (size.x / 2);
 			draw.y = pos.y - (size.y / 2);
-			distance = sqrt(draw.x * draw.x + draw.y * draw.y);
-            if (distance < radius)
+			distance = draw.x * draw.x + draw.y * draw.y;
+            if (distance < radius * radius)
 				continue ;
             color = ft_get_color(game()->mlx->img, (int)pos.x, (int)pos.y);
-			darken_color(distance, radius, &color, type);
+			color = darken_color(distance, radius, color, minimap);
 			if (color < 0)
 				continue ;
             ft_pixel_put(game()->mlx, (int)pos.x, (int)pos.y, color);
 		}
 	}
 }
+

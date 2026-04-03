@@ -1,18 +1,5 @@
 #include "cub3d.h"
 
-bool	not_door(t_map *map, t_vtr pos)
-{
-	int	i;
-
-	i = -1;
-	while (map->objs[++i])
-	{
-		if (map->objs[i]->pos.x == pos.x && map->objs[i]->pos.y == pos.y)
-			return (false);
-	}
-	return (true);
-}
-
 t_vtr	spawn(t_map *map, char tile)
 {
 	t_vtr	pos;
@@ -20,6 +7,8 @@ t_vtr	spawn(t_map *map, char tile)
 	pos = rand_pos(map->map_size);
 	while (map->map[(int)pos.y][(int)pos.x] != tile)
 		pos = rand_pos(map->map_size);
+	pos.x = floor(pos.x) + 0.3;
+	pos.y = floor(pos.y) + 0.3;
 	return (pos);
 }
 

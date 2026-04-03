@@ -8,7 +8,7 @@ void	round_vtrs(t_vtr *a, t_vtr *b)
 	b->y = round(b->y);
 }
 
-int		ft_min(int a, int b)
+double	ft_min(double a, double b)
 {
 	if (a < b)
 		return (a);

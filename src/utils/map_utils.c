@@ -57,29 +57,15 @@ void	move_in_path(t_map *map, t_vtr *pos, int direction)
 
 bool	valid_door(t_map *map, t_vtr pos)
 {
-	int		i;
-	t_str	*cmap;
-	bool	valid;
-	int		psx[2];
-
-	i = -1;
-	valid = false;
-	cmap = map->map;
-	psx[0] = (int)pos.x;
-	psx[1] = (int)pos.y;
-	if (cmap[psx[1]][psx[0]] == '0')
-	{
-		if (cmap[psx[1]][psx[0] + 1] == '0' && cmap[psx[1]][psx[0] - 1] == '0'
-		&& cmap[psx[1] + 1][psx[0]] == '1' && cmap[psx[1] - 1][psx[0]] == '1')
-			valid = true;
-		if (cmap[psx[1] + 1][psx[0]] == '0' && cmap[psx[1] - 1][psx[0]] == '0'
-		&& cmap[psx[1]][psx[0] + 1] == '1' && cmap[psx[1]][psx[0] - 1] == '1')
-			valid = true;
-		while (map->objs[++i])
-		{
-			if (map->objs[i]->pos.x == pos.x && map->objs[i]->pos.y == pos.y)
-				valid = false;
-		}
-	}
-	return (valid);
+	if (map->map[(int)pos.y + 1][(int)pos.x] == '1'
+	&& map->map[(int)pos.y - 1][(int)pos.x] == '1'
+	&& map->map[(int)pos.y][(int)pos.x + 1] == '0'
+	&& map->map[(int)pos.y][(int)pos.x - 1] == '0')
+		return (true);
+	if (map->map[(int)pos.y + 1][(int)pos.x] == '0'
+	&& map->map[(int)pos.y - 1][(int)pos.x] == '0'
+	&& map->map[(int)pos.y][(int)pos.x + 1] == '1'
+	&& map->map[(int)pos.y][(int)pos.x - 1] == '1')
+		return (true);
+	return (false);
 }

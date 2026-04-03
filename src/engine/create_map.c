@@ -4,14 +4,17 @@ int		tile_color(t_map *map, t_vtr pos)
 {
 	int		color;
 
-	color = BLACK;
+	color = CLEAR;
 	if (pos.y >= 0 && pos.y < map->map_size.y
 	&& pos.x >= 0 && pos.x < map->map_size.x)
 	{
+		color = FLOOR;
 		if (map->map[(int)pos.y][(int)pos.x] == '1')
-			color = WHITE;
+			color = WALL;
 		if (map->map[(int)pos.y][(int)pos.x] == 'E')
 			color = GREEN;
+		if (map->map[(int)pos.y][(int)pos.x] == 'D')
+			color = BLUE;
 	}
 	return (color);
 }
@@ -19,66 +22,44 @@ int		tile_color(t_map *map, t_vtr pos)
 void	draw_characters(t_map *map)
 {
 	t_player	*p;
+	t_enemy		*e;
 	t_vtr		pos;
 
 	p = (t_player *)map->objs[P];
-	// draw_fov(map->rays[P], map->objs[P]->pos, P);
-	// draw_fov(map->rays[E], map->objs[E]->pos, E);
-	// pos.x = map->objs[P]->pos.x * TILE_SZ;
-	// pos.y = map->objs[P]->pos.y * TILE_SZ;
-	// draw_circle(game()->mlx, pos, TILE_SZ / 2.5, BLUE);
-	// pos.x = map->objs[E]->pos.x * TILE_SZ;
-	// pos.y = map->objs[E]->pos.y * TILE_SZ;
-	// draw_circle(game()->mlx, pos, TILE_SZ / 2.5, RED);
-	pos.x = map->map_size.x / 4;
-	pos.y = map->map_size.y / 4;
-	draw_fov(map->rays[P], pos, P);
-	pos.x *= TILE_SZ;
-	pos.y *= TILE_SZ;
-	draw_circle(game()->mlx, pos, TILE_SZ / 2.5, BLUE);
-	pos.x = (map->map_size.x / 2) * TILE_SZ;
-    pos.y = (map->map_size.y / 2) * TILE_SZ;
-	draw_flashlight(pos, pos.y / 36, MINIMAP);
+	e = (t_enemy *)map->objs[E];
+	pos.x = CENTER_X;
+	pos.y = CENTER_Y;
+	draw_fov(map, p->ray, pos);
+	draw_circle(game()->mlx, pos, TILE_SZ / 3, BLUE);
+	pos.x = e->pos.x - p->pos.x;
+	pos.y = e->pos.y - p->pos.y;
+	if (pos.x * pos.x + pos.y * pos.y <= RANGE * RANGE)
+	{
+		pos.x = CENTER_X + pos.x * TILE_SZ;
+		pos.y = CENTER_Y + pos.y * TILE_SZ;
+		draw_fov(map, e->ray, pos);
+		draw_circle(game()->mlx, pos, TILE_SZ / 3, RED);
+	}
 }
-
-// void	draw_minimap(t_map *map)
-// {
-// 	t_vtr	data[2];
-
-// 	data[0].y = -1;
-// 	while (++data[0].y < map->map_size.y)
-// 	{
-// 		data[0].x = -1;
-// 		while (++data[0].x < map->map_size.x)
-// 		{
-// 			data[1].x = data[0].x * TILE_SZ;
-// 			data[1].y = data[0].y * TILE_SZ;
-// 			draw_tile(game()->mlx, data[1], TILE_SZ, tile_color(map, data[0]));
-// 		}
-// 	}
-// 	draw_characters(map);
-// }
 
 void	draw_minimap(t_map *map)
 {
-	t_vtr	data[4];
+	t_player	*p;
+	t_vtr		pos[3];
 
-	data[0].y = -1;
-	data[1].y = map->objs[P]->pos.y - (map->map_size.y / 4);
-	data[2].x = (map->objs[P]->pos.x - (int)map->objs[P]->pos.x) * TILE_SZ;
-    data[2].y = (map->objs[P]->pos.y - (int)map->objs[P]->pos.y) * TILE_SZ;
-	while (++data[0].y < map->map_size.y / 2)
+	p = (t_player *)map->objs[P];
+	pos[0].y = (int)p->pos.y - RANGE - 1;
+	while (++pos[0].y < (int)p->pos.y + RANGE)
 	{
-		data[0].x = -1;
-		data[1].x = map->objs[P]->pos.x - (map->map_size.x / 4);
-		while (++data[0].x < map->map_size.x / 2)
+		pos[0].x = (int)p->pos.x - RANGE - 1;
+		while (++pos[0].x < (int)p->pos.x + RANGE)
 		{
-			data[3].x = data[0].x * TILE_SZ - data[2].x;
-			data[3].y = data[0].y * TILE_SZ - data[2].y;
-			draw_tile(game()->mlx, data[3], TILE_SZ, tile_color(map, data[1]));
-			data[1].x++;
+			pos[1].x = pos[0].x - p->pos.x;
+			pos[1].y = pos[0].y - p->pos.y;
+			pos[2].x = CENTER_X + pos[1].x * TILE_SZ;
+			pos[2].y = CENTER_Y + pos[1].y * TILE_SZ;
+			draw_tile(game()->mlx, pos[2], tile_color(map, pos[0]));
 		}
-		data[1].y++;
 	}
 	draw_characters(map);
 }
@@ -123,12 +104,6 @@ t_map	*create_map(int level, int fd)
 	map->map_size.y = MAP_HEIGHT;
 	map->destroy = destroy_map;
 	map->minimap = draw_minimap;
-	map->rays[E] = ft_calloc(WIN_WIDTH + 1, sizeof(t_ray));
-	if (!map->rays[E])
-		parse_exit("Memory Allocation\n", NULL, fd, 1);
-	map->rays[P] = ft_calloc(WIN_WIDTH + 1, sizeof(t_ray));
-	if (!map->rays[P])
-		parse_exit("Memory Allocation\n", NULL, fd, 1);
 	if (level)
 	{
 		generate_map(map);

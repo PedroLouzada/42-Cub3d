@@ -50,27 +50,27 @@ t_str	ft_joinstr(t_str s1, t_str s2)
 
 int	exit_game(char *str)
 {
-	int	i;
-	int	j;
+	int	i[2];
+
 	if (str)
 		write(2, str, ft_strlen(str));
-	i = -1;
+	i[0] = -1;
 	clear_image();
 	mlx_destroy_window(game()->mlx->mlx, game()->mlx->win);
-	while (game()->map[++i])
+	while (game()->map[++i[0]])
 	{
-		free_double(game()->map[i]->map);
-		if (game()->map[i]->objs)
+		free_double(game()->map[i[0]]->map);
+		if (game()->map[i[0]]->objs)
 		{
-			j = 0;
-			while (game()->map[i]->objs[j])
-				free(game()->map[i]->objs[j++]);
-			free(game()->map[i]->objs);
+			free(((t_enemy *)game()->map[i[0]]->objs[E])->ray);
+			free(((t_player *)game()->map[i[0]]->objs[P])->ray);
+			i[1] = P;
+			while (game()->map[i[0]]->objs[++i[1]])
+				free(game()->map[i[0]]->objs[i[1]]);
+			free(game()->map[i[0]]->objs);
 		}
-		free(game()->map[i]->rays[E]);
-		free(game()->map[i]->rays[P]);
-		if (i < 6)
-			free(game()->map[i]);
+		if (i[0] < 6)
+			free(game()->map[i[0]]);
 	}
 	mlx_destroy_display(game()->mlx->mlx);
 	free(game()->mlx->mlx);
