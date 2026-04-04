@@ -68,7 +68,7 @@ void	draw_flashlight(t_vtr size, int radius, bool minimap)
 			distance = draw.x * draw.x + draw.y * draw.y;
             if (distance < radius * radius)
 				continue ;
-            color = ft_get_color(game()->mlx->img, (int)pos.x, (int)pos.y);
+            color = ft_get_color(game()->mlx->img[BUFFER], (int)pos.x, (int)pos.y);
 			color = darken_color(distance, radius, color, minimap);
 			if (color < 0)
 				continue ;

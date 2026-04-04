@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-void	handle_angle(t_eng *eng, t_player *p, double *angle, double *speed)
+static void	handle_angle(t_eng *eng, t_player *p, double *angle, double *speed)
 {
 	if (eng->key[K_D])
 		*angle = p->angle + M_PI_2;

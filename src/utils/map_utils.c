@@ -66,18 +66,3 @@ bool	in_bounds(char **map, int y, int x)
 		return (false);
 	return (true);
 }
-
-bool	valid_door(t_map *map, t_vtr pos)
-{
-	if (map->map[(int)pos.y + 1][(int)pos.x] == '1'
-	&& map->map[(int)pos.y - 1][(int)pos.x] == '1'
-	&& map->map[(int)pos.y][(int)pos.x + 1] == '0'
-	&& map->map[(int)pos.y][(int)pos.x - 1] == '0')
-		return (true);
-	if (map->map[(int)pos.y + 1][(int)pos.x] == '0'
-	&& map->map[(int)pos.y - 1][(int)pos.x] == '0'
-	&& map->map[(int)pos.y][(int)pos.x + 1] == '1'
-	&& map->map[(int)pos.y][(int)pos.x - 1] == '1')
-		return (true);
-	return (false);
-}

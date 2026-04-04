@@ -55,11 +55,10 @@ void	generate_objs(t_map *map)
 			return (map->destroy(map));
 		data[0]--;
 	}
-	map->objs[P] = create_player(map->player_pos);
+	map->objs[P] = create_player(spawn(map, '0'));
 	if (!map->objs[P])
 		parse_exit("Memory Allocation\n", NULL, -1, 1);
-	map->objs[E] = create_enemy((t_vtr){map->objs[P]->pos.x + 1,
-			map->objs[P]->pos.y + 1});
+	map->objs[E] = create_enemy(spawn(map, '0'));
 	if (!map->objs[E])
 		parse_exit("Memory Allocation\n", (void *)map->objs[P], -1, 1);
 }

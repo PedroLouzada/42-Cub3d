@@ -21,7 +21,7 @@ void			enemy_los(t_enemy *e, t_map *map);
 
 // Raycasting
 void			init_ray(t_ray *r, t_obj *obj, int column);
-void			cast_rays(t_map *map, t_ray *r, t_obj *obj);
+void			cast_rays(int map, int type);
 
 // Data
 t_game	*game(void);
@@ -39,7 +39,7 @@ int				tile_color(t_map *map, t_vtr pos);
 void			draw_fov(t_map *map, t_ray *r, t_vtr pos);
 void			draw_line(t_vtr start, t_vtr end, int color);
 void			draw_tile(t_mlx *mlx, t_vtr tpos, int color);
-void			ft_pixel_put(t_mlx *mlx, int x, int y, int color);
+void			ft_pixel_put(t_imgs *img, int x, int y, int color);
 void			draw_flashlight(t_vtr size, int radius, bool minimap);
 void			draw_circle(t_mlx *mlx, t_vtr cpos, int radius, int color);
 void			draw_enemy_sprite(t_enemy *e, t_vtr screen_pos, t_imgs *sprite);
@@ -92,8 +92,7 @@ void	draw_minimap(t_map *map);
 int		get_pos(int *pos, char **map);
 int		ft_get_color(t_imgs *img, int x, int y);
 bool	in_bounds(char **map, int y, int x);
-void		interact_door(t_player *p, t_map *map, t_ray *r);
-void	init_ray(t_ray *r, t_obj *obj, int column);
+void	interact_door(t_player *p, t_map *map, t_ray *r);
 bool	is_floor(char c);
 bool	is_wall(char c);
 char	**ft_split(char *s, char c);

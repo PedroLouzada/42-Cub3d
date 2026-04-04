@@ -10,7 +10,7 @@ void	set_e_orientation(t_enemy *e)
 
 void	e_rotate(t_enemy *e, double speed)
 {
-	e->angle += speed * game()->eng->dt;
+	e->angle += speed * game()->eng.dt;
 	if (e->angle < 0)
 	e->angle = 2 * M_PI;
 	if (e->angle > 2 * M_PI)
@@ -39,7 +39,7 @@ double	check_sides(t_enemy *e, t_map *map, double radius, double speed)
 
 	dir = M_PI_4;
 	offset = M_PI / 8;
-	dt = game()->eng->dt;
+	dt = game()->eng.dt;
 	look[0].x = e->pos.x + cos(e->angle + dir) * (radius + speed * dt);
 	look[0].y = e->pos.y + sin(e->angle + dir) * (radius + speed * dt);
 	look[1].x = e->pos.x + cos(e->angle - dir) * (radius + speed * dt);
@@ -63,7 +63,7 @@ void	e_chase(t_enemy *e, t_map *map)
 	
 	speed = 3.5;
 	radius = 0.6;
-	dt = game()->eng->dt;
+	dt = game()->eng.dt;
 	look.x = e->pos.x + cos(e->angle) * (radius + speed * dt);
 	look.y = e->pos.y + sin(e->angle) * (radius + speed * dt);
 	if (!e_can_walk(map, look))
@@ -86,7 +86,7 @@ void	e_walk(t_enemy *e, t_map *map)
 	
 	speed = 2.0;
 	radius = 0.6;
-	dt = game()->eng->dt;
+	dt = game()->eng.dt;
 	look.x = e->pos.x + cos(e->angle) * (radius + speed * dt);
 	look.y = e->pos.y + sin(e->angle) * (radius + speed * dt);
 	if (!e_can_walk(map, look))

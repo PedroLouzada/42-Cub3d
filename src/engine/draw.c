@@ -12,10 +12,8 @@ void	draw_img(t_imgs *img, int px, int py)
 {
 	int		y;
 	int		x;
-	t_mlx	*mlx;
 
 	y = -1;
-	mlx = game()->mlx;
 	while (++y < img->height)
 	{
 		x = -1;
@@ -120,24 +118,6 @@ static void	draw_enemy_in_scene(t_player *p, t_enemy *e)
 	draw_enemy_sprite(e, v[1], sprite);
 }
 
-static void	draw_enemy_in_scene(t_player *p, t_enemy *e)
-{
-	t_vtr		v[2];
-	double		inv_det;
-	t_imgs		*sprite;
-
-	v[0].x = e->pos.x - p->pos.x;
-	v[0].y = e->pos.y - p->pos.y;
-	inv_det = 1.0 / (p->plane.x * p->dir.y - p->dir.x * p->plane.y);
-	v[1].x = (p->dir.y * v[0].x - p->dir.x * v[0].y) * inv_det;
-	v[1].y = (-p->plane.y * v[0].x + p->plane.x * v[0].y) * inv_det;
-	if (v[1].y <= 0)
-		return ;
-	v[1].x = (WIN_WIDTH / 2.0) * (1 + (v[1].x / v[1].y));
-	sprite = (t_imgs *)e->get_texture((t_obj *)e, p->angle);
-	draw_enemy_sprite(e, v[1], sprite);
-}
-
 void	game_scene(void)
 {
 	t_player	*p;
@@ -148,12 +128,9 @@ void	game_scene(void)
 	e = (t_enemy *)game()->map[game()->eng.current_map]->objs[E];
 	size.x = WIN_WIDTH;
 	size.y = WIN_HEIGHT;
-	if (game()->eng.current_map)
-	{
-		enemy_los(e, game()->map[game()->eng.current_map]);
-		draw_enemy_in_scene(p, e);
-	}
 	cast_rays(game()->eng.current_map, P);
+	if (game()->eng.current_map)
+		draw_enemy_in_scene(p, e);
 	draw_img(game()->mlx->img[PLAYERIMG], 1470, 711);
 	if (game()->eng.key[K_F] == true && p->battery > 10)
 	{
@@ -168,7 +145,6 @@ void	game_scene(void)
 	draw_stamina((t_vtr){960, 900}, (t_vtr){3, 5}, p->stamina);
 	if (game()->eng.screen[2])
 		draw_img(game()->mlx->img[Q_KEYIMG], 20, 20);
-		draw_flashlight(size, 0, false);
 }
 
 void	draw_screen(t_mlx *mlx)

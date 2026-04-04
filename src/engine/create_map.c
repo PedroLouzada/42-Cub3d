@@ -102,15 +102,6 @@ t_map	*create_map(int level, int fd)
 	map->minimap = draw_minimap;
 	map->map_size.x = MAP_WIDTH;
 	map->map_size.y = MAP_HEIGHT;
-	map->destroy = destroy_map;
-	map->minimap = draw_minimap;
-	map->rays[E] = ft_calloc(WIN_WIDTH + 1, sizeof(t_ray));
-	map->rays[P] = ft_calloc(WIN_WIDTH + 1, sizeof(t_ray));
-	if (!map->rays[E] || !map->rays[P])
-	{
-		(free(map->rays[E]), free(map->rays[P]));
-		parse_exit("Memory Allocation\n", (void *)map, fd, 0);
-	}
 	if (level)
 	{
 		generate_map(map);

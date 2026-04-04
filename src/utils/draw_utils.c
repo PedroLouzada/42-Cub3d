@@ -170,6 +170,7 @@ void	draw_column(t_ray *r, int column, t_map *map)
 	double	i;
 	t_vtr	draw;
 	int		color;
+	int		*rgb_color;
 	double	lheight;
 	t_imgs	*img;
 	double	intensity;
@@ -183,9 +184,10 @@ void	draw_column(t_ray *r, int column, t_map *map)
 		draw.y = WIN_HEIGHT;
 	i = -1;
 	img = set_tex(r, draw.x, lheight, map);
-	int *color = map->colors[0];
+	rgb_color = map->colors[0];
 	while (++i < draw.x)
-		ft_pixel_put(game()->mlx->img[BUFFER], column, (int)i, rgb(color[1], color[2], color[3]));
+		ft_pixel_put(game()->mlx->img[BUFFER], column, (int)i,
+			rgb(rgb_color[1], rgb_color[2], rgb_color[3]));
 	while (++i < draw.y)
 	{
 		set_ty(r, img->height);
@@ -199,9 +201,10 @@ void	draw_column(t_ray *r, int column, t_map *map)
 		}
 		ft_pixel_put(game()->mlx->img[BUFFER], column, (int)i, color);
 	}
-	color = map->colors[1];
+	rgb_color = map->colors[1];
 	while (++i < WIN_HEIGHT)
-		ft_pixel_put(game()->mlx->img[BUFFER], column, (int)i, rgb(color[1], color[2], color[3]));
+		ft_pixel_put(game()->mlx->img[BUFFER], column, (int)i,
+			rgb(rgb_color[1], rgb_color[2], rgb_color[3]));
 }
 
 void	draw_enemy_sprite(t_enemy *e, t_vtr screen_pos, t_imgs *sprite)
@@ -222,7 +225,7 @@ void	draw_enemy_sprite(t_enemy *e, t_vtr screen_pos, t_imgs *sprite)
 
 	if (!e || !sprite)
 		return ;
-	map = game()->map[1];
+	map = game()->map[game()->eng.current_map];
 	height = fabs((int)(WIN_HEIGHT / screen_pos.y));
 	width = height;
 	if (height <= 0 || width <= 0)
@@ -267,7 +270,7 @@ void	draw_enemy_sprite(t_enemy *e, t_vtr screen_pos, t_imgs *sprite)
 					shade = 0.0;
 				color = darken_color(screen_pos.y * (1.0 - shade), 0.375, color, false);
 			}
-			ft_pixel_put(game()->mlx, stripe, y, color);
+			ft_pixel_put(game()->mlx->img[BUFFER], stripe, y, color);
 		}
 	}
 }
