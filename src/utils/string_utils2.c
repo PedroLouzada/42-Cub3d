@@ -1,8 +1,7 @@
 #include "cub3d.h"
 
 size_t	ft_strlcpy(char *dest, char *src, size_t size)
-{
-	size_t	i;
+{	size_t	i;
 
 	if (size == 0)
 		return (ft_strlen(src));
@@ -17,15 +16,13 @@ size_t	ft_strlcpy(char *dest, char *src, size_t size)
 }
 
 int	ft_isdigit(int c)
-{
-	if (c >= '0' && c <= '9')
+{	if (c >= '0' && c <= '9')
 		return (1);
 	return (0);
 }
 
 static char	*ft_strcpy(char *dest,char *src)
-{
-	int	i;
+{	int	i;
 
 	i = 0;
 	while (src[i] && src[i] != '\n')
@@ -38,8 +35,7 @@ static char	*ft_strcpy(char *dest,char *src)
 }
 
 char	*ft_strdup_newline(char *s)
-{
-	char	*copy;
+{	char	*copy;
 
 	copy = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
 	if (!copy)
@@ -49,8 +45,7 @@ char	*ft_strdup_newline(char *s)
 }
 
 void	free_double(char **str)
-{
-	int	i;
+{	int	i;
 
 	i = 0;
 	if (!str)

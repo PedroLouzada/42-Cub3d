@@ -9,5 +9,5 @@ t_game	*game(void)
 
 int	main(int ac, char **av)
 {
-    init_game(ac, av);
+	init_game(ac, av);
 }

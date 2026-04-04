@@ -13,9 +13,14 @@
 # include "classes.h"
 # include <sys/time.h>
 # include <curses.h>
+# include "thread.h"
 # include "functions.h"
 # include "minilibx-linux/mlx.h"
 # include "minilibx-linux/mlx_int.h"
+
+#define DEBUG fprintf(stderr, "%s, %i\n", __FUNCTION__, __LINE__)
+#define HERE fprintf(stderr, "Here\n");
+#define THERE fprintf(stderr, "There\n");
 
 //========================== PARSING =====================
 

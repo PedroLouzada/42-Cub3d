@@ -72,7 +72,7 @@ void	draw_flashlight(t_vtr size, int radius, bool minimap)
 			color = darken_color(distance, radius, color, minimap);
 			if (color < 0)
 				continue ;
-            ft_pixel_put(game()->mlx, (int)pos.x, (int)pos.y, color);
+            ft_pixel_put(game()->mlx->img[BUFFER], (int)pos.x, (int)pos.y, color);
 		}
 	}
 }

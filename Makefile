@@ -32,13 +32,16 @@ SRCS =  src/main.c \
 		src/utils/rand_utils.c \
 		src/utils/libft_utils.c \
 		src/utils/time_utils.c \
+		src/utils/exit.c \
+		src/utils/split.c \
 		src/engine/raycasting.c \
+		src/engine/threads.c \
 
 OBJ_DIR = obj
 OBJS = $(SRCS:src/%.c=$(OBJ_DIR)/%.o)
 CC = cc
-CFLAGS = -g -Ofast #-Wall -Wextra -Werror
-LIBMLX = -Llib/minilibx-linux -lmlx -lXext -lX11 -lm
+CFLAGS = -g -O2 #-Wall -Wextra -Werror -fsanitize=thread
+LIBMLX = -Llib/minilibx-linux -lmlx -lXext -lX11 -lm -lz
 INCLUDE = -Ilib/minilibx-linux -Ilib -Ilib
 
 all: mlx $(NAME)
@@ -47,7 +50,7 @@ mlx:
 	@make -C lib/minilibx-linux --no-print-directory
 
 $(NAME): $(OBJS)
-	@$(CC) $(OBJS) -o $(NAME) $(LIBMLX)
+	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBMLX)
 	@echo "Executable created!"
 
 $(OBJ_DIR)/%.o: src/%.c
@@ -61,6 +64,11 @@ clean:
 	else \
 		echo "No build directory to delete!"; \
 	fi
+	rm -rf maps/level_1.cub; \
+	rm -rf maps/level_2.cub; \
+	rm -rf maps/level_3.cub; \
+	rm -rf maps/level_4.cub; \
+	rm -rf maps/level_5.cub; \
 
 fclean: clean
 	@rm -f $(NAME)
@@ -75,6 +83,9 @@ re: fclean
 r:
 	make re && clear && ./cub3D maps/a.cub
 v:
-	make re && clear && valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all ./cub3D maps/a.cub
+	make re && clear && valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all --track-origins=yes ./cub3D maps/a.cub
+
+t:
+	make re && clear && valgrind --tool=helgrind ./cub3D maps/a.cub
 
 .PHONY: all mlx clean fclean re r v

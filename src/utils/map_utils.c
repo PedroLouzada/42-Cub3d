@@ -1,8 +1,8 @@
 #include "cub3d.h"
 
-int		in_range(t_map *map, int x, int y)
+int	in_range(t_map *map, int x, int y)
 {
-	int out;
+	int	out;
 
 	out = 1;
 	if (x < 1 || x > map->map_size.x - 2)
@@ -14,7 +14,7 @@ int		in_range(t_map *map, int x, int y)
 	return (out);
 }
 
-int		which_direction(int right, int left, int back)
+int	which_direction(int right, int left, int back)
 {
 	int	which_direction;
 
@@ -34,13 +34,13 @@ int		which_direction(int right, int left, int back)
 void	check_path(t_map *map, t_vtr pos, int *direction)
 {
 	if (*direction == NORTH && !in_range(map, pos.x, pos.y + 1))
-			*direction = which_direction(EAST, WEST, SOUTH);
+		*direction = which_direction(EAST, WEST, SOUTH);
 	if (*direction == SOUTH && !in_range(map, pos.x, pos.y - 1))
-			*direction = which_direction(EAST, WEST, NORTH);
+		*direction = which_direction(EAST, WEST, NORTH);
 	if (*direction == EAST && !in_range(map, pos.x + 1, pos.y))
-			*direction = which_direction(SOUTH, NORTH, WEST);
+		*direction = which_direction(SOUTH, NORTH, WEST);
 	if (*direction == WEST && !in_range(map, pos.x - 1, pos.y))
-			*direction = which_direction(SOUTH, NORTH, EAST);
+		*direction = which_direction(SOUTH, NORTH, EAST);
 }
 
 void	move_in_path(t_map *map, t_vtr *pos, int direction)
@@ -53,6 +53,18 @@ void	move_in_path(t_map *map, t_vtr *pos, int direction)
 		pos->x--;
 	if (direction == SOUTH && in_range(map, pos->x, pos->y - 1))
 		pos->y--;
+}
+
+bool	in_bounds(char **map, int y, int x)
+{
+	size_t	len;
+
+	if (!map || y < 0 || x < 0 || !map[y])
+		return (false);
+	len = ft_strlen(map[y]);
+	if (x >= len)
+		return (false);
+	return (true);
 }
 
 bool	valid_door(t_map *map, t_vtr pos)

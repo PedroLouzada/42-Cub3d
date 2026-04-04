@@ -48,6 +48,17 @@ t_str	ft_joinstr(t_str s1, t_str s2)
 	return (str);
 }
 
+bool	is_floor(char c)
+{
+	return (c == '0' || c == 'E' || c == 'N' || c == 'W' || c == 'S'
+		|| c == 'P');
+}
+
+bool	is_wall(char c)
+{
+	return (c == '1' || c == 'D');
+}
+
 int	exit_game(char *str)
 {
 	int	i[2];

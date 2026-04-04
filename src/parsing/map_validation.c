@@ -1,7 +1,7 @@
 #include "cub3d.h"
 
 void	get_map_dimension(char *str);
-void	check_characters(char *str, int fd, int *d, t_map *map);
+void	check_characters(char *str, int fd, t_map *map);
 int		check_header(char *line, int fd);
 char	*ft_strdup_newline(char *s);
 
@@ -19,7 +19,7 @@ int	empty_line(char *line)
 	return (1);
 }
 
-void	check_map_content(int fd, int *d)
+void	check_map_content(int fd)
 {
 	int		i;
 	char	*line;
@@ -34,7 +34,7 @@ void	check_map_content(int fd, int *d)
 			break ;
 		if (check_header(line, fd) || empty_line(line))
 			continue ;
-		check_characters(line, fd, d, game()->map[0]);
+		check_characters(line, fd, game()->map[0]);
 		game()->map[0]->map[i] = ft_strdup_newline(line);
 		if (!game()->map[0]->map[i++])
 			parse_exit("Memory Allocation\n", line, fd, 1);
@@ -65,24 +65,18 @@ char	**copy_map(t_map *src)
 	return (copy);
 }
 
-
-int	get_pos(int *pos, char **map, int entity)
+int	get_pos(int *pos, char **map)
 {
-	int	i;
-	int	j;
-	char c;
+	int		i;
+	int		j;
 
 	i = 0;
-	if (!entity)
-		c = '0';
-	else
-		c = 'P';
 	while (map[i])
 	{
 		j = 0;
 		while (map[i][j])
 		{
-			if (map[i][j] == c)
+			if (map[i][j] == '0')
 			{
 				pos[0] = j;
 				pos[1] = i;
@@ -109,25 +103,23 @@ void	flood_fill(char **map, int x, int y, int *pos)
 	flood_fill(map, x - 1, y, pos);
 	flood_fill(map, x, y + 1, pos);
 	flood_fill(map, x, y - 1, pos);
-	if (get_pos(pos, map, 0))
+	if (get_pos(pos, map))
 		flood_fill(map, pos[0], pos[1], pos);
 }
 
-void	map_validation(char *str, int *d)
+void	map_validation(char *str)
 {
 	int		fd;
 	int		pos[2];
 	char	**copy;
 
 	get_map_dimension(str);
-	if (!game()->map[0]->map)
-		parse_exit("Memory Allocation\n", NULL, -1, 1);
 	fd = open(str, O_RDONLY);
-	if (fd < 0)
-		parse_exit("Could not open the file\n", NULL, -1, 1);
-	check_map_content(fd, d);
+	if (!game()->map[0]->map || fd < 0)
+		parse_exit("Memory Allocation\n", NULL, fd, 0);
+	check_map_content(fd);
 	copy = copy_map(game()->map[0]);
-	get_pos(pos, copy, 0);
+	get_pos(pos, copy);
 	flood_fill(copy, pos[0], pos[1], pos);
 	free_double(copy);
 }

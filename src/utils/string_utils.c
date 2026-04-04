@@ -1,15 +1,15 @@
 #include "cub3d.h"
 
-int ft_strlen(char *s)
+int	ft_strlen(char *s)
 {
-    int i;
+	int	i;
 
-    if (!s)
-        return (0);
-    i = 0;
-    while (s[i])
-        i++;
-    return (i);
+	if (!s)
+		return (0);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
 
 char	*ft_strrchr(char *str, int c)

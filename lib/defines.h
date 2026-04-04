@@ -10,11 +10,15 @@
 # define MEMORY 2
 # define FOV 0.6
 # define K_ESC 65307
+# define K_TAB 65289
+# define CTRL 65507
 # define K_F 102
 # define K_W 119
 # define K_A 97
 # define K_S 115
 # define K_D 100
+# define K_E 101
+# define K_Q 113
 # define SHIFT 65505
 # define K_RIGHT 65363
 # define K_LEFT 65361
@@ -58,5 +62,19 @@
 # define CEILING 0xE1E2BB
 # define TITLE "||BACKROOMS | CUB3D||"
 # define MLX_ERR "Error on mlx initialization\n"
+# define BUFFER 0
+# define BACKGROUND 1
+# define BUTTON1 2
+# define BUTTON2 3
+# define BUTTON3 4
+# define BUTTONBORDER 5
+# define WASDIMG 6
+# define ARROWS 7
+# define MOUSEIMG 8
+# define BACKBUTTON 9 
+# define BACKBORDER 10 
+# define PLAYERIMG 11 
+# define Q_KEYIMG 16
+# define EXIT 17
 
 #endif

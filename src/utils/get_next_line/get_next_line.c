@@ -1,8 +1,7 @@
 #include "cub3d.h"
 
 static int	get_strlen(char *s)
-{
-	int	len;
+{	int	len;
 
 	len = 0;
 	if (s == NULL)
@@ -16,8 +15,7 @@ static int	get_strlen(char *s)
 }
 
 static char	*buffer_clear(char *s, int f)
-{
-	int	i;
+{	int	i;
 	int	j;
 
 	j = 0;
@@ -36,8 +34,7 @@ static char	*buffer_clear(char *s, int f)
 }
 
 static char	*ft_strjoin(char *s1, char *s2)
-{
-	int		i;
+{	int		i;
 	int		j;
 	char	*str;
 
@@ -62,8 +59,7 @@ static char	*ft_strjoin(char *s1, char *s2)
 }
 
 static int	check_newline(char *temp)
-{
-	int	i;
+{	int	i;
 
 	i = 0;
 	while (temp[i])
@@ -76,8 +72,7 @@ static int	check_newline(char *temp)
 }
 
 char	*get_next_line(int fd)
-{
-	static char s[11];
+{	static char s[11];
 	char *line;
 	int rd;
 

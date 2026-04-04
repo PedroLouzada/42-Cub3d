@@ -55,12 +55,13 @@ void	generate_objs(t_map *map)
 			return (map->destroy(map));
 		data[0]--;
 	}
-	map->objs[P] = create_player(spawn(map, '0'));
+	map->objs[P] = create_player(map->player_pos);
 	if (!map->objs[P])
-		return (map->destroy(map));
-	map->objs[E] = create_enemy(spawn(map, '0'));
+		parse_exit("Memory Allocation\n", NULL, -1, 1);
+	map->objs[E] = create_enemy((t_vtr){map->objs[P]->pos.x + 1,
+			map->objs[P]->pos.y + 1});
 	if (!map->objs[E])
-		return (map->destroy(map));
+		parse_exit("Memory Allocation\n", (void *)map->objs[P], -1, 1);
 }
 
 void	generate_paths(t_map *map, t_vtr pos, int paths)
@@ -71,7 +72,7 @@ void	generate_paths(t_map *map, t_vtr pos, int paths)
 	data[1] = (int)pick_range(NORTH, SOUTH);
 	if (!paths)
 		return ;
-	while (map->map[(int)pos.y][(int)pos.x] != '.' )
+	while (map->map[(int)pos.y][(int)pos.x] != '.')
 	{
 		map->map[(int)pos.y][(int)pos.x] = '.';
 		check_path(map, pos, &data[1]);
@@ -83,19 +84,29 @@ void	generate_paths(t_map *map, t_vtr pos, int paths)
 	generate_paths(map, rand_pos(map->map_size), --paths);
 }
 
+void set_colors(t_map *map)
+{
+	map->colors[0][1] = 228;
+	map->colors[0][2] = 230;
+	map->colors[0][3] = 168;
+	map->colors[1][1] = 198;
+	map->colors[1][2] = 197;
+	map->colors[1][3] = 139;
+}
+
 void	generate_map(t_map *map)
 {
 	t_vtr	pos;
 
 	map->map = ft_calloc(map->map_size.y + 1, sizeof(t_str));
 	if (!map->map)
-		return (map->destroy(map));
+		exit_game("Memory Allocation\n");
 	pos.x = -1;
 	while (++pos.x < map->map_size.y)
 	{
 		map->map[(int)pos.x] = ft_calloc(map->map_size.x + 1, 1);
 		if (!map->map[(int)pos.x])
-			return (map->destroy(map));
+			exit_game("Memory Allocation\n");
 		pos.y = -1;
 		while (++pos.y < map->map_size.x)
 			map->map[(int)pos.x][(int)pos.y] = '1';
@@ -107,4 +118,5 @@ void	generate_map(t_map *map)
 		return (map->clean(map), generate_map(map));
 	generate_objs(map);
 	set_exit(map);
+	set_colors(map);
 }

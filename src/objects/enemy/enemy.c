@@ -37,6 +37,8 @@ void	e_update(t_obj *this, t_map *map)
 	static t_vtr	prev;
 	static double	prev_angle;
 
+	if (!game()->eng.current_map)
+		return ;
 	e = (t_enemy *)this;
 	p = (t_player *)map->objs[P];
 	if (e_hits_player(e, p))

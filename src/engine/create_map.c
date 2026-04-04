@@ -1,8 +1,8 @@
 #include "cub3d.h"
 
-int		tile_color(t_map *map, t_vtr pos)
+int	tile_color(t_map *map, t_vtr pos)
 {
-	int		color;
+	int	color;
 
 	color = CLEAR;
 	if (pos.y >= 0 && pos.y < map->map_size.y
@@ -71,24 +71,24 @@ void	alloc_textures(t_map *map, int level)
 
 	i = -1;
 	index = 0;
-	if (level % 2)
+	while (++i < 4)
 	{
-		while (++i < 4)
+		if (!index)
 		{
-			if (!index)
-			{
-				map->textures[i] = new_img("./assets/textures/green_wall/green_wall_1.xpm");
-				index = !index;
-			}
-			else
-			{
-				map->textures[i] = new_img("./assets/textures/green_wall/green_wall_2.xpm");
-				index = !index;
-			}
-			if (!map->textures[i])
-				exit_game("Memory Allocation\n");
+			map->textures[i] = new_img("./assets/textures/green_wall/wall1.xpm");
+			index = !index;
 		}
+		else
+		{
+			map->textures[i] = new_img("./assets/textures/green_wall/wall2.xpm");
+			index = !index;
+		}
+		if (!map->textures[i])
+			exit_game("Memory Allocation\n");
 	}
+	map->door = new_img("./assets/textures/green_wall/door.xpm");
+	if (!map->door)
+		exit_game("Memory Allocation\n");
 }
 
 t_map	*create_map(int level, int fd)
@@ -104,6 +104,13 @@ t_map	*create_map(int level, int fd)
 	map->map_size.y = MAP_HEIGHT;
 	map->destroy = destroy_map;
 	map->minimap = draw_minimap;
+	map->rays[E] = ft_calloc(WIN_WIDTH + 1, sizeof(t_ray));
+	map->rays[P] = ft_calloc(WIN_WIDTH + 1, sizeof(t_ray));
+	if (!map->rays[E] || !map->rays[P])
+	{
+		(free(map->rays[E]), free(map->rays[P]));
+		parse_exit("Memory Allocation\n", (void *)map, fd, 0);
+	}
 	if (level)
 	{
 		generate_map(map);

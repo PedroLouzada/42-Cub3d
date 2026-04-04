@@ -2,11 +2,11 @@
 
 void	init_ray(t_ray *r, t_obj *obj, int column)
 {
-	double	cameraX;
+	double	camera_x;
 
-	cameraX = 2.0 * column / (double)WIN_WIDTH - 1.0;
-	r->dir.x = obj->dir.x + obj->plane.x * cameraX;
-	r->dir.y = obj->dir.y + obj->plane.y * cameraX;
+	camera_x = 2.0 * column / (double)WIN_WIDTH - 1.0;
+	r->dir.x = obj->dir.x + obj->plane.x * camera_x;
+	r->dir.y = obj->dir.y + obj->plane.y * camera_x;
 	r->map.x = floor(obj->pos.x);
 	r->map.y = floor(obj->pos.y);
 	r->pos = obj->pos;
@@ -40,25 +40,55 @@ void	dda(t_ray *r, t_map *map)
 			r->map.y += r->step.y;
 			r->side = 1;
 		}
-		if (map->map[(int)r->map.y][(int)r->map.x] != '0')
+		if (!in_bounds(map->map, (int)r->map.y, (int)r->map.x)
+			|| map->map[(int)r->map.y][(int)r->map.x] == '1'
+			|| map->map[(int)r->map.y][(int)r->map.x] == 'D'
+			|| map->map[(int)r->map.y][(int)r->map.x] == 'S')
+		{
+			r->hit = map->map[(int)r->map.y][(int)r->map.x];
 			break ;
+		}
 	}
 }
 
-void	cast_rays(t_map *m, t_ray *r, t_obj *obj)
+void	reduced_ray(void *p)
 {
-	int	i;
-	
-	i = -1;
-	while (++i < WIN_WIDTH)
+	const int	*array = p;
+	int			i;
+	t_ray		*r;
+	t_map		*map;
+	const int	end = array[3];
+
+	map = game()->map[array[0]];
+	i = array[2] - 1;
+	r = map->rays[array[1]];
+	while (++i < end)
 	{
-		init_ray(&r[i], obj, i);
-		dda(&r[i], m);
+		init_ray(&r[i], map->objs[array[1]], i);
+		dda(&r[i], map);
 		if (r[i].side == 0)
 			r[i].perp = r[i].sDist.x - r[i].dltDist.x;
 		else
 			r[i].perp = r[i].sDist.y - r[i].dltDist.y;
-		m->zbuffer[i] = r[i].perp;
-		draw_column(&r[i], i, m->textures);
+		map->zbuffer[i] = r[i].perp;
+		draw_column(&r[i], i, map);
 	}
+}
+
+void	cast_rays(int map, int type)
+{
+	t_thread	*pool;
+
+	int const args[4][4] = {
+		{map, type, 0, 480},
+		{map, type, 480, 960},
+		{map, type, 960, 1440},
+		{map, type, 1440, 1920},
+	};
+	pool = game()->eng.pool;
+	pool->deploy(pool, reduced_ray, (void *)args[0]);
+	pool->deploy(pool, reduced_ray, (void *)args[1]);
+	pool->deploy(pool, reduced_ray, (void *)args[2]);
+	pool->deploy(pool, reduced_ray, (void *)args[3]);
+	pool->wait(pool, 4);
 }

@@ -26,10 +26,10 @@ int	get_width(char *str)
 
 void	get_map_dimension(char *str)
 {
-	int		fd;
-	char	*line;
+	int				fd;
+	char			*line;
+	static t_vtr	dim;
 
-	static t_vtr dim; // testar melhor o vetor ser estatico
 	dim.y = 0;
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
@@ -49,7 +49,7 @@ void	get_map_dimension(char *str)
 		parse_exit("Map should have more than 1 line\n", NULL, fd, 0);
 	game()->map[0] = create_map(0, fd);
 	game()->map[0]->map_size = dim;
-	game()->map[0]->map = calloc(game()->map[0]->map_size.y, sizeof(char *));
+	game()->map[0]->map = calloc(game()->map[0]->map_size.y + 1, sizeof(char *));
 	close(fd);
 }
 
@@ -61,7 +61,7 @@ void	check_border(char *str, int fd)
 	while (str[++i])
 	{
 		if (str[i] != ' ' && str[i] != '1' && str[i] != '\n')
-			parse_exit("Map must be surrounded by walls \'1\'\n", str, fd, 1);
+			parse_exit("aquiMap must be surrounded by walls \'1\'\n", str, fd, 1);
 	}
 }
 
@@ -78,11 +78,12 @@ int	check_emptyspace(char *str)
 	return (0);
 }
 
-void	check_characters(char *str, int fd, int *d, t_map *map)
+void	check_characters(char *str, int fd, t_map *map)
 {
 	int			i;
 	static int	n1;
 	static int	n2;
+	static bool flag;
 
 	i = -1;
 	if (!check_emptyspace(str))
@@ -94,14 +95,15 @@ void	check_characters(char *str, int fd, int *d, t_map *map)
 		check_border(str, fd);
 	while (str[++i])
 	{
-		if (str[i] == 'D')
-			d++;
 		if (!is_valid_char(str[i]))
 			parse_exit("Map must contain the specified chars\n", str, fd, 1);
 		if (str[i] == 'N' || str[i] == 'E' || str[i] == 'W' || str[i] == 'S')
 		{
+			if (flag)
+				parse_exit("Should only contain one player\n", str, fd, 1);
 			game()->map[0]->direction = str[i];
 			str[i] = 'P';
+			flag = true;
 		}
 	}
 	n1++;
