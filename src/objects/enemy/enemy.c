@@ -85,8 +85,8 @@ void	e_update(t_obj *this, t_map *map)
 void	*enemy_get_texture(t_obj *this, double dir)
 {
 	t_enemy	*e;
+	
 	(void)dir;
-
 	e = (t_enemy *)this;
 	return ((void *)e->textures[e->frame % 6]);
 }

@@ -81,5 +81,3 @@ void	parsing(char **av)
 	create_parsed_objs(game()->map[0], pos);
 	return ;
 }
-
-// tratar dois players e info a baixo do mapa

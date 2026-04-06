@@ -15,9 +15,8 @@ typedef struct s_thread	t_thread;
 struct					s_obj
 {
 	t_vtr				pos;
-	int					lives;
-	char				direction;
 	t_vtr				dir;
+	int					lives;
 	t_vtr				plane;
 	double				angle;
 	void				(*damage)(t_obj *this);
@@ -29,9 +28,8 @@ struct					s_obj
 struct					s_player
 {
 	t_vtr				pos;
-	int					lives;
-	char direction; // necessario?
 	t_vtr				dir;
+	int					lives;
 	t_vtr				plane;
 	double				angle;
 	void				(*damage)(t_obj *this);
@@ -47,9 +45,8 @@ struct					s_player
 struct					s_enemy
 {
 	t_vtr		pos;
-	int 		lives;
-	char 		direction;
 	t_vtr		dir;
+	int 		lives;
 	t_vtr		plane;
 	double		angle;
 	void		(*damage)(t_obj *this);
@@ -65,9 +62,8 @@ struct					s_enemy
 struct					s_door
 {
 	t_vtr				pos;
-	int					lives;
-	char				direction;
 	t_vtr				dir;
+	int					lives;
 	t_vtr				plane;
 	double				angle;
 	void				(*damage)(t_obj *this);
@@ -82,7 +78,7 @@ struct					s_map
 	t_imgs				*door;
 	int					level;
 	t_obj				**objs;
-	t_imgs 				*player; // temporario
+	t_imgs 				*player;
 	t_vtr				map_size;
 	t_vtr				mini_size;
 	char				direction;

@@ -27,7 +27,7 @@ static bool	e_can_walk(t_map *map, t_vtr pos)
 	y = (int)pos.y;
 	if (x < 0 || y < 0 || x >= (int)map->map_size.x || y >= (int)map->map_size.y)
 		return (false);
-	return (map->map[y][x] == '0');
+	return (map->map[y][x] == '0' || map->map[y][x] == 'd');
 }
 
 double	check_sides(t_enemy *e, t_map *map, double radius, double speed)

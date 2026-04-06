@@ -11,8 +11,6 @@ int	tile_color(t_map *map, t_vtr pos)
 		color = FLOOR;
 		if (map->map[(int)pos.y][(int)pos.x] == '1')
 			color = WALL;
-		if (map->map[(int)pos.y][(int)pos.x] == 'E')
-			color = GREEN;
 		if (map->map[(int)pos.y][(int)pos.x] == 'D')
 			color = BLUE;
 	}
