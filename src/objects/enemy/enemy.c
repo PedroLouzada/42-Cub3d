@@ -21,19 +21,8 @@ bool	e_is_stuck(t_enemy *e, t_vtr prev, double prev_angle)
 
 bool	e_hits_player(t_enemy *e, t_player *p, t_map *map)
 {
-	t_vtr walk;
 	t_vtr	diff;
-	float speed;
 
-	speed = 2.0;
-	walk.x = e->pos.x + cos(e->angle) * speed * game()->eng.dt;
-	walk.y = e->pos.y + sin(e->angle) * speed * game()->eng.dt;
-	if (in_bounds(map->map, (int)e->pos.y, (int)walk.x)
-		&& map->map[(int)e->pos.y][(int)walk.x] == '0')
-		e->pos.x = walk.x;
-	if (in_bounds(map->map, (int)walk.y, (int)e->pos.x)
-		&& map->map[(int)walk.y][(int)e->pos.x] == '0')
-		e->pos.y = walk.y;
 	diff.x = e->pos.x - p->pos.x;
 	diff.y = e->pos.y - p->pos.y;
 	if (diff.x * diff.x + diff.y * diff.y <= RADIUS * RADIUS)
