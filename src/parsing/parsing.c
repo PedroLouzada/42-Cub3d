@@ -2,44 +2,80 @@
 
 void	map_validation(char *str);
 void	check_sintax(char *str);
-void	generate_objs(t_map *map);
 
-t_vtr	get_vtr(char **map)
+static bool	get_player_pos(t_map *map, t_vtr *pos)
 {
 	int		y;
 	int		x;
-	t_vtr	pos;
 
 	y = -1;
-	while (map[++y])
+	while (map->map[++y])
 	{
 		x = -1;
-		while (map[y][++x])
+		while (map->map[y][++x])
 		{
-			if (map[y][x] == 'P')
+			if (map->map[y][x] == 'P')
 			{
-				pos.x = x;
-				pos.y = y;
-				return (pos);
+				map->map[y][x] = '0';
+				pos->x = x + 0.3;
+				pos->y = y + 0.3;
+				return (true);
 			}
 		}
 	}
-	pos.x = 0;
-	pos.y = 0;
-	return (pos);
+	return (false);
+}
+
+static int	count_doors(t_map *map)
+{
+	int	x;
+	int	y;
+	int	count;
+
+	count = 0;
+	y = -1;
+	while (map->map[++y])
+	{
+		x = -1;
+		while (map->map[y][++x])
+			if (map->map[y][x] == 'D')
+				count++;
+	}
+	return (count);
+}
+
+static void	create_parsed_objs(t_map *map, t_vtr player_pos)
+{
+	int	x;
+	int	y;
+	int	i;
+
+	map->objs = ft_calloc(count_doors(map) + 2, sizeof(t_obj *));
+	if (!map->objs)
+		parse_exit("Memory Allocation\n", NULL, -1, 1);
+	map->objs[P] = create_player(player_pos);
+	if (!map->objs[P])
+		parse_exit("Memory Allocation\n", NULL, -1, 1);
+	i = P;
+	y = -1;
+	while (map->map[++y])
+	{
+		x = -1;
+		while (map->map[y][++x])
+			if (map->map[y][x] == 'D')
+				map->objs[++i] = create_door(map, (t_vtr){x, y});
+	}
 }
 
 void	parsing(char **av)
 {
-	t_vtr pos;
+	t_vtr	pos;
 
 	check_sintax(av[1]);
 	map_validation(av[1]);
-	pos = get_vtr(game()->map[0]->map);
-	if (!pos.x || !pos.y)
-		parse_exit("Sould have one player\n", NULL, -1, 1);
-	game()->map[0]->player_pos = pos;
-	generate_objs(game()->map[0]);
+	if (!get_player_pos(game()->map[0], &pos))
+		parse_exit("Should have one player\n", NULL, -1, 1);
+	create_parsed_objs(game()->map[0], pos);
 	return ;
 }
 

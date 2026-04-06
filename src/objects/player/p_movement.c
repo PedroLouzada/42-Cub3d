@@ -17,8 +17,13 @@ static void	handle_angle(t_eng *eng, t_player *p, double *angle, double *speed)
 	if (eng->key[K_S] && eng->key[K_A])
 		*angle = p->angle - 3 * M_PI_4;
 	if ((eng->key[K_W] && eng->key[K_D]) || (eng->key[K_W] && eng->key[K_A])
-	|| (eng->key[K_S] && eng->key[K_D]) || (eng->key[K_S] && eng->key[K_A]))
+		|| (eng->key[K_S] && eng->key[K_D]) || (eng->key[K_S] && eng->key[K_A]))
 		*speed *= 1.2;
+}
+
+static bool	is_player(char c)
+{
+	return (c == 'N' || c == 'S' || c == 'W' || c == 'E' || c == 'P');
 }
 
 void	set_p_orientation(t_player *p)
@@ -51,15 +56,21 @@ void	p_walk(t_eng *eng, t_player *p, t_map *map)
 	double	speed;
 	double	walk_angle;
 
-	speed = 1.0;
-	if (eng->key[SHIFT])
+	speed = 1.5;
+	if (eng->key[SHIFT] && p->stamina >= 10)
 		speed *= 2.0;
+	else if (eng->key[CTRL])
+		speed /= 2.0;
 	walk_angle = p->angle;
 	handle_angle(eng, p, &walk_angle, &speed);
 	walk.x = p->pos.x + cos(walk_angle) * speed * eng->dt;
 	walk.y = p->pos.y + sin(walk_angle) * speed * eng->dt;
-	if (map->map[(int)p->pos.y][(int)walk.x] == '0')
+	if (map->map[(int)p->pos.y][(int)walk.x] == '0'
+		|| map->map[(int)p->pos.y][(int)walk.x] == 'd'
+		|| is_player(map->map[(int)p->pos.y][(int)walk.x]))
 		p->pos.x = walk.x;
-	if (map->map[(int)walk.y][(int)p->pos.x] == '0')
+	if (map->map[(int)walk.y][(int)p->pos.x] == '0'
+		|| map->map[(int)walk.y][(int)p->pos.x] == 'd'
+		|| is_player(map->map[(int)walk.y][(int)p->pos.x]))
 		p->pos.y = walk.y;
 }

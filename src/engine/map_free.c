@@ -4,8 +4,6 @@ void	destroy_map(t_map *map)
 {
 	int	i;
 
-	free(map->rays[E]);
-	free(map->rays[P]);
 	i = -1;
 	while (++i < map->map_size.y)
 	{

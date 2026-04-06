@@ -21,7 +21,7 @@ void			enemy_los(t_enemy *e, t_map *map);
 
 // Raycasting
 void			init_ray(t_ray *r, t_obj *obj, int column);
-void			cast_rays(int map, int type);
+void			cast_rays(int map);
 
 // Data
 t_game	*game(void);

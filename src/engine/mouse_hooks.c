@@ -1,7 +1,5 @@
 #include "cub3d.h"
 
-void		set_orientation(t_player *p);
-
 int	mouse_press(int button, int x, int y)
 {
 	if (button == 1)
@@ -68,7 +66,7 @@ static void	mouse_rotate(const int x, const int y)
 
 	dx = x - WIN_WIDTH / 2;
 	game()->map[game()->eng.current_map]->objs[P]->angle += dx * 0.0009;
-	set_orientation((t_player *)game()->map[game()->eng.current_map]->objs[P]);
+	set_p_orientation((t_player *)game()->map[game()->eng.current_map]->objs[P]);
 	mlx_mouse_move(game()->mlx->mlx, game()->mlx->win, WIN_WIDTH / 2, WIN_HEIGHT
 		/ 2);
 }

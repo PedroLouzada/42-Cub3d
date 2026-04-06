@@ -83,7 +83,6 @@ struct					s_map
 	int					level;
 	t_obj				**objs;
 	t_imgs 				*player; // temporario
-	t_ray				*rays[2];
 	t_vtr				map_size;
 	t_vtr				mini_size;
 	char				direction;

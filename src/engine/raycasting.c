@@ -61,10 +61,10 @@ void	reduced_ray(void *p)
 
 	map = game()->map[array[0]];
 	i = array[2] - 1;
-	r = map->rays[array[1]];
+	r = ((t_player *)map->objs[P])->ray;
 	while (++i < end)
 	{
-		init_ray(&r[i], map->objs[array[1]], i);
+		init_ray(&r[i], map->objs[P], i);
 		dda(&r[i], map);
 		if (r[i].side == 0)
 			r[i].perp = r[i].sDist.x - r[i].dltDist.x;
@@ -75,15 +75,15 @@ void	reduced_ray(void *p)
 	}
 }
 
-void	cast_rays(int map, int type)
+void	cast_rays(int map)
 {
 	t_thread	*pool;
 
 	int const args[4][4] = {
-		{map, type, 0, 480},
-		{map, type, 480, 960},
-		{map, type, 960, 1440},
-		{map, type, 1440, 1920},
+		{map, 0, 0, 480},
+		{map, 0, 480, 960},
+		{map, 0, 960, 1440},
+		{map, 0, 1440, 1920},
 	};
 	pool = game()->eng.pool;
 	pool->deploy(pool, reduced_ray, (void *)args[0]);

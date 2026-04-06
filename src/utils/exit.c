@@ -71,8 +71,6 @@ void	parse_exit(char *s, char *arg, int fd, bool map)
 int	exit_game(char *str)
 {
 	int				i;
-	int				j;
-	t_thread_plus	*t;
 
 	if (str)
 	{
