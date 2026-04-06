@@ -13,7 +13,7 @@ int	run(t_map **maps)
 	if (game()->eng.dt > 0.1)
 		game()->eng.dt = 0.1;
 	prev = curr;
-	if (objs[E])
+	if (game()->eng.current_map)
 		objs[E]->update(objs[E], game()->map[game()->eng.current_map]);
 	objs[P]->update(objs[P], game()->map[game()->eng.current_map]);
 	draw_screen(game()->mlx);

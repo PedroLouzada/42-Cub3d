@@ -60,7 +60,7 @@ static void	button_highlight(const int x, const int y)
 	}
 }
 
-static void	mouse_rotate(const int x, const int y)
+static void	mouse_rotate(const int x)
 {
 	int	dx;
 
@@ -76,6 +76,6 @@ int	mouse_move(const int x, const int y)
 	if (game()->eng.screen[0] || game()->eng.screen[1])
 		button_highlight(x, y);
 	else if (game()->eng.key[K_TAB])
-		mouse_rotate(x, y);
+		mouse_rotate(x);
 	return (0);
 }

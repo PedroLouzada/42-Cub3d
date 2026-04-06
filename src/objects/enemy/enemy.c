@@ -19,10 +19,21 @@ bool	e_is_stuck(t_enemy *e, t_vtr prev, double prev_angle)
 	return (false);
 }
 
-bool	e_hits_player(t_enemy *e, t_player *p)
+bool	e_hits_player(t_enemy *e, t_player *p, t_map *map)
 {
+	t_vtr walk;
 	t_vtr	diff;
+	float speed;
 
+	speed = 2.0;
+	walk.x = e->pos.x + cos(e->angle) * speed * game()->eng.dt;
+	walk.y = e->pos.y + sin(e->angle) * speed * game()->eng.dt;
+	if (in_bounds(map->map, (int)e->pos.y, (int)walk.x)
+		&& map->map[(int)e->pos.y][(int)walk.x] == '0')
+		e->pos.x = walk.x;
+	if (in_bounds(map->map, (int)walk.y, (int)e->pos.x)
+		&& map->map[(int)walk.y][(int)e->pos.x] == '0')
+		e->pos.y = walk.y;
 	diff.x = e->pos.x - p->pos.x;
 	diff.y = e->pos.y - p->pos.y;
 	if (diff.x * diff.x + diff.y * diff.y <= RADIUS * RADIUS)
@@ -41,7 +52,7 @@ void	e_update(t_obj *this, t_map *map)
 		return ;
 	e = (t_enemy *)this;
 	p = (t_player *)map->objs[P];
-	if (e_hits_player(e, p))
+	if (e_hits_player(e, p, map))
 	{
 		p->lives--;
 		if (p->lives <= 0)
@@ -74,6 +85,7 @@ void	e_update(t_obj *this, t_map *map)
 void	*enemy_get_texture(t_obj *this, double dir)
 {
 	t_enemy	*e;
+	(void)dir;
 
 	e = (t_enemy *)this;
 	return ((void *)e->textures[e->frame % 6]);
@@ -83,14 +95,14 @@ t_obj	*create_enemy(t_vtr pos)
 {
 	t_enemy *e;
 	int		i;
-	char	*paths[6];
+	t_imgs	*paths[6];
 
-	paths[0] = "./assets/imgs/enemy/enemy00.xpm";
-	paths[1] = "./assets/imgs/enemy/enemy01.xpm";
-	paths[2] = "./assets/imgs/enemy/enemy02.xpm";
-	paths[3] = "./assets/imgs/enemy/enemy03.xpm";
-	paths[4] = "./assets/imgs/enemy/enemy04.xpm";
-	paths[5] = "./assets/imgs/enemy/enemy05.xpm";
+	paths[0] = game()->mlx->img[23];
+	paths[1] = game()->mlx->img[24];
+	paths[2] = game()->mlx->img[25];
+	paths[3] = game()->mlx->img[26];
+	paths[4] = game()->mlx->img[27];
+	paths[5] = game()->mlx->img[28];
 	e = ft_calloc(1, sizeof(t_enemy));
 	if (!e)
 		return (NULL);
@@ -102,7 +114,7 @@ t_obj	*create_enemy(t_vtr pos)
 	}
 	i = -1;
 	while (++i < 6)
-		e->textures[i] = new_img(paths[i]);
+		e->textures[i] = paths[i];
 	e->pos = pos;
 	e->update = e_update;
 	e->get_texture = enemy_get_texture;

@@ -57,7 +57,7 @@ void	move_in_path(t_map *map, t_vtr *pos, int direction)
 
 bool	in_bounds(char **map, int y, int x)
 {
-	size_t	len;
+	int	len;
 
 	if (!map || y < 0 || x < 0 || !map[y])
 		return (false);

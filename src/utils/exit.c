@@ -31,7 +31,7 @@ void	clear_image(int n)
 	if (n > 1)
 	{
 		i = 0;
-		while (game()->mlx->img[i])
+		while (i < 29)
 		{
 			mlx_destroy_image(game()->mlx->mlx, game()->mlx->img[i]->img);
 			free(game()->mlx->img[i]);

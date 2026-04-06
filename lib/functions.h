@@ -36,7 +36,7 @@ void			round_vtrs(t_vtr *a, t_vtr *b);
 void	draw_column(t_ray *r, int column, t_map *map);
 // Draw Utils
 int				tile_color(t_map *map, t_vtr pos);
-void			draw_fov(t_map *map, t_ray *r, t_vtr pos);
+void			draw_fov(t_ray *r, t_vtr pos);
 void			draw_line(t_vtr start, t_vtr end, int color);
 void			draw_tile(t_mlx *mlx, t_vtr tpos, int color);
 void			ft_pixel_put(t_imgs *img, int x, int y, int color);

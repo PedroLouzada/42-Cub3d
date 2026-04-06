@@ -29,7 +29,7 @@ void	draw_characters(t_map *map)
 	e = (t_enemy *)map->objs[E];
 	pos.x = CENTER_X;
 	pos.y = CENTER_Y;
-	draw_fov(map, p->ray, pos);
+	draw_fov(p->ray, pos);
 	draw_circle(game()->mlx, pos, TILE_SZ / 3, BLUE);
 	pos.x = e->pos.x - p->pos.x;
 	pos.y = e->pos.y - p->pos.y;
@@ -37,7 +37,7 @@ void	draw_characters(t_map *map)
 	{
 		pos.x = CENTER_X + pos.x * TILE_SZ;
 		pos.y = CENTER_Y + pos.y * TILE_SZ;
-		draw_fov(map, e->ray, pos);
+		draw_fov(e->ray, pos);
 		draw_circle(game()->mlx, pos, TILE_SZ / 3, RED);
 	}
 }
@@ -64,7 +64,7 @@ void	draw_minimap(t_map *map)
 	draw_characters(map);
 }
 
-void	alloc_textures(t_map *map, int level)
+void	alloc_textures(t_map *map)
 {
 	int		i;
 	bool	index;
@@ -106,7 +106,7 @@ t_map	*create_map(int level, int fd)
 	{
 		generate_map(map);
 		print_map(map);
-		alloc_textures(map, level);
+		alloc_textures(map);
 	}
 	return (map);
 }

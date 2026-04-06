@@ -226,7 +226,7 @@ void	draw_enemy_sprite(t_enemy *e, t_vtr screen_pos, t_imgs *sprite)
 	if (!e || !sprite)
 		return ;
 	map = game()->map[game()->eng.current_map];
-	height = fabs((int)(WIN_HEIGHT / screen_pos.y));
+	height = abs((int)(WIN_HEIGHT / screen_pos.y));
 	width = height;
 	if (height <= 0 || width <= 0)
 		return ;

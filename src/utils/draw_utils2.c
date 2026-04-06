@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-void	draw_fov(t_map *map, t_ray *r, t_vtr pos)
+void	draw_fov(t_ray *r, t_vtr pos)
 {
 	double	len;
     int		i[3];
