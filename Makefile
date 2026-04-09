@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mrapp-he <mrapp-he@student.42lisboa.com>   +#+  +:+       +#+         #
+#    By: pedro <pedro@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/09 19:05:36 by mrapp-he          #+#    #+#              #
-#    Updated: 2026/04/09 19:05:38 by mrapp-he         ###   ########.fr        #
+#    Updated: 2026/04/09 22:09:09 by pedro            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,7 @@ SRCS =  src/main.c \
 OBJ_DIR = obj
 OBJS = $(SRCS:src/%.c=$(OBJ_DIR)/%.o)
 CC = cc
-CFLAGS = -g -O2 -Wall -Wextra -Werror #-fsanitize=thread
+CFLAGS = -g -Wall -Wextra -Werror #-fsanitize=thread
 LIBMLX = -Llib/minilibx-linux -lmlx -lXext -lX11 -lm -lz
 INCLUDE = -Ilib/minilibx-linux -Ilib/cub_headers -Ilib
 
@@ -99,9 +99,9 @@ re: fclean
 	@make --no-print-directory
 
 r:
-	make re && clear && ./cub3D maps/a.cub
+	make re && clear && ./cub3D maps/tutorial.cub
 v:
-	make re && clear && valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all --track-origins=yes ./cub3D maps/a.cub
+	make re && clear && valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=x11.supp ./cub3D maps/a.cub
 
 t:
 	make re && clear && valgrind --tool=helgrind ./cub3D maps/a.cub

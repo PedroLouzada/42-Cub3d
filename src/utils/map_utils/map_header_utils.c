@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_header_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrapp-he <mrapp-he@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: pedro <pedro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 10:11:14 by mrapp-he          #+#    #+#             */
-/*   Updated: 2026/04/09 18:43:23 by mrapp-he         ###   ########.fr       */
+/*   Updated: 2026/04/09 21:57:51 by pedro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int	set_rgb(int *rgb, char *str)
 	char	**values;
 
 	i = -1;
+	if (!str || !*str)
+		return (0);
 	if (!parse_rgb(str))
 		return (0);
 	values = ft_split(str, ',');

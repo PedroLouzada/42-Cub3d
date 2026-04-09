@@ -46,7 +46,7 @@ t_imgs	*new_img(char *name)
 	else
 		new_img->img = mlx_new_image(mlx->mlx, WIN_WIDTH, WIN_HEIGHT);
 	if (!new_img->img)
-		return (NULL);
+		return (free(new_img), NULL);
 	new_img->addr = mlx_get_data_addr(new_img->img, &new_img->bpp,
 			&new_img->sline, &new_img->endian);
 	return (new_img);

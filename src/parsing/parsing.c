@@ -62,7 +62,7 @@ static void	create_parsed_objs(t_map *map, t_vtr player_pos)
 	int	y;
 	int	i;
 
-	map->objs = ft_calloc(count_doors(map) + 2, sizeof(t_obj *));
+	map->objs = ft_calloc(count_doors(map) + 3, sizeof(t_obj *));
 	if (!map->objs)
 		parse_exit("Memory Allocation\n", NULL, -1, 1);
 	map->objs[E] = malloc(1);

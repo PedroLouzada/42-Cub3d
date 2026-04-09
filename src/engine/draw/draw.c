@@ -84,7 +84,7 @@ void	game_scene(int level)
 	size.x = WIN_WIDTH;
 	size.y = WIN_HEIGHT;
 	cast_rays(level);
-	if (e)
+	if (level && e)
 		draw_enemy_in_scene(p, e);
 	draw_img(game()->mlx->img[PLAYERIMG], 1470, 711);
 	if (game()->eng.key[K_F] == true && p->battery > 10)

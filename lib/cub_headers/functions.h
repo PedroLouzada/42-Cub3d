@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrapp-he <mrapp-he@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: pedro <pedro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 19:06:11 by mrapp-he          #+#    #+#             */
-/*   Updated: 2026/04/09 19:14:07 by mrapp-he         ###   ########.fr       */
+/*   Updated: 2026/04/09 21:31:49 by pedro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ t_str	ft_joinstr(t_str s1, t_str s2);
 void	*ft_calloc(size_t nm, size_t sz);
 size_t	ft_strlcpy(char *dest, char *src, size_t size);
 int		ft_strncmp(const char *str1, const char *str2, size_t n);
+char	*ft_strdup_newline(char *s);
 
 // Map Methods
 void	clean_map(t_map *map);

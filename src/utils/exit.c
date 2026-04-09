@@ -65,6 +65,8 @@ void	parse_exit(char *s, char *arg, int fd, bool map)
 	free(arg);
 	if (map)
 		clear_image(1);
+	else if (game()->map[0] && game()->mlx && game()->mlx->mlx)
+		clear_textures(0);
 	if (game()->map[0])
 		game()->map[0]->destroy(game()->map[0]);
 	if (game()->mlx)

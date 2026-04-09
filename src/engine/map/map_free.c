@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_free.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrapp-he <mrapp-he@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: pedro <pedro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 09:55:29 by mrapp-he          #+#    #+#             */
-/*   Updated: 2026/04/09 16:57:48 by mrapp-he         ###   ########.fr       */
+/*   Updated: 2026/04/09 21:36:40 by pedro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	free_objs(t_map *m)
 		if (m->level > 0)
 			free(e->ray);
 		i = -1;
-		while (m->objs[++i])
+		while (m->objs && m->objs[++i])
 			free(m->objs[i]);
 		free(m->objs);
 	}

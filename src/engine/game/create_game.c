@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_game.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrapp-he <mrapp-he@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: pedro <pedro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 09:52:42 by mrapp-he          #+#    #+#             */
-/*   Updated: 2026/04/09 16:56:08 by mrapp-he         ###   ########.fr       */
+/*   Updated: 2026/04/09 21:34:56 by pedro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	run(void)
 	int	x;
 	int	y;
 
+	x = 0;
+	y = 0;
 	update_game();
 	draw_screen(game()->mlx);
 	mlx_mouse_get_pos(game()->mlx->mlx, game()->mlx->win, &x, &y);

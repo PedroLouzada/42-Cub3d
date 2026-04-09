@@ -29,13 +29,22 @@ void	open_path(char *root, char *str, int fd, int n)
 		parse_exit("Memory Allocation\n\n", root, fd, 0);
 	spr_fd = open(str, O_RDONLY);
 	if (spr_fd < 0)
+	{
+		free(str);
 		parse_exit("Texture path not valid\n", root, fd, 0);
+	}
 	close(spr_fd);
 	if (game()->map[0]->textures[n])
+	{
+		free(str);
 		parse_exit("Double definition on wall texture\n", root, fd, 0);
+	}
 	game()->map[0]->textures[n] = new_img(str);
 	if (!game()->map[0]->textures[n] || !game()->map[0]->textures[n]->img)
+	{
+		free(str);
 		parse_exit("Xpm file not valid\n", root, fd, 0);
+	}
 	free(str);
 }
 
@@ -68,6 +77,8 @@ int	parse_rgb(char *s)
 	while (s[++i])
 	{
 		if (!ft_isdigit_modified(s[i]) && !ft_isempty(s[i]))
+			return (0);
+		if (s[i] == ',' && s[i - 1] == ',')
 			return (0);
 		if (s[i] == ',')
 			j++;

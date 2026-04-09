@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_validation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrapp-he <mrapp-he@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: pedro <pedro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 10:10:44 by mrapp-he          #+#    #+#             */
-/*   Updated: 2026/04/09 18:28:07 by mrapp-he         ###   ########.fr       */
+/*   Updated: 2026/04/09 22:23:09 by pedro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	get_map_dimension(char *str);
 void	check_characters(char *str, int fd, t_map *map);
 int		check_header(char *line, int fd);
-char	*ft_strdup_newline(char *s);
 char	**copy_map(t_map *src);
 void	flood_fill(char **map, int x, int y, int *pos);
 
@@ -69,7 +68,14 @@ void	map_validation(char *str)
 		parse_exit("Memory Allocation\n", NULL, fd, 0);
 	check_map_content(fd);
 	copy = copy_map(game()->map[0]);
-	get_pos(pos, copy);
+	if (!get_pos(pos, copy))
+	{
+		free_double(copy);
+		if (!game()->map[0]->map[0])
+			parse_exit("Map header incomplete (missing texture or color)\n",
+				NULL, -1, 1);
+		parse_exit("Map must contain more than empty spaces\n", NULL, -1, 1);
+	}
 	flood_fill(copy, pos[0], pos[1], pos);
 	free_double(copy);
 }
