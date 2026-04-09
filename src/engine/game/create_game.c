@@ -71,8 +71,8 @@ void	mlx_alloc(char **av)
 	if (!game()->mlx->mlx)
 		parse_exit("Memory Allocation\n", NULL, -1, 0);
 	parsing(av);
-	(game()->mlx)->win = mlx_new_window((game()->mlx)->mlx, WIN_WIDTH, \
-	WIN_HEIGHT, TITLE);
+	(game()->mlx)->win = mlx_new_window((game()->mlx)->mlx,\
+	WIN_WIDTH, WIN_HEIGHT, TITLE);
 	if (!game()->mlx->win)
 		parse_exit("Memory Allocation\n", NULL, -1, 1);
 }

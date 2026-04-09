@@ -27,7 +27,7 @@ typedef struct s_job
 
 struct							s_thread
 {
-	void						(*deploy)(t_thread *this, void (*f)(void *), \
+	void						(*deploy)(t_thread *this, void (*f)(void *),\
 	void *arg);
 	void						(*destroy)(t_thread *this);
 	void						(*wait)(t_thread *this, int n);
@@ -35,7 +35,7 @@ struct							s_thread
 
 struct							s_thread_plus
 {
-	void						(*deploy)(t_thread *this, void (*f)(void *), \
+	void						(*deploy)(t_thread *this, void (*f)(void *),\
 	void *arg);
 	void						(*destroy)(t_thread *this);
 	void						(*wait)(t_thread *this, int n);
