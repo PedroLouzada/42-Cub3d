@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   player.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrapp-he <mrapp-he@student.42lisboa.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/07 10:10:39 by mrapp-he          #+#    #+#             */
+/*   Updated: 2026/04/07 21:36:32 by mrapp-he         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 void	p_update(t_obj *obj, t_map *map)
@@ -22,7 +34,7 @@ void	p_update(t_obj *obj, t_map *map)
 		p->stamina += 20 * game()->eng.dt;
 	if (game()->eng.key[K_E] && !game()->eng.door)
 	{
-		interact_door(p, map, p->ray);
+		interact_door(map, p);
 		game()->eng.door = true;
 	}
 	if (!game()->eng.key[K_E])

@@ -1,41 +1,58 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrapp-he <mrapp-he@student.42lisboa.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/07 10:11:08 by mrapp-he          #+#    #+#             */
+/*   Updated: 2026/04/09 19:01:36 by mrapp-he         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-void	clear_image(int n)
+void	clear_textures(int level)
 {
-	int	j;
 	int	i;
 
-	j = -1;
-	while (++j < n)
+	i = -1;
+	while (++i < 4)
 	{
-		if (j)
+		if (game()->map[level])
 		{
-			mlx_destroy_image(game()->mlx->mlx, game()->map[j]->door->img);
-			free(game()->map[j]->door);
-		}
-		i = -1;
-		while (++i < 4)
-		{
-			if (game()->map[j])
+			if (game()->map[level]->textures[i]
+				&& game()->map[level]->textures[i]->img)
 			{
-				if (game()->map[j]->textures[i]
-					&& game()->map[j]->textures[i]->img)
-				{
-					mlx_destroy_image(game()->mlx->mlx,
-						game()->map[j]->textures[i]->img);
-					free(game()->map[j]->textures[i]);
-				}
+				mlx_destroy_image(game()->mlx->mlx,
+					game()->map[level]->textures[i]->img);
+				free(game()->map[level]->textures[i]);
 			}
 		}
 	}
+}
+
+void	clear_image(int n)
+{
+	int	i;
+
+	i = -1;
+	while (++i < n)
+	{
+		if (i)
+		{
+			mlx_destroy_image(game()->mlx->mlx, game()->map[i]->door->img);
+			free(game()->map[i]->door);
+		}
+		clear_textures(i);
+	}
 	if (n > 1)
 	{
-		i = 0;
-		while (i < 29)
+		i = -1;
+		while (++i < 29)
 		{
 			mlx_destroy_image(game()->mlx->mlx, game()->mlx->img[i]->img);
 			free(game()->mlx->img[i]);
-			i++;
 		}
 	}
 	free(game()->mlx->img);
@@ -68,15 +85,12 @@ void	parse_exit(char *s, char *arg, int fd, bool map)
 	exit(1);
 }
 
-int	exit_game(char *str)
+int	exit_game(t_str message)
 {
-	int				i;
+	int	i;
 
-	if (str)
-	{
-		write(2, "Error\n", 6);
-		write(2, str, ft_strlen(str));
-	}
+	if (message)
+		write(2, message, ft_strlen(message));
 	game()->eng.pool->destroy(game()->eng.pool);
 	clear_image(6);
 	mlx_destroy_window(game()->mlx->mlx, game()->mlx->win);

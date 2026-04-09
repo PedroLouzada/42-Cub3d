@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   p_movement.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrapp-he <mrapp-he@student.42lisboa.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/07 10:10:36 by mrapp-he          #+#    #+#             */
+/*   Updated: 2026/04/07 20:05:56 by mrapp-he         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 static void	handle_angle(t_eng *eng, t_player *p, double *angle, double *speed)
@@ -38,7 +50,7 @@ void	p_rotate(t_eng *eng, t_player *p)
 {
 	double	speed;
 
-	speed = 1.0;
+	speed = 1.5;
 	if (eng->key[K_LEFT] && !eng->key[K_RIGHT])
 		p->angle -= speed * eng->dt;
 	else if (eng->key[K_RIGHT] && !eng->key[K_LEFT])

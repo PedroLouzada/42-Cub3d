@@ -1,4 +1,43 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   e_view.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrapp-he <mrapp-he@student.42lisboa.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/07 10:10:21 by mrapp-he          #+#    #+#             */
+/*   Updated: 2026/04/09 19:12:55 by mrapp-he         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
+
+bool	e_can_walk(t_map *map, t_vtr pos)
+{
+	int	x;
+	int	y;
+	int	width;
+	int	height;
+
+	x = (int)pos.x;
+	y = (int)pos.y;
+	width = (int)map->map_size.x;
+	height = (int)map->map_size.y;
+	if (x < 0 || y < 0 || x >= width || y >= height)
+		return (false);
+	return (map->map[y][x] == '0' || map->map[y][x] == 'd');
+}
+
+bool	e_hits_player(t_enemy *e, t_player *p)
+{
+	t_vtr	diff;
+
+	diff.x = e->pos.x - p->pos.x;
+	diff.y = e->pos.y - p->pos.y;
+	if (diff.x * diff.x + diff.y * diff.y <= RADIUS * RADIUS)
+		return (true);
+	return (false);
+}
 
 bool	e_sees_p(t_vtr pos, t_map *map, bool memory)
 {
@@ -24,21 +63,22 @@ void	e_dda(t_ray *r, t_map *map)
 {
 	while (1)
 	{
-		if (r->sDist.x < r->sDist.y)
+		if (r->s_dist.x < r->s_dist.y)
 		{
-			r->sDist.x += r->dltDist.x;
+			r->s_dist.x += r->dlt_dist.x;
 			r->map.x += r->step.x;
 			r->side = 0;
 		}
 		else
 		{
-			r->sDist.y += r->dltDist.y;
+			r->s_dist.y += r->dlt_dist.y;
 			r->map.y += r->step.y;
 			r->side = 1;
 		}
 		if (e_sees_p(r->map, map, false))
 			return ;
-		if (map->map[(int)r->map.y][(int)r->map.x] != '0')
+		if (!in_range(map, (int)r->map.x, (int)r->map.y)
+			|| is_wall(map->map[(int)r->map.y][(int)r->map.x]))
 			return ;
 	}
 }
@@ -55,12 +95,9 @@ void	enemy_los(t_enemy *e, t_map *map)
 	{
 		init_ray(&e->ray[i], (t_obj *)e, i);
 		e_dda(&e->ray[i], map);
-		if (e->ray[i].side == 0)
-			e->ray[i].perp = e->ray[i].sDist.x - e->ray[i].dltDist.x;
-		else
-			e->ray[i].perp = e->ray[i].sDist.y - e->ray[i].dltDist.y;
+		e->ray[i].perp = get_perp(e->ray[i]);
 	}
-	if (had_los && e_timer(false, MEMORY) < 10.0)
+	if (had_los && e_timer(false, MEMORY) < 8.0)
 		e_sees_p(e->pos, map, true);
 	else if (had_los)
 		e_timer(true, MEMORY);

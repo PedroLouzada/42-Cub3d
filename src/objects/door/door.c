@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   door.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrapp-he <mrapp-he@student.42lisboa.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/07 09:57:12 by mrapp-he          #+#    #+#             */
+/*   Updated: 2026/04/09 17:08:24 by mrapp-he         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 t_obj	*create_door(t_map *map, t_vtr pos)
@@ -40,20 +52,20 @@ static bool	check_hallway(char **map, int x, int y)
 
 bool	valid_door(t_map *map, t_vtr pos)
 {
-	int i;
-	t_str *cmap;
-	int x;
-	int y;
+	int		i;
+	int		x;
+	int		y;
+	t_str	*cmap;
 
 	if (!map || !map->map || !map->objs)
 		return (false);
 	cmap = map->map;
 	x = (int)pos.x;
 	y = (int)pos.y;
-	if (!in_bounds(cmap, y, x))
+	if (!in_range(map, x, y))
 		return (false);
-	if (!in_bounds(cmap, y, x + 2) || !in_bounds(cmap, y, x - 2)
-		|| !in_bounds(cmap, y + 2, x) || !in_bounds(cmap, y - 2, x))
+	if (!in_range(map, x + 2, y) || !in_range(map, x - 2, y)
+		|| !in_range(map, x, y + 2) || !in_range(map, x, y - 2))
 		return (false);
 	if (cmap[y][x] != '0' || !check_hallway(cmap, x, y))
 		return (false);
