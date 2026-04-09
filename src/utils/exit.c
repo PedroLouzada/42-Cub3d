@@ -39,7 +39,7 @@ void	clear_image(int n)
 	i = -1;
 	while (++i < n)
 	{
-		if (i)
+		if (i && game()->map[i] && game()->map[i]->door)
 		{
 			mlx_destroy_image(game()->mlx->mlx, game()->map[i]->door->img);
 			free(game()->map[i]->door);
@@ -51,8 +51,11 @@ void	clear_image(int n)
 		i = -1;
 		while (++i < 29)
 		{
-			mlx_destroy_image(game()->mlx->mlx, game()->mlx->img[i]->img);
-			free(game()->mlx->img[i]);
+			if (game()->mlx->img[i])
+			{
+				mlx_destroy_image(game()->mlx->mlx, game()->mlx->img[i]->img);
+				free(game()->mlx->img[i]);
+			}
 		}
 	}
 	free(game()->mlx->img);
@@ -93,7 +96,8 @@ int	exit_game(t_str message)
 
 	if (message)
 		write(2, message, ft_strlen(message));
-	game()->eng.pool->destroy(game()->eng.pool);
+	if (game()->eng.pool)
+		game()->eng.pool->destroy(game()->eng.pool);
 	clear_image(6);
 	mlx_destroy_window(game()->mlx->mlx, game()->mlx->win);
 	i = -1;
