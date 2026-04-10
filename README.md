@@ -129,4 +129,3 @@ It taught me how early game developers built immersive worlds with almost no har
 
 Feel free to reach out:  
 [GitHub](https://github.com/mrapp-he)
-```
