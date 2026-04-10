@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrapp-he <mrapp-he@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: pbongiov <pbongiov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:12:22 by mrapp-he          #+#    #+#             */
-/*   Updated: 2026/04/09 19:10:03 by mrapp-he         ###   ########.fr       */
+/*   Updated: 2026/04/10 17:34:28 by pbongiov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,9 @@ int	texture_dir(t_ray *r)
 	if (r->side == 0)
 	{
 		if (r->dir.x > 0)
-			return (1);
-		else
 			return (2);
+		else
+			return (1);
 	}
 	else
 	{

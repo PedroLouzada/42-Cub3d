@@ -1,166 +1,134 @@
-# cub3D (42-Cub3d)
-
-A first-person raycasting game built in C with MiniLibX.
-
-This project mixes:
-- a **parsed tutorial map** (`map[0]`, loaded from `.cub` file), and
-- **procedurally generated levels** (`map[1..5]`) with doors, exits, and enemy AI.
+*This project has been created as part of the 42 curriculum by mrapp-he, pbongiov.*
 
 ---
 
-## Features
+# cub3D
 
-- 2.5D raycasting renderer (wall textures, floor/ceiling shading)
-- Threaded player raycasting (`thread pool` based)
-- Menu + controls screen + gameplay screens
-- Flashlight effect and HUD battery/stamina indicators
-- Minimap overlay in gameplay levels
-- Door interaction (`E`) and level progression via exit tiles
-- Enemy object present in generated levels (`map[1..5]`)
-- Tutorial/parsed level (`map[0]`) without enemy
+A 2.5D first-person raycasting game built in C with MiniLibX, inspired by the pioneering techniques behind *Wolfenstein 3D*.
 
 ---
 
-## Project Layout
+## Description
 
-```text
-src/
-  engine/      # game loop, drawing, raycasting, input hooks, map creation
-  objects/     # player, enemy, door logic
-  parsing/     # .cub parsing and validation for tutorial map
-  utils/       # drawing/math/string/time helpers + cleanup
-lib/
-  minilibx-linux/
-maps/
-  tutorial.cub # tutorial/parsing input map
-  level_*.cub  # generated levels output
-```
+**cub3D** is a graphical application that simulates a first-person perspective inside a maze using the **raycasting** technique — a method that renders a 3D-looking environment from a 2D map grid, computing wall distances and heights per column of pixels.
+
+The project is split into two distinct experiences:
+
+- **Tutorial level (`map[0]`)** — loaded and validated from a `.cub` configuration file. This level demonstrates the parsing pipeline and serves as an introduction to the game world. No enemy is present.
+- **Procedurally generated levels (`map[1..5]`)** — created at startup, featuring doors, exit tiles, and an enemy with line-of-sight AI. Completing all five levels ends the game.
+
+### Key Features
+
+- 2.5D raycasting renderer with wall textures and floor/ceiling shading
+- Thread pool–based raycasting for parallel ray computation
+- Flashlight effect with HUD indicators (battery, stamina)
+- Minimap overlay during gameplay
+- Door interaction and level progression
+- Enemy AI with independent movement and line-of-sight logic
+- Full menu system with controls and instructions screens
+- `.cub` map parsing with flood-fill closed-map validation
 
 ---
 
-## Requirements
+## Instructions
 
-- Linux (X11)
+### Requirements
+
+- Linux (X11 environment)
 - `cc` (C compiler)
 - `make`
-- X11 dev packages required by MiniLibX (`X11`, `Xext`, `z`, `m`)
+- X11 development libraries: `libX11-dev`, `libXext-dev`
 
-> The Makefile links with:
-> `-lmlx -lXext -lX11 -lm -lz`
+Install dependencies on Debian/Ubuntu:
 
----
+```bash
+sudo apt-get install libx11-dev libxext-dev
+```
 
-## Build
+### Compilation
 
 ```bash
 make
 ```
 
-Useful targets:
+Other useful targets:
 
 ```bash
-make clean
-make fclean
-make re
+make clean    # remove object files
+make fclean   # remove object files and binary
+make re       # full rebuild
 ```
 
-Run helper targets (from Makefile):
+### Running
 
 ```bash
-make r   # rebuild + run maps/tuturial.cub
-make v   # rebuild + valgrind
-make t   # rebuild + helgrind
+./cub3D maps/tutorial.cub
 ```
 
-Manual run:
+Makefile shortcuts:
 
 ```bash
-./cub3D maps/tuturial.cub
+make r   # rebuild and run with tutorial map
+make v   # rebuild and run under Valgrind (memcheck)
+make t   # rebuild and run under Helgrind (thread check)
 ```
 
----
+### Controls
 
-## Controls
+**Menus**
 
-### Menus
-- `Mouse Left Click`:
-  - Start game
-  - Open controls screen
-  - Open tutorial/instructions screen
+| Input | Action |
+|---|---|
+| `Left Click` | Navigate menus (start, controls, tutorial screens) |
 
-### Gameplay
-- `W A S D`: move
-- `Shift`: sprint
-- `Ctrl`: slow walk
-- `Left/Right Arrow`: rotate
-- `Tab`: toggle mouse-look mode
-- `Mouse`: rotate camera (when mouse-look is active)
-- `F`: toggle flashlight
-- `E`: interact with door / exit
-- `Q`: leave tutorial/instructions screen
-- `Esc`: quit
+**Gameplay**
 
----
+| Input | Action |
+|---|---|
+| `W A S D` | Move |
+| `Shift` | Sprint |
+| `Ctrl` | Slow walk |
+| `Left / Right Arrow` | Rotate camera |
+| `Tab` | Toggle mouse-look mode |
+| `Mouse` | Rotate camera (when mouse-look is active) |
+| `F` | Toggle flashlight |
+| `E` | Interact with door / use exit tile |
+| `Q` | Leave tutorial/instructions screen |
+| `Esc` | Quit |
 
-## Game Flow
+### Map File Format (`.cub`)
 
-1. Program starts with parsed map from the provided `.cub` file (`map[0]`).
-2. Additional maps (`map[1..5]`) are generated at startup.
-3. Entering gameplay from the title sets current map to level 1.
-4. In generated levels:
-   - enemy updates and rendering are enabled,
-   - doors can be toggled,
-   - exit tile (`S`) advances to next level.
-5. Reaching past level 5 ends the game.
+The `.cub` file defines textures, colors, and the map grid. The parser enforces:
+
+- Valid map characters only
+- Exactly one player spawn marker
+- A fully enclosed map (validated via flood-fill)
+- Door (`D`) and wall/floor/empty tile definitions
 
 ---
 
-## Parsing Notes
+## Resources
 
-The parser validates:
-- map dimensions/content
-- allowed characters
-- exactly one player spawn marker (`P` after direction normalization)
-- closed map via flood-fill validation
+### Raycasting & Graphics
 
-During parsing, object creation for `map[0]` is performed directly from parsed content:
-- player object is created from parsed spawn
-- door objects are created from `D` tiles
-- enemy is intentionally not created for tutorial map
+- [Lode's Raycasting Tutorial](https://lodev.org/cgtutor/raycasting.html) — the primary reference for the raycasting algorithm, wall rendering, and texture mapping used in this project.
+- [MiniLibX Documentation (42 Linux)](https://harm-smits.github.io/42docs/libs/minilibx) — reference for the MiniLibX windowing and drawing API.
+- [Wolfenstein 3D Game Mechanics](https://en.wikipedia.org/wiki/Wolfenstein_3D) — historical background on the raycasting technique this project is inspired by.
+- [X11 Programming Basics](https://tronche.com/gui/x/xlib/) — low-level X11 documentation relevant to MiniLibX internals.
 
----
+### Threading & Performance
 
-## Development Notes
-
-- Rendering path uses object-owned ray buffers (`player->ray`, `enemy->ray`).
-- `cast_rays`/`reduced_ray` are currently player-render oriented.
-- Enemy logic remains independent (`enemy_los`, movement/AI files).
-- This repository appears to be under active merge/refactor work; if you see build issues, check recent branch integration changes first.
+- [POSIX Threads (pthreads) — man pages](https://man7.org/linux/man-pages/man7/pthreads.7.html) — reference for the thread pool implementation used in the raycasting pipeline.
 
 ---
 
-## Troubleshooting
+### AI Usage
 
-### MiniLibX / X11 link errors
-Install Linux X11 development libraries, then rebuild:
+AI tools (specifically **Claude by Anthropic**) were used during the development of this project for the following tasks:
 
-```bash
-make fclean
-make
-```
+- **Debugging** — identifying logic errors in raycasting geometry, texture coordinate calculation, and thread synchronisation issues.
+- **Code review** — reviewing C code for memory safety, pointer correctness, and undefined behaviour.
+- **Documentation** — drafting and structuring documentation, including this README.
+- **Algorithm explanations** — clarifying mathematical concepts such as DDA (Digital Differential Analysis), FOV projection, and flood-fill validation.
 
-### Runtime issues after merges
-- Re-run from clean state:
-
-```bash
-make re
-```
-
-- Verify key API signatures across files (`functions.h` vs `.c` definitions).
-- Check for duplicate global symbol definitions when linker errors appear.
-
----
-
-## Authors
-
-Project by `mrapp-he` and `pbongiov`.
+AI was used as a reference and review assistant. All architectural decisions, implementation choices, and final code were written and validated by the project authors.

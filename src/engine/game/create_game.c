@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_game.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pedro <pedro@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pbongiov <pbongiov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 09:52:42 by mrapp-he          #+#    #+#             */
-/*   Updated: 2026/04/09 21:34:56 by pedro            ###   ########.fr       */
+/*   Updated: 2026/04/10 16:50:37 by pbongiov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void	mlx_alloc(char **av)
 	if (!game()->mlx->mlx)
 		parse_exit("Memory Allocation\n", NULL, -1, 0);
 	parsing(av);
-	(game()->mlx)->win = mlx_new_window((game()->mlx)->mlx,\
-	WIN_WIDTH, WIN_HEIGHT, TITLE);
+	(game()->mlx)->win = mlx_new_window((game()->mlx)->mlx, WIN_WIDTH,
+			WIN_HEIGHT, TITLE);
 	if (!game()->mlx->win)
 		parse_exit("Memory Allocation\n", NULL, -1, 1);
 }

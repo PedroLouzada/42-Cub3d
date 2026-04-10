@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrapp-he <mrapp-he@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: pbongiov <pbongiov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 10:11:08 by mrapp-he          #+#    #+#             */
-/*   Updated: 2026/04/09 19:01:36 by mrapp-he         ###   ########.fr       */
+/*   Updated: 2026/04/10 17:36:33 by pbongiov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	clear_image(int n)
 	if (n > 1)
 	{
 		i = -1;
-		while (++i < 29)
+		while (++i <= N_ASSETS)
 		{
 			if (game()->mlx->img[i])
 			{

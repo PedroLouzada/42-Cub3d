@@ -6,7 +6,7 @@
 #    By: pbongiov <pbongiov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/09 19:05:36 by mrapp-he          #+#    #+#              #
-#    Updated: 2026/04/10 16:10:55 by pbongiov         ###   ########.fr        #
+#    Updated: 2026/04/10 17:35:22 by pbongiov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,9 +101,6 @@ re: fclean
 r:
 	make re && clear && ./cub3D maps/tutorial.cub
 v:
-	make re && clear && valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=x11.supp ./cub3D maps/a.cub
-
-t:
-	make re && clear && valgrind --tool=helgrind ./cub3D maps/a.cub
+	make re && clear && valgrind --track-fds=yes --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=x11.supp ./cub3D maps/tutorial.cub
 
 .PHONY: all mlx clean fclean re r v

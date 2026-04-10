@@ -27,3 +27,4 @@
 ./assets/imgs/enemy/enemy04.xpm
 ./assets/imgs/enemy/enemy05.xpm
 ./assets/imgs/heart.xpm
+./assets/imgs/home/controls_screen.xpm

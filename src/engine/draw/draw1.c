@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrapp-he <mrapp-he@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: pbongiov <pbongiov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:12:19 by mrapp-he          #+#    #+#             */
-/*   Updated: 2026/04/07 20:35:58 by mrapp-he         ###   ########.fr       */
+/*   Updated: 2026/04/10 17:29:00 by pbongiov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,7 @@ void	control_screen(void)
 	while (i < 3)
 		game()->eng.in_button[i++] = false;
 	draw_img(img[BACKGROUND], 0, 0);
-	draw_img(img[WASDIMG], 320, 190);
-	draw_img(img[ARROWS], 1070, 315);
-	draw_img(img[MOUSEIMG], 1270, 150);
+	draw_img(img[30], 60, 25);
 	draw_img(img[BACKBUTTON], 90, 850);
 	if (game()->eng.in_button[3])
 		draw_img(img[BACKBORDER], 90, 850);
