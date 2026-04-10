@@ -6,7 +6,7 @@
 Its goal: build a fully functional **2.5D first-person raycasting engine**, rendering a 3D-looking maze from a 2D map grid — just like the legendary *Wolfenstein 3D*.
 
 This project pushed my understanding of **graphics programming, math, and systems** to a completely new level.  
-I developed it in partnership with **[mrapp-he](https://github.com/mrapp-he])** 👥
+I developed it in partnership with **[mrapp-he](https://github.com/mrapp-he)** 👥
 
 ---
 
