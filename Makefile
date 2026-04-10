@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pedro <pedro@student.42.fr>                +#+  +:+       +#+         #
+#    By: pbongiov <pbongiov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/09 19:05:36 by mrapp-he          #+#    #+#              #
-#    Updated: 2026/04/09 22:09:09 by pedro            ###   ########.fr        #
+#    Updated: 2026/04/10 16:10:55 by pbongiov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,7 @@ SRCS =  src/main.c \
 OBJ_DIR = obj
 OBJS = $(SRCS:src/%.c=$(OBJ_DIR)/%.o)
 CC = cc
-CFLAGS = -g -Wall -Wextra -Werror #-fsanitize=thread
+CFLAGS = -g -O2 -Wall -Wextra -Werror #-fsanitize=thread
 LIBMLX = -Llib/minilibx-linux -lmlx -lXext -lX11 -lm -lz
 INCLUDE = -Ilib/minilibx-linux -Ilib/cub_headers -Ilib
 

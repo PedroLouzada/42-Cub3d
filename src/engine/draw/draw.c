@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrapp-he <mrapp-he@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: pbongiov <pbongiov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 09:55:25 by mrapp-he          #+#    #+#             */
-/*   Updated: 2026/04/09 16:42:21 by mrapp-he         ###   ########.fr       */
+/*   Updated: 2026/04/10 16:25:25 by pbongiov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,16 @@ void	draw_hud(void)
 	draw_img(game()->mlx->img[game()->eng.battery], 80, 850);
 	if (game()->eng.current_map)
 		draw_img(game()->mlx->img[game()->eng.current_map + 17], 1820, 20);
+	if (p->lives > 0)
+	{
+		draw_img(game()->mlx->img[HEART], 0, 0);
+		if (p->lives > 1)
+		{
+			draw_img(game()->mlx->img[HEART], 100, 0);
+			if (p->lives > 2)
+				draw_img(game()->mlx->img[HEART], 200, 0);
+		}
+	}
 }
 
 static void	draw_enemy_in_scene(t_player *p, t_enemy *e)

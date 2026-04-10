@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrapp-he <mrapp-he@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: pbongiov <pbongiov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 19:06:04 by mrapp-he          #+#    #+#             */
-/*   Updated: 2026/04/09 19:09:14 by mrapp-he         ###   ########.fr       */
+/*   Updated: 2026/04/10 16:24:17 by pbongiov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,10 @@
 # define BACKBUTTON 9 
 # define BACKBORDER 10 
 # define PLAYERIMG 11 
+# define HEART 29
 # define Q_KEYIMG 16
 # define EXIT 17
-# define N_ASSETS 28
+# define N_ASSETS 29
 
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846

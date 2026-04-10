@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_hooks.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrapp-he <mrapp-he@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: pbongiov <pbongiov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 09:55:56 by mrapp-he          #+#    #+#             */
-/*   Updated: 2026/04/07 21:35:50 by mrapp-he         ###   ########.fr       */
+/*   Updated: 2026/04/10 16:33:26 by pbongiov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	interact_door(t_map *map, t_player *p)
 
 	init_ray(&r, (t_obj *)p, WIN_WIDTH / 2);
 	dda(&r, map, true);
+	printf("perp: %f\n", r.perp);
 	if (r.perp < 1.5)
 	{
 		if (r.hit == 'D')
