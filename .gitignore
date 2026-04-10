@@ -1,4 +1,0 @@
-lib/mlx
-lib/minilibx-linux
-.vscode
-obj/*.o
